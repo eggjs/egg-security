@@ -1,0 +1,7 @@
+node_modules
+coverage
+test/**/logs
+_book
+.DS_Store
+npm-debug.log
+run/

@@ -1,0 +1,5 @@
+test/fixtures
+test/benchmark
+coverage
+node_modules
+lib/plugins/**/app/proxy
