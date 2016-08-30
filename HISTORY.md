@@ -1,4 +1,9 @@
 
+1.0.3 / 2016-08-30
+==================
+
+  * fix: lower case header will get better performance (#3)
+
 1.0.2 / 2016-08-29
 ==================
 
