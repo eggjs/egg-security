@@ -2,7 +2,7 @@
 
 const safeRedirect = require('./lib/safe_redirect');
 
-module.exports = function(app) {
+module.exports = app => {
   app.config.coreMiddlewares.push('security');
 
   // patch response.redirect

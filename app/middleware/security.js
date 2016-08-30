@@ -10,7 +10,7 @@ module.exports = function security(options, app) {
   const defaultMiddleware = (options.defaultMiddleware || '').split(',');
 
   if (options.match || options.ignore) {
-    app.loggers.coreLogger.warn('[egg:security] 请在子项设置 match 或 ignore');
+    app.loggers.coreLogger.warn('[egg:security] Please set `match` or `ignore` on sub config');
   }
 
   defaultMiddleware.forEach(function(middlewareName) {
