@@ -181,21 +181,6 @@ browser:
 </form>
 ```
 
-### ctoken
-
-Prevent cross site attack when request by Ajax.
-
-__usage__
-
-when request by ajax, use `ctoken` for parameter name, then put ctoken value. Ctoken value could get from cookie.
-
-__developer agreement__
-
-- `ctx.ctoken` Used to access ctoken. Users do not call ,used by plugin itself.
-- `ctx.setCTOKEN()` Used to set ctoken. Users do not call ,used by plugin itself。
-- `ctx.assertCTOKEN()` Used to validate ctoken. Users do not call ,used by plugin itself。
-- `ctx.setCTOKEN()` Used to set cookie under main domain.For example, if` A.xx.com ` need to set ctoken, cookie will be set under `xx.com` domain. Then `B.xx.com ` can request with ctoken. If A domain request to B domain by jsonp, B domain can also validate ctoken.
-
 ### safe redirect
 
 * `ctx.redirect(url)` If url is not in the configuration of the white list, the redirect will be prohibited

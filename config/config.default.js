@@ -9,7 +9,6 @@ module.exports = () => {
    * @member Config#security
    * @property {String} defaultMiddleware - 默认开启的安全中间件。
    * @property {Object} csrf - 防止跨站请求伪造攻击。
-   * @property {Object} ctoken - 防止跨站json请求伪造攻击。
    * @property {Object} xframe - 是否启用 X-Frame-Options 响应头，默认为 SAMEORIGIN
    * @property {Object} hsts - 是否启用 Strict-Transport-Security 响应头，默认一年
    * @property {Object} methodnoallow - 是否启用Http Method过滤。
@@ -22,13 +21,9 @@ module.exports = () => {
   exports.security = {
 
     domainWhiteList: [],
-    defaultMiddleware: 'csrf,ctoken,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe',
+    defaultMiddleware: 'csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe',
 
     csrf: {
-      enable: true,
-    },
-
-    ctoken: {
       enable: true,
     },
 
