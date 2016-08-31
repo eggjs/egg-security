@@ -3,6 +3,7 @@
 require('should-http');
 const mm = require('egg-mock');
 const request = require('supertest');
+const assert = require('assert');
 
 describe('test/security.test.js', function() {
 
@@ -72,8 +73,7 @@ describe('test/security.test.js', function() {
         .get('/')
         .set('accept', 'text/html')
         .end(function(err, res) {
-          const headers = JSON.stringify(res.headers);
-          headers.indexOf('Strict-Transport-Security').should.equal(-1);
+          assert(!res.headers['strict-transport-security']);
           done(err);
         });
     });
@@ -83,8 +83,7 @@ describe('test/security.test.js', function() {
         .get('/')
         .set('accept', 'text/html')
         .end(function(err, res) {
-          const headers = JSON.stringify(res.headers);
-          headers.indexOf('X-Frame-Options').should.equal(-1);
+          assert(!res.headers['X-Frame-Options']);
           done(err);
         });
     });

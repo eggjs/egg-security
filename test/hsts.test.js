@@ -3,6 +3,7 @@
 require('should-http');
 const mm = require('egg-mock');
 const request = require('supertest');
+const assert = require('assert');
 
 describe('test/hsts.test.js', function() {
   describe('server', function() {
@@ -32,8 +33,7 @@ describe('test/hsts.test.js', function() {
         .set('accept', 'text/html')
         .expect(200)
         .end(function(err, res) {
-          const headers = JSON.stringify(res.headers);
-          headers.indexOf('Strict-Transport-Security').should.equal(-1);
+          assert(!res.headers['strict-transport-security']);
           done();
         });
     });

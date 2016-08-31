@@ -2,7 +2,7 @@
 
 exports.security = {
   defaultMiddleware: 'hsts',
-  hsts:{
+  hsts: {
     includeSubdomains: true
   },
 };

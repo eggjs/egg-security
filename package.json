@@ -35,7 +35,7 @@
     "egg-bin": "1",
     "egg-ci": "1",
     "egg-mock": "^0.0.4",
-    "egg-view-nunjucks": "~0.2.0",
+    "egg-view-nunjucks": "~0.3.0",
     "eslint": "3",
     "eslint-config-egg": "3",
     "multiline": "~1.0.2",
