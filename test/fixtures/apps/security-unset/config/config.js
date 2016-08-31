@@ -1,7 +1,7 @@
 'use strict';
 
 exports.security = {
-  hsts: {
+  xframe: {
     enable: false
   },
 };

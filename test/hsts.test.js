@@ -17,11 +17,28 @@ describe('test/hsts.test.js', function() {
         plugin: 'security',
       });
       yield this.app2.ready();
+      this.app3 = mm.app({
+        baseDir: 'apps/hsts-default',
+        plugin: 'security',
+      });
+      yield this.app3.ready();
     });
 
     afterEach(mm.restore);
 
-    it('should contain Strict-Transport-Security header with default', function(done) {
+    it('should contain not Strict-Transport-Security header with default', function(done) {
+      request(this.app3.callback())
+        .get('/')
+        .set('accept', 'text/html')
+        .expect(200)
+        .end(function(err, res) {
+          const headers = JSON.stringify(res.headers);
+          headers.indexOf('Strict-Transport-Security').should.equal(-1);
+          done();
+        });
+    });
+
+    it('should contain Strict-Transport-Security header when configured', function(done) {
       request(this.app2.callback())
         .get('/')
         .set('accept', 'text/html')

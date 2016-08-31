@@ -4,3 +4,9 @@
 exports.middleware = [
   'override',
 ];
+
+exports.security = {
+  hsts: {
+    enable: true
+  },
+};
