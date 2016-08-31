@@ -66,22 +66,6 @@ describe('test/csrf.test.js', function() {
         });
     });
 
-    it('should got next when is ajax path', function(done) {
-      done = pedding(3, done);
-
-      request(this.app.callback())
-        .get('/update.json')
-        .expect(404, done);
-
-      request(this.app.callback())
-        .get('/update.tile')
-        .expect(404, done);
-
-      request(this.app.callback())
-        .get('/update.ajax')
-        .expect(404, done);
-    });
-
     it('should support ignore paths', function(done) {
       done = pedding(3, done);
 
@@ -124,9 +108,7 @@ describe('test/csrf.test.js', function() {
     });
 
     it('should throw 500 if this.assertCSRF() throw not 403 error', function(done) {
-      mm(this.app.context, 'assertCSRF', function() {
-        throw new Error('mock assertCSRF error');
-      });
+      mm.syncError(this.app.context, 'assertCSRF', 'mock assertCSRF error');
 
       request(this.app.callback())
         .post('/foo')

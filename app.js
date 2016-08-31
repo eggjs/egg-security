@@ -9,5 +9,4 @@ module.exports = app => {
   safeRedirect(app);
 
   require('./lib/csrf/default')(app);
-  require('./lib/ctoken/default')(app);
 };

@@ -9,10 +9,6 @@ exports.security = {
     enable: false
   },
 
-  ctoken: {
-    enable: false,
-  },
-
   csrf: {
     ignore: /^\/api\//,
   }
