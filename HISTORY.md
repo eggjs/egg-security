@@ -1,4 +1,9 @@
 
+1.1.0 / 2016-08-31
+==================
+
+  * refactor: remove ctoken, csrf check all post/put/.. requests (#4)
+
 1.0.3 / 2016-08-30
 ==================
 
