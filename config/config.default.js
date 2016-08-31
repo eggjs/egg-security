@@ -34,7 +34,7 @@ module.exports = () => {
     },
 
     hsts: {
-      enable: true,
+      enable: false,
       maxAge: 365 * 24 * 3600,
       includeSubdomains: false,
     },

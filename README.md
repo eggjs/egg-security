@@ -391,9 +391,11 @@ after fix:
 
 ## Security Headers
 
+Refer to [lusca](https://github.com/krakenjs/lusca), appriciate for their works.
+
 ### hsts Strict-Transport-Security
 
-Enabled by default. If your website based on http, you should disable it.
+Disabled by default. If your website based on https, we recommend you should enable it.
 
 - maxAge one year by default `365 * 24 * 3600`
 - includeSubdomains false by default

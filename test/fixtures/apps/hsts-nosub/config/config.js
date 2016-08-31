@@ -2,6 +2,7 @@
 
 exports.security = {
   defaultMiddleware: 'hsts',
-  hsts:{
+  hsts: {
+  	enable: true
   },
 };

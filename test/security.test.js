@@ -3,6 +3,7 @@
 require('should-http');
 const mm = require('egg-mock');
 const request = require('supertest');
+const assert = require('assert');
 
 describe('test/security.test.js', function() {
 
@@ -36,7 +37,6 @@ describe('test/security.test.js', function() {
       request(this.app.callback())
         .get('/')
         .set('accept', 'text/html')
-        .expect('Strict-Transport-Security', 'max-age=31536000')
         .expect('X-Download-Options', 'noopen')
         .expect('X-Content-Type-Options', 'nosniff')
         .expect('X-XSS-Protection', '1; mode=block')
@@ -68,13 +68,22 @@ describe('test/security.test.js', function() {
         .end(done);
     });
 
+    it('disable hsts for default', function(done) {
+      request(this.app2.callback())
+        .get('/')
+        .set('accept', 'text/html')
+        .end(function(err, res) {
+          assert(!res.headers['strict-transport-security']);
+          done(err);
+        });
+    });
+
     it('should not load security headers when set to enable:false', function(done) {
       request(this.app2.callback())
         .get('/')
         .set('accept', 'text/html')
         .end(function(err, res) {
-          const headers = JSON.stringify(res.headers);
-          headers.indexOf('Strict-Transport-Security').should.equal(-1);
+          assert(!res.headers['X-Frame-Options']);
           done(err);
         });
     });
