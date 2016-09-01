@@ -10,7 +10,7 @@ module.exports = (options, app) => {
   const defaultMiddleware = (options.defaultMiddleware || '').split(',');
 
   if (options.match || options.ignore) {
-    app.loggers.coreLogger.warn('[egg:security] Please set `match` or `ignore` on sub config');
+    app.coreLogger.warn('[egg-security] Please set `match` or `ignore` on sub config');
   }
 
   defaultMiddleware.forEach(middlewareName => {
@@ -38,7 +38,10 @@ module.exports = (options, app) => {
 
     const fn = require(path.join(__dirname, '../../lib/middlewares', middlewareName))(opt, app);
     middlewares.push(fn);
+    app.coreLogger.info('[egg-security] use %s middleware', middlewareName);
   });
+  app.coreLogger.info('[egg-security] compose %d middlewares into one security middleware',
+    middlewares.length);
 
   return compose(middlewares);
 };
