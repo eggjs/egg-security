@@ -2,18 +2,18 @@
 
 const compose = require('koa-compose');
 const path = require('path');
-const pathToReg = require('../../lib/utils').pathToReg;
 const assert = require('assert');
+const pathToReg = require('../../lib/utils').pathToReg;
 
-module.exports = function security(options, app) {
-  const middlewares = [ securityOptions ];
+module.exports = (options, app) => {
+  const middlewares = [];
   const defaultMiddleware = (options.defaultMiddleware || '').split(',');
 
   if (options.match || options.ignore) {
     app.loggers.coreLogger.warn('[egg:security] Please set `match` or `ignore` on sub config');
   }
 
-  defaultMiddleware.forEach(function(middlewareName) {
+  defaultMiddleware.forEach(middlewareName => {
     middlewareName = middlewareName.trim();
 
     const opt = options[middlewareName];
@@ -31,7 +31,7 @@ module.exports = function security(options, app) {
     // 2. 检查是否有ignore配置
     // 如果中间件自己没有配置，则使用全局的ignore配置
     if (!opt.ignore && opt.blackUrls) {
-      app.deprecate('[egg:plugin:egg-security] Please use `config.security.xframe.ignore` instead, `config.security.xframe.blackUrls` will be removed very soon');
+      app.deprecate('[egg-security] Please use `config.security.xframe.ignore` instead, `config.security.xframe.blackUrls` will be removed very soon');
       opt.ignore = opt.blackUrls;
     }
     opt.ignore = pathToReg(opt.ignore);
@@ -42,8 +42,3 @@ module.exports = function security(options, app) {
 
   return compose(middlewares);
 };
-
-function* securityOptions(next) {
-  this.securityOptions = {};
-  return yield next;
-}

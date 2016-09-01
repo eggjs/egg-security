@@ -1,33 +1,34 @@
 'use strict';
 
-let methods = require('methods');
+const methods = require('methods');
 const request = require('supertest');
 const mm = require('egg-mock');
 
-describe('test/method_not_allow.test.js', function() {
-
-  before(function(done) {
-    this.app = mm.app({
+describe('test/method_not_allow.test.js', () => {
+  let app;
+  before(() => {
+    app = mm.app({
       baseDir: 'apps/method',
       plugin: 'security',
     });
-    this.app.ready(done);
+    return app.ready();
   });
 
   afterEach(mm.restore);
 
-  it('should allow', function(done) {
-    const _self = this;
+  after(() => app.close());
+
+  it('should allow', done => {
     let count = 0,
       exCount = 0,
       keepgoing = true;
     const exclude = [ 'trace', 'track', 'options' ];
 
-    methods = methods.filter(function(m) {
-      return _self.app[m];
+    const ms = methods.filter(m => {
+      return app[m];
     });
 
-    methods.forEach(function(method) {
+    ms.forEach(method => {
       if (!keepgoing) {
         return;
       }
@@ -36,9 +37,9 @@ describe('test/method_not_allow.test.js', function() {
         return;
       }
 
-      request(_self.app.callback())[method]('/')
+      request(app.callback())[method]('/')
         .expect(200)
-        .end(function(err) {
+        .end(err => {
           if (err) {
             keepgoing = false;
             return done(err);
@@ -46,26 +47,24 @@ describe('test/method_not_allow.test.js', function() {
 
           ++count;
 
-          if (count === methods.length - exCount) {
+          if (count === ms.length - exCount) {
             return done();
           }
         });
     });
   });
 
-  it('should not allow trace method', function(done) {
-
-    request(this.app.callback())
+  it('should not allow trace method', () => {
+    return request(app.callback())
       .trace('/')
       .set('accept', 'text/html')
-      .expect(405, done);
+      .expect(405);
   });
 
-  it('should not allow option method', function(done) {
-
-    request(this.app.callback())
+  it('should not allow option method', () => {
+    return request(app.callback())
       .options('/')
       .set('accept', 'text/html')
-      .expect(405, done);
+      .expect(405);
   });
 });
