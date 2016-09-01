@@ -19,7 +19,6 @@ module.exports = () => {
    * @property {Array} domainWhiteList - 安全跳转白名单
    */
   exports.security = {
-
     domainWhiteList: [],
     defaultMiddleware: 'csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe',
 
