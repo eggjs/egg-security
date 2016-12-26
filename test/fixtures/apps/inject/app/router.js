@@ -1,8 +1,6 @@
 'use strict';
 
-const multiline = require('multiline');
-const mockHtml = multiline(function() {
-  /*
+const mockHtml = `
   <html>
   <head>
       <title></title>
@@ -11,8 +9,7 @@ const mockHtml = multiline(function() {
 
   </body>
   </html>
-       */
-});
+`;
 
 
 module.exports = function(app) {

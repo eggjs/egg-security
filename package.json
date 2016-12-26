@@ -38,7 +38,6 @@
     "egg-view-nunjucks": "~0.3.0",
     "eslint": "3",
     "eslint-config-egg": "3",
-    "multiline": "~1.0.2",
     "pedding": "^1.0.0",
     "rimraf": "^2.5.2",
     "should": "^11.1.0",
