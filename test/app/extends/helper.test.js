@@ -19,6 +19,14 @@ describe('test/app/extends/helper.test.js', function() {
     });
 
     yield this.app2.ready();
+
+    this.app3 = mm.app({
+      baseDir: 'apps/helper-link-app',
+      plugin: 'security',
+    });
+
+    yield this.app3.ready();
+
   });
 
   after(mm.restore);
@@ -81,6 +89,14 @@ describe('test/app/extends/helper.test.js', function() {
         .expect(200)
         .expect('true', done);
     });
+
+    it('should ignore hash', function(done) {
+      request(this.app3.callback())
+        .get('/shtml-ignore-hash')
+        .expect(200)
+        .expect('true', done);
+    });
+
 
     it('should support extending domainList via config.helper.shtml.domainWhiteList', function(done) {
       request(this.app2.callback())
