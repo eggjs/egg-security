@@ -101,7 +101,7 @@ describe('test/inject.test.js', function() {
             return done(err);
           }
           const body = res.text;
-          body.should.equal('<!--for injection--><!--<script>document.write("haha250")</script></html>--><!--for injection-->  <html>\n  <head>\n      <title></title>\n  </head>\n  <body>\n\n  </body>\n  </html><!--for injection--><!--</html>--><!--for injection-->');
+          body.should.equal('<!--for injection--><!--<script>document.write("haha250")</script></html>--><!--for injection-->\n  <html>\n  <head>\n      <title></title>\n  </head>\n  <body>\n\n  </body>\n  </html>\n<!--for injection--><!--</html>--><!--for injection-->');
           done();
         });
     });
