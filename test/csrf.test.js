@@ -107,6 +107,17 @@ describe('test/csrf.test.js', function() {
         .expect(404, done);
     });
 
+    it('should ignore when is not form path', function(done) {
+
+      const agent = request.agent(this.app.callback());
+      // Accept negotiation
+      agent
+        .post('/upd')
+        .set('Accept', 'application/json')
+        .expect(404, done);
+
+    });
+
     it('should throw 500 if this.assertCSRF() throw not 403 error', function(done) {
       mm.syncError(this.app.context, 'assertCSRF', 'mock assertCSRF error');
 
