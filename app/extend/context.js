@@ -3,10 +3,12 @@
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const rndm = require('rndm');
 const Tokens = require('csrf');
+const debug = require('debug')('egg-security:context');
 
 const tokens = new Tokens();
 
 const CSRF_SECRET = Symbol('egg-security#CSRF_SECRET');
+const _CSRF_SECRET = Symbol('egg-security#_CSRF_SECRET');
 const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
 
 module.exports = {
@@ -32,24 +34,47 @@ module.exports = {
     return this._nonceCache;
   },
 
-  get csrfSecret() {
-    if (this[CSRF_SECRET]) return this[CSRF_SECRET];
-    const { useSession, cookieName, sessionName } = this.app.config.security.csrf;
-    // get secret from session or cookie
-    if (useSession) {
-      this[CSRF_SECRET] = this.session[sessionName] || '';
-    } else {
-      this[CSRF_SECRET] = this.cookies.get(cookieName, { signed: false }) || '';
-    }
-    return this[CSRF_SECRET];
-  },
-
+  /**
+   * get csrf token, general use in template
+   * @return {String} csrf token
+   * @public
+   */
   get csrf() {
-    const secret = this[CSRF_SECRET] || this[NEW_CSRF_SECRET];
+    // csrfSecret can be rotate, use NEW_CSRF_SECRET first
+    const secret = this[NEW_CSRF_SECRET] || this[CSRF_SECRET];
+    debug('get csrf token, NEW_CSRF_SECRET: %s, _CSRF_SECRET: %s', this[NEW_CSRF_SECRET], this[CSRF_SECRET]);
+    //  In order to protect against BREACH attacks,
+    //  the token is not simply the secret;
+    //  a random salt is prepended to the secret and used to scramble it.
+    //  http://breachattack.com/
     return secret ? tokens.create(secret) : '';
   },
 
-  setCsrfSecret() {
+  /**
+   * get csrf secret from session or cookie
+   * @return {String} csrf secret
+   * @private
+   */
+  get [CSRF_SECRET]() {
+    if (this[_CSRF_SECRET]) return this[_CSRF_SECRET];
+    const { useSession, cookieName, sessionName } = this.app.config.security.csrf;
+    // get secret from session or cookie
+    if (useSession) {
+      this[_CSRF_SECRET] = this.session[sessionName] || '';
+    } else {
+      this[_CSRF_SECRET] = this.cookies.get(cookieName, { signed: false }) || '';
+    }
+    return this[_CSRF_SECRET];
+  },
+
+  /**
+   * ensure csrf secret exists in session or cookie.
+   * @param {Boolean} rotate reset secret even if the secret exists
+   * @public
+   */
+  ensureCsrfSecret(rotate) {
+    if (this[CSRF_SECRET] && !rotate) return;
+    debug('ensure csrf secret, exists: %s, rotate; %s', this[CSRF_SECRET], rotate);
     const secret = tokens.secretSync();
     this[NEW_CSRF_SECRET] = secret;
     const { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
@@ -61,24 +86,31 @@ module.exports = {
         domain: cookieDomain,
         signed: false,
         httpOnly: false,
+        overwrite: true,
       };
       this.cookies.set(cookieName, secret, cookieOpts);
     }
   },
 
+  /**
+   * assert csrf token is present
+   * @public
+   */
   assertCsrf() {
-    if (!this.csrfSecret) {
-      this.coreLogger.warn('missing cookie csrf token');
-      this.throw(403, 'missing cookie csrf token');
+    if (!this[CSRF_SECRET]) {
+      debug('missing csrf token');
+      this.throw(403, 'missing csrf token');
     }
+    const { headerName, bodyName, queryName } = this.app.config.security.csrf;
+    const token = (queryName && this.query[queryName]) ||
+      (headerName && this.get(headerName)) ||
+      (bodyName && this.request.body && this.request.body[bodyName]);
+    debug('get token %s, secret', token, this[CSRF_SECRET]);
 
-    const headerName = this.app.config.security.csrf.headerName;
-    const bodyName = this.app.config.security.csrf.bodyName;
-    const token = this.get(headerName) || (this.request.body && this.request.body[bodyName]);
-
-    // ajax requests get token from cookie, so token will equal secret
-    if (token !== this.csrfSecret && !tokens.verify(this.csrfSecret, token)) {
-      this.coreLogger.warn('invalid csrf token');
+    // AJAX requests get csrf token from cookie, in this situation token will equal to secret
+    //  synchronize form requests' token always changing to protect against BREACH attacks
+    if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
+      debug('verify secret and token error');
       this.throw(403, 'invalid csrf token');
     }
   },

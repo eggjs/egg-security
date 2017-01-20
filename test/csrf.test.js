@@ -38,6 +38,33 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should update form with csrf token rotate', function* () {
+    const agent = request.agent(this.app.callback());
+
+    yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+    let res = yield agent
+      .get('/rotate')
+      .set('accept', 'text/html')
+      .expect(200);
+    assert(res.text);
+    const csrfToken = res.text;
+    res = yield agent
+      .post('/update')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        _csrf: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        _csrf: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      });
+  });
+
   it('should update form with csrf token using session', function* () {
     mm(this.app.config.security.csrf, 'useSession', true);
     const agent = request.agent(this.app.callback());
@@ -107,6 +134,27 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should update form with csrf token from cookie and set to query', function* () {
+    const agent = request.agent(this.app.callback());
+
+    let res = yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+    assert(res.text);
+    const cookie = res.headers['set-cookie'].join(';');
+    const csrfToken = cookie.match(/csrfToken=(.*?);/)[1];
+    res = yield agent
+      .post(`/update?_csrf=${csrfToken}`)
+      .send({
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        title: `ok token: ${csrfToken}`,
+      });
+  });
+
   it('should update form with csrf token from cookie and set to body', function* () {
     const agent = request.agent(this.app.callback());
 
@@ -167,6 +215,14 @@ describe('test/csrf.test.js', function() {
       .set('accept', 'text/html')
       .expect(403)
       .expect(/invalid csrf token/);
+  });
+
+  it('should return 403 update form without csrf secret', function* () {
+    yield request(this.app.callback())
+      .post('/update')
+      .set('accept', 'text/html')
+      .expect(403)
+      .expect(/missing csrf token/);
   });
 
 

@@ -29,6 +29,7 @@ module.exports = () => {
       sessionName: 'csrfToken',
       headerName: 'x-csrf-token',
       bodyName: '_csrf',
+      queryName: '_csrf',
     },
 
     xframe: {
