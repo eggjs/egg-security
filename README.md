@@ -160,16 +160,16 @@ exports.security = {
 
 ## Interface restriction
 
-### csrf
+### CSRF
 
 __usage__
 
-* `ctx.csrf` getter for csrf token
+* `ctx.csrf` getter for CSRF token
 
 Generally used when send POST form request. When page rendering, put `ctx.csrf` into form hidden field or query string.(`_csrf` is the key).
 When submitting the form, please submit with the `_csrf` token parameter.
 
-#### Using csrf when upload by formData
+#### Using CSRF when upload by formData
 
 browser:
 
@@ -181,11 +181,11 @@ browser:
 </form>
 ```
 
-#### Using csrf when request by AJAX
+#### Using CSRF when request by AJAX
 
-csrf token will also set to cookie by default, and you can send token through header:
+CSRF token will also set to cookie by default, and you can send token through header:
 
-In jquery,
+In jQuery:
 
 ```js
 var csrftoken = Cookies.get('csrftoken');
