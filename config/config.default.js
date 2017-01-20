@@ -24,6 +24,13 @@ module.exports = () => {
 
     csrf: {
       enable: true,
+      useSession: false,
+      ignoreJSON: false,
+      cookieName: 'csrfToken',
+      sessionName: 'csrfToken',
+      headerName: 'x-csrf-token',
+      bodyName: '_csrf',
+      queryName: '_csrf',
     },
 
     xframe: {

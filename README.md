@@ -160,16 +160,16 @@ exports.security = {
 
 ## Interface restriction
 
-### csrf
+### CSRF
 
 __usage__
 
-* `ctx.csrf` getter for csrf token
+* `ctx.csrf` getter for CSRF token
 
 Generally used when send POST form request. When page rendering, put `ctx.csrf` into form hidden field or query string.(`_csrf` is the key).
 When submitting the form, please submit with the `_csrf` token parameter.
 
-#### Using csrf when upload by formData
+#### Using CSRF when upload by formData
 
 browser:
 
@@ -179,6 +179,46 @@ browser:
   file: <input name="file" type="file" />
   <button type="submit">上传</button>
 </form>
+```
+
+#### Using CSRF when request by AJAX
+
+CSRF token will also set to cookie by default, and you can send token through header:
+
+In jQuery:
+
+```js
+var csrftoken = Cookies.get('csrftoken');
+
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader('x-csrf-token', csrftoken);
+    }
+  },
+});
+```
+
+#### options
+
+there are some options that you can customize:
+
+```js
+exports.security = {
+  csrf: {
+    useSession: false,          // if useSession set to true, the secret will keep in session instead of cookie
+    ignoreJSON: false,          // skip check JSON requests if ignoreJSON set to true
+    cookieName: 'csrfToken',    // csrf token's cookie name
+    sessionName: 'csrfToken',   // csrf token's session name
+    headerName: 'x-csrf-token', // request csrf token's name in header
+    bodyName: '_csrf',          // request csrf token's name in body
+    queryName: '_csrf',         // request csrf token's name in query
+  },
+}
 ```
 
 ### safe redirect

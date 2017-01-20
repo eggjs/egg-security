@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = require('./app/middleware/security');
+module.exports = require('./app/middleware/securities');
 module.exports.csp = require('./lib/middlewares/csp');
 module.exports.csrf = require('./lib/middlewares/csrf');
 module.exports.methodNoAllow = require('./lib/middlewares/methodnoallow');
