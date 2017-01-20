@@ -32,7 +32,7 @@
     "autod": "^2.7.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.1",
-    "egg": "~0.7.0",
+    "egg": "~0.8.0",
     "egg-bin": "1",
     "egg-ci": "1",
     "egg-mock": "^0.0.4",
