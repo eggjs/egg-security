@@ -181,6 +181,44 @@ browser:
 </form>
 ```
 
+#### Using csrf when request by AJAX
+
+csrf token will also set to cookie by default, and you can send token through header:
+
+In jquery,
+
+```js
+var csrftoken = Cookies.get('csrftoken');
+
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader('x-csrf-token', csrftoken);
+    }
+  },
+});
+```
+
+#### options
+
+there are some options that you can customize:
+
+```js
+exports.security = {
+  csrf: {
+    useSession: false,          // if useSession set to true, the secret will keep in session instead of cookie
+    cookieName: 'csrfToken',    // csrf token's cookie name
+    sessionName: 'csrfToken',   // csrf token's session name
+    headerName: 'x-csrf-token', // request csrf token's name in header
+    bodyName: '_csrf',          // request csrf token's name in body
+  },
+}
+```
+
 ### safe redirect
 
 * `ctx.redirect(url)` If url is not in the configuration of the white list, the redirect will be prohibited

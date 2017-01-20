@@ -2,6 +2,12 @@
 
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const rndm = require('rndm');
+const Tokens = require('csrf');
+
+const tokens = new Tokens();
+
+const CSRF_SECRET = Symbol('egg-security#CSRF_SECRET');
+const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
 
 module.exports = {
   get securityOptions() {
@@ -16,14 +22,6 @@ module.exports = {
     return isSafeDomainUtil(domain, domainWhiteList);
   },
 
-  assertCSRF(/* body */) {
-    throw new Error('ctx.assertCSRF() not implemented');
-  },
-
-  get csrf() {
-    throw new Error('ctx.csrf getter not implemented');
-  },
-
   // 添加nonce，随机字符串就好
   // https://w3c.github.io/webappsec/specs/content-security-policy/#nonce_source
 
@@ -34,15 +32,54 @@ module.exports = {
     return this._nonceCache;
   },
 
-  assertCTOKEN() {
-    throw new Error('ctx.assertCTOKEN not implemented');
+  get csrfSecret() {
+    if (this[CSRF_SECRET]) return this[CSRF_SECRET];
+    const { useSession, cookieName, sessionName } = this.app.config.security.csrf;
+    // get secret from session or cookie
+    if (useSession) {
+      this[CSRF_SECRET] = this.session[sessionName] || '';
+    } else {
+      this[CSRF_SECRET] = this.cookies.get(cookieName, { signed: false }) || '';
+    }
+    return this[CSRF_SECRET];
   },
 
-  get ctoken() {
-    throw new Error('ctx.ctoken getter not implemented');
+  get csrf() {
+    const secret = this[CSRF_SECRET] || this[NEW_CSRF_SECRET];
+    return secret ? tokens.create(secret) : '';
   },
 
-  setCTOKEN() {
-    throw new Error('ctx.setCTOKEN not implemented');
+  setCsrfSecret() {
+    const secret = tokens.secretSync();
+    this[NEW_CSRF_SECRET] = secret;
+    const { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
+
+    if (useSession) {
+      this.session[sessionName] = secret;
+    } else {
+      const cookieOpts = {
+        domain: cookieDomain,
+        signed: false,
+        httpOnly: false,
+      };
+      this.cookies.set(cookieName, secret, cookieOpts);
+    }
+  },
+
+  assertCsrf() {
+    if (!this.csrfSecret) {
+      this.coreLogger.warn('missing cookie csrf token');
+      this.throw(403, 'missing cookie csrf token');
+    }
+
+    const headerName = this.app.config.security.csrf.headerName;
+    const bodyName = this.app.config.security.csrf.bodyName;
+    const token = this.get(headerName) || (this.request.body && this.request.body[bodyName]);
+
+    // ajax requests get token from cookie, so token will equal secret
+    if (token !== this.csrfSecret && !tokens.verify(this.csrfSecret, token)) {
+      this.coreLogger.warn('invalid csrf token');
+      this.throw(403, 'invalid csrf token');
+    }
   },
 };

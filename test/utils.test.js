@@ -97,7 +97,7 @@ describe('test/utils.test.js', function() {
 
     afterEach(mm.restore);
 
-    it('should use global match', function(done) {
+    it('should use match', function(done) {
       request(this.app.callback())
         .get('/match')
         .expect(200, function(err, res) {

@@ -13,6 +13,7 @@
     "plugin"
   ],
   "dependencies": {
+    "csrf": "^3.0.4",
     "debug": "^2.2.0",
     "delegates": "^1.0.0",
     "escape-html": "^1.0.3",
@@ -31,7 +32,7 @@
     "autod": "^2.7.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.1",
-    "egg": "~0.1.0",
+    "egg": "~0.7.0",
     "egg-bin": "1",
     "egg-ci": "1",
     "egg-mock": "^0.0.4",

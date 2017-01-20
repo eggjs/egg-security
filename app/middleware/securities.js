@@ -5,7 +5,8 @@ const path = require('path');
 const assert = require('assert');
 const pathToReg = require('../../lib/utils').pathToReg;
 
-module.exports = (options, app) => {
+module.exports = (_, app) => {
+  const options = app.config.security;
   const middlewares = [];
   const defaultMiddleware = (options.defaultMiddleware || '').split(',');
 
