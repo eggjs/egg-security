@@ -3,17 +3,29 @@
 const mm = require('egg-mock');
 
 describe('test/lib/helper/surl.test.js', () => {
-  let app;
+  let app,
+    app2;
 
-  before(done => {
+  before(function* () {
     app = mm.app({
       baseDir: 'apps/helper-app',
-      plugin: 'security',
     });
-    app.ready(done);
+    yield app.ready();
   });
 
-  after(mm.restore);
+  before(function* () {
+    app2 = mm.app({
+      baseDir: 'apps/helper-app-surlextend',
+    });
+    yield app2.ready();
+  });
+
+  afterEach(mm.restore);
+
+  after(() => {
+    app.close();
+    app2.close();
+  });
 
   it('should ignore hostname without protocol', () => {
     const ctx = app.mockContext();
@@ -47,4 +59,10 @@ describe('test/lib/helper/surl.test.js', () => {
     ctx.helper.surl('\\\\   <s> ').should.equal('');
     ctx.helper.surl('\'"></script><script/src=http://lxy.pw/04ZI2u?507706></script>&bgPicUrl=https://cdn.com/images/giftprod/T1_GNfXfxXXXXXXXXX39e6601453bedfa5afee114ae1fa9bdd&_network=wifi&ttid=201200@laiwang_iphone_5.5.2').should.equal('');
   });
+
+  it('should support custom white protocol', () => {
+    const ctx = app2.mockContext();
+    ctx.helper.surl('test://foo.com').should.equal('test://foo.com');
+  });
+
 });

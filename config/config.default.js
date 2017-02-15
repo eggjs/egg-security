@@ -7,19 +7,21 @@ module.exports = () => {
   /**
    * security options
    * @member Config#security
-   * @property {String} defaultMiddleware - 默认开启的安全中间件。
-   * @property {Object} csrf - 防止跨站请求伪造攻击。
-   * @property {Object} xframe - 是否启用 X-Frame-Options 响应头，默认为 SAMEORIGIN
-   * @property {Object} hsts - 是否启用 Strict-Transport-Security 响应头，默认一年
-   * @property {Object} methodnoallow - 是否启用Http Method过滤。
-   * @property {Object} noopen - 禁用IE下下载框Open按钮。
-   * @property {Object} nosniff - 禁用IE8自动嗅探mime功能。
-   * @property {Object} xssProtection - 是否开启IE8的XSS Filter，默认开启。
-   * @property {Object} csp - csp安全配置。
-   * @property {Array} domainWhiteList - 安全跳转白名单
+   * @property {String} defaultMiddleware - default open security middleware
+   * @property {Object} csrf - whether defend csrf attack
+   * @property {Object} xframe - whether enable X-Frame-Options response header, default SAMEORIGIN
+   * @property {Object} hsts - whether enable Strict-Transport-Security response header, default is one year
+   * @property {Object} methodnoallow - whether enable Http Method filter
+   * @property {Object} noopen - whether enable IE automaticlly download open
+   * @property {Object} nosniff -  whether enable IE8 automaticlly dedect mime
+   * @property {Object} xssProtection -  whether enable IE8 XSS Filter, default is open
+   * @property {Object} csp - content security policy config
+   * @property {Array} domainWhiteList - domain white list
+   * @property {Array} protocolWhiteList - protocal white list
    */
   exports.security = {
     domainWhiteList: [],
+    protocolWhiteList: [],
     defaultMiddleware: 'csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe',
 
     csrf: {
@@ -70,7 +72,6 @@ module.exports = () => {
 
   exports.helper = {
     shtml: {
-      domainWhiteList: [],
     },
   };
 
