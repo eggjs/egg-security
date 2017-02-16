@@ -10,7 +10,7 @@ const tokens = new Tokens();
 const CSRF_SECRET = Symbol('egg-security#CSRF_SECRET');
 const _CSRF_SECRET = Symbol('egg-security#_CSRF_SECRET');
 const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
-const LOG_CSRF_NOTICE = Symbol('egg-security#CSRF_NOTICE_SUFFIX');
+const LOG_CSRF_NOTICE = Symbol('egg-security#LOG_CSRF_NOTICE');
 
 module.exports = {
   get securityOptions() {
