@@ -301,6 +301,20 @@ output:
 <a href="http://ww.domain.com&lt;script&gt;" />
 ```
 
+#### protocolWhitelist
+
+If url's protocol is not in the protocol whitelist, it will return empty string.
+
+Protocol whitelist is `http`, `https`, `file`, `data`.
+
+So if you want `surl` support custom protocol, please extend the security `protocolWhitelist` config :
+
+```js
+exports.security = {
+  protocolWhitelist: ['test']
+};
+```
+
 ### .sjs()
 
 Used to output variables in javascript(include onload/event),it will do `JAVASCRIPT ENCODE` for the variable string.It will escape all characters to `\x` which are not in the whitelist to avoid XSS attack.
@@ -350,7 +364,7 @@ For example, only support `a` tag, and filter all attributes except for `title`:
 
 options:
 
-- `config.helper.shtml.domainWhiteList: []` extends domain whitelist used by `href` and `src` filter.
+> `config.helper.shtml.domainWhiteList: []` has been deprecated, please use config.security.domainWhiteList
 
 Mention that `shtml` uses a strict white list mechanism, in addition to filtering out the XSS risk of the string,`tags` and `attrs` which are not in the [default rule](https://github.com/leizongmin/js-xss/blob/master/lib/default.js) will be filtered.
 

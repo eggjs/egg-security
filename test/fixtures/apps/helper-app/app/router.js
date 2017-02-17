@@ -53,4 +53,5 @@ module.exports = function(app) {
     const foo = '"hello\'\\()<>.';
     this.body = `${this.helper.sjs(foo)}`==='\\x22hello\\x27\\x5c\\x28\\x29\\x3c\\x3e\\x2e';
   });
+  
 };
