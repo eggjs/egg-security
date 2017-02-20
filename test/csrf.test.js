@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
 const assert = require('assert');
 const request = require('supertest');
 const mm = require('egg-mock');
@@ -217,12 +219,43 @@ describe('test/csrf.test.js', function() {
       .expect(/invalid csrf token/);
   });
 
+  it('should return 403 and log debug info in local env', function* () {
+    mm(this.app.config, 'env', 'local');
+    const agent = request.agent(this.app.callback());
+
+    yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+
+    yield agent
+      .post('/update')
+      .set('accept', 'text/html')
+      .expect(403)
+      .expect(/invalid csrf token/);
+
+    const log = fs.readFileSync(path.join(__dirname, 'fixtures/apps/csrf/logs/csrf/csrf-web.log'), 'utf8');
+    assert(log.indexOf('invalid csrf token. See http') > -1);
+  });
+
   it('should return 403 update form without csrf secret', function* () {
     yield request(this.app.callback())
       .post('/update')
       .set('accept', 'text/html')
       .expect(403)
       .expect(/missing csrf token/);
+  });
+
+  it('should return 403 and log debug info in local env', function* () {
+    mm(this.app.config, 'env', 'local');
+    yield request(this.app.callback())
+      .post('/update')
+      .set('accept', 'text/html')
+      .expect(403)
+      .expect(/missing csrf token/);
+
+    const log = fs.readFileSync(path.join(__dirname, 'fixtures/apps/csrf/logs/csrf/csrf-web.log'), 'utf8');
+    assert(log.indexOf('missing csrf token. See http') > -1);
   });
 
 

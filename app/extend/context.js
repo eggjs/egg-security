@@ -10,6 +10,7 @@ const tokens = new Tokens();
 const CSRF_SECRET = Symbol('egg-security#CSRF_SECRET');
 const _CSRF_SECRET = Symbol('egg-security#_CSRF_SECRET');
 const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
+const LOG_CSRF_NOTICE = Symbol('egg-security#LOG_CSRF_NOTICE');
 
 module.exports = {
   get securityOptions() {
@@ -99,6 +100,7 @@ module.exports = {
   assertCsrf() {
     if (!this[CSRF_SECRET]) {
       debug('missing csrf token');
+      this[LOG_CSRF_NOTICE]('missing csrf token');
       this.throw(403, 'missing csrf token');
     }
     const { headerName, bodyName, queryName } = this.app.config.security.csrf;
@@ -111,7 +113,14 @@ module.exports = {
     //  synchronize form requests' token always changing to protect against BREACH attacks
     if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
       debug('verify secret and token error');
+      this[LOG_CSRF_NOTICE]('invalid csrf token');
       this.throw(403, 'invalid csrf token');
+    }
+  },
+
+  [LOG_CSRF_NOTICE](msg) {
+    if (this.app.config.env === 'local') {
+      this.logger.warn(`${msg}. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范`);
     }
   },
 };
