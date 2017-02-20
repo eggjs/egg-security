@@ -1,4 +1,9 @@
 
+1.6.0 / 2017-02-20
+==================
+
+  * refactor: add csrf faq url to error msg in local env (#12)
+
 1.5.0 / 2017-02-17
 ==================
 
