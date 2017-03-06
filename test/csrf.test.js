@@ -7,12 +7,17 @@ const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/csrf.test.js', function() {
-  before(function(done) {
+  before(function* () {
     this.app = mm.app({
       baseDir: 'apps/csrf',
       plugin: 'security',
     });
-    this.app.ready(done);
+    yield this.app.ready();
+    this.app2 = mm.app({
+      baseDir: 'apps/csrf-multiple',
+      plugin: 'security',
+    });
+    yield this.app2.ready();
   });
 
   afterEach(mm.restore);
@@ -157,6 +162,36 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should update form with csrf token from cookie and support multiple query input', function* () {
+    const agent = request.agent(this.app2.callback());
+
+    let res = yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+    assert(res.text);
+    const cookie = res.headers['set-cookie'].join(';');
+    const csrfToken = cookie.match(/csrfToken=(.*?);/)[1];
+    res = yield agent
+      .post(`/update?_csrf=${csrfToken}`)
+      .send({
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        title: `ok token: ${csrfToken}`,
+      });
+    res = yield agent
+      .post(`/update?_csgo=${csrfToken}`)
+      .send({
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        title: `ok token: ${csrfToken}`,
+      });
+  });
+
   it('should update form with csrf token from cookie and set to body', function* () {
     const agent = request.agent(this.app.callback());
 
@@ -176,6 +211,40 @@ describe('test/csrf.test.js', function() {
       .expect(200)
       .expect({
         _csrf: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      });
+  });
+
+  it('should update form with csrf token from cookie and and support multiple body input', function* () {
+    const agent = request.agent(this.app2.callback());
+
+    let res = yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+    assert(res.text);
+    const cookie = res.headers['set-cookie'].join(';');
+    const csrfToken = cookie.match(/csrfToken=(.*?);/)[1];
+    res = yield agent
+      .post('/update')
+      .send({
+        _csrf: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        _csrf: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      });
+    res = yield agent
+      .post('/update')
+      .send({
+        _csgo: csrfToken,
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        _csgo: csrfToken,
         title: `ok token: ${csrfToken}`,
       });
   });

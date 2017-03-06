@@ -11,6 +11,16 @@ const CSRF_SECRET = Symbol('egg-security#CSRF_SECRET');
 const _CSRF_SECRET = Symbol('egg-security#_CSRF_SECRET');
 const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
 const LOG_CSRF_NOTICE = Symbol('egg-security#LOG_CSRF_NOTICE');
+const INPUT_TOKEN = Symbol('egg-security#INPUT_TOKEN');
+
+function findToken(obj, keys) {
+  if (!obj) return;
+  if (!keys || !keys.length) return;
+  if (typeof keys === 'string') return obj[keys];
+  for (const key of keys) {
+    if (obj[key]) return obj[key];
+  }
+}
 
 module.exports = {
   get securityOptions() {
@@ -93,6 +103,14 @@ module.exports = {
     }
   },
 
+  get [INPUT_TOKEN]() {
+    const { headerName, bodyName, queryName } = this.app.config.security.csrf;
+    const token = findToken(this.query, queryName) || findToken(this.request.body, bodyName) ||
+      (headerName && this.get(headerName));
+    debug('get token %s, secret', token, this[CSRF_SECRET]);
+    return token;
+  },
+
   /**
    * assert csrf token is present
    * @public
@@ -103,11 +121,7 @@ module.exports = {
       this[LOG_CSRF_NOTICE]('missing csrf token');
       this.throw(403, 'missing csrf token');
     }
-    const { headerName, bodyName, queryName } = this.app.config.security.csrf;
-    const token = (queryName && this.query[queryName]) ||
-      (headerName && this.get(headerName)) ||
-      (bodyName && this.request.body && this.request.body[bodyName]);
-    debug('get token %s, secret', token, this[CSRF_SECRET]);
+    const token = this[INPUT_TOKEN];
 
     // AJAX requests get csrf token from cookie, in this situation token will equal to secret
     //  synchronize form requests' token always changing to protect against BREACH attacks
