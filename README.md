@@ -203,7 +203,7 @@ $.ajaxSetup({
 });
 ```
 
-#### options
+#### Options
 
 there are some options that you can customize:
 
@@ -220,6 +220,10 @@ exports.security = {
   },
 }
 ```
+
+#### Rotate CSRF secret
+
+Must call `ctx.rotateCsrfSecret()` when user login to ensure each user has independent secret.
 
 ### safe redirect
 
