@@ -10,6 +10,8 @@ exports.security = {
   },
 
   csrf: {
-    ignore: /^\/api\//
+    ignore: /^\/api\//,
+    queryName: ['_csrf', '_csgo'],
+    bodyName: ['_csrf', '_csgo']
   }
 };
