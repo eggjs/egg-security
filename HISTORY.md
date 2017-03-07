@@ -1,4 +1,9 @@
 
+1.8.0 / 2017-03-07
+==================
+
+  * feat:support muiltiple query/body key to valid csrf token (#14)
+
 1.7.0 / 2017-03-07
 ==================
 
