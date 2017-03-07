@@ -94,6 +94,17 @@ module.exports = {
   },
 
   /**
+   * rotate csrf secret exists in session or cookie.
+   * must rotate the secret when user login
+   * @public
+   */
+  rotateCsrfSecret() {
+    if (!this[NEW_CSRF_SECRET] && this[CSRF_SECRET]) {
+      this.ensureCsrfSecret(true);
+    }
+  },
+
+  /**
    * assert csrf token is present
    * @public
    */

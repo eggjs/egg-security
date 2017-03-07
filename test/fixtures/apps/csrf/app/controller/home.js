@@ -5,7 +5,7 @@ exports.index = function* () {
 };
 
 exports.rotate = function* () {
-  this.ensureCsrfSecret(true);
+  this.rotateCsrfSecret();
   this.body = this.csrf;
 };
 
