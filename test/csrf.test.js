@@ -65,6 +65,17 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should not set cookie when rotate without csrf token', function* () {
+    yield request(this.app.callback())
+      .get('/api/rotate')
+      .set('accept', 'text/html')
+      .expect(200)
+      .expect('')
+      .expect(res => {
+        assert(!res['set-cookie']);
+      });
+  });
+
   it('should update form with csrf token using session', function* () {
     mm(this.app.config.security.csrf, 'useSession', true);
     const agent = request.agent(this.app.callback());
