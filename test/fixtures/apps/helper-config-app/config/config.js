@@ -1,5 +1,7 @@
 'use strict';
 
+exports.keys = 'test key';
+
 exports.helper = {
   shtml: {
     whiteList: {

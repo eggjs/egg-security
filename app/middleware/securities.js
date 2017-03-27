@@ -3,7 +3,7 @@
 const compose = require('koa-compose');
 const path = require('path');
 const assert = require('assert');
-const pathToReg = require('../../lib/utils').pathToReg;
+const createMatch = require('egg-path-matching');
 
 module.exports = (_, app) => {
   const options = app.config.security;
@@ -25,17 +25,16 @@ module.exports = (_, app) => {
       return;
     }
 
-    // 1. 检查是否有match配置
-    // 如果中间件自己没有配置，则使用全局的match配置
-    opt.match = pathToReg(opt.match);
-
-    // 2. 检查是否有ignore配置
-    // 如果中间件自己没有配置，则使用全局的ignore配置
+    // use opt.match first (compatibility)
+    if (opt.match && opt.ignore) {
+      app.coreLogger.warn('[egg-security] `options.match` and `options.ignore` are both set, using `options.match`');
+      opt.ignore = undefined;
+    }
     if (!opt.ignore && opt.blackUrls) {
       app.deprecate('[egg-security] Please use `config.security.xframe.ignore` instead, `config.security.xframe.blackUrls` will be removed very soon');
       opt.ignore = opt.blackUrls;
     }
-    opt.ignore = pathToReg(opt.ignore);
+    opt.matching = createMatch(opt);
 
     const fn = require(path.join(__dirname, '../../lib/middlewares', middlewareName))(opt, app);
     middlewares.push(fn);

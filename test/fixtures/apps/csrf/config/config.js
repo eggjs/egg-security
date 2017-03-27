@@ -1,15 +1,17 @@
 'use strict';
 
+exports.keys = 'test key';
+
 exports.security = {
 
   /**
-   * 禁用methodnoallow，对OPTIONS放行
+   * disable methodnoallow
    */
   methodnoallow: {
     enable: false
   },
 
   csrf: {
-    ignore: /^\/api\//
-  }
+    ignore: [ /^\/api\//, ctx => !!ctx.get('ignore-csrf') ],
+  },
 };
