@@ -362,6 +362,23 @@ describe('test/csrf.test.js', function() {
       .expect(404);
   });
 
+  it('should support ignore function', function* () {
+    yield request(this.app.callback())
+      .post('/update')
+      .send({
+        foo: 'bar',
+      })
+      .expect(403);
+
+    yield request(this.app.callback())
+      .post('/update')
+      .send({
+        foo: 'bar',
+      })
+      .set('ignore-csrf', 'true')
+      .expect(200);
+  });
+
   it('should got next when is GET/HEAD/OPTIONS/TRACE method', function* () {
     yield request(this.app.callback())
       .get('/update.json;')

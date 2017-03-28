@@ -1,5 +1,14 @@
 'use strict';
 
+exports.keys = 'test key';
+
+exports.view = {
+  defaultViewEngine: 'nunjucks',
+  mapping: {
+    '.nj': 'nunjucks',
+  },
+};
+
 exports.security = {
   defaultMiddleware: 'csp',
   csp: {

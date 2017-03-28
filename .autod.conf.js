@@ -28,4 +28,7 @@ module.exports = {
   exclude: [
     './test/fixtures',
   ],
+  semver: [
+    'koa-compose@2',
+  ],
 }
