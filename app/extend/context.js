@@ -86,7 +86,7 @@ module.exports = {
   ensureCsrfSecret(rotate) {
     if (this[CSRF_SECRET] && !rotate) return;
     debug('ensure csrf secret, exists: %s, rotate; %s', this[CSRF_SECRET], rotate);
-    const secret = tokens.secretSync();
+    const secret = `${tokens.secretSync()}.${this.app.config.name}`;
     this[NEW_CSRF_SECRET] = secret;
     const { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
 
