@@ -94,7 +94,7 @@ module.exports = {
       this.session[sessionName] = secret;
     } else {
       const cookieOpts = {
-        domain: cookieDomain,
+        domain: cookieDomain && cookieDomain(this),
         signed: false,
         httpOnly: false,
         overwrite: true,

@@ -28,6 +28,8 @@ module.exports = () => {
       enable: true,
       useSession: false,
       ignoreJSON: false,
+      // can be function(ctx) or String
+      cookieDomain: undefined,
       cookieName: 'csrfToken',
       sessionName: 'csrfToken',
       headerName: 'x-csrf-token',
