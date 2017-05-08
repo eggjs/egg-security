@@ -14,6 +14,12 @@ module.exports = (_, app) => {
     app.coreLogger.warn('[egg-security] Please set `match` or `ignore` on sub config');
   }
 
+  // format csrf.cookieDomain
+  const orginalCookieDomain = options.csrf.cookieDomain;
+  if (orginalCookieDomain && typeof orginalCookieDomain !== 'function') {
+    options.csrf.cookieDomain = () => orginalCookieDomain;
+  }
+
   defaultMiddleware.forEach(middlewareName => {
     middlewareName = middlewareName.trim();
 
