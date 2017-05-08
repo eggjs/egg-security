@@ -15,9 +15,9 @@ module.exports = (_, app) => {
   }
 
   // format csrf.cookieDomain
-  const orginalCookieDomain = app.config.security.csrf.cookieDomain;
+  const orginalCookieDomain = options.csrf.cookieDomain;
   if (orginalCookieDomain && typeof orginalCookieDomain !== 'function') {
-    app.config.security.csrf.cookieDomain = () => orginalCookieDomain;
+    options.csrf.cookieDomain = () => orginalCookieDomain;
   }
 
   defaultMiddleware.forEach(middlewareName => {
