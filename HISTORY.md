@@ -1,4 +1,9 @@
 
+1.10.0 / 2017-05-09
+==================
+
+  * feat: config.security.csrf.cookieDomain can be function (#17)
+
 1.9.0 / 2017-03-28
 ==================
 
