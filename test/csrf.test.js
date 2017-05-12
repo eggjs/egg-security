@@ -140,6 +140,7 @@ describe('test/csrf.test.js', function() {
     assert(res.text);
     const cookie = res.headers['set-cookie'].join(';');
     const csrfToken = cookie.match(/csrfToken=(.*?);/)[1];
+    assert(csrfToken.endsWith('csrf'));
     res = yield agent
       .post('/update')
       .set('x-csrf-token', csrfToken)
