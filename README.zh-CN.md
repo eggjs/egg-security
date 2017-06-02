@@ -379,5 +379,5 @@ json转义
 
 ## License¬
 
-[MIT](https://github.com/eggjs/egg-onerror/blob/master/LICENSE)¬
+[MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)¬
 
