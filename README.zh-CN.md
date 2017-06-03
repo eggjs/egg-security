@@ -376,3 +376,8 @@ json转义
 
 * crossdomain.xml robots.txt 支持，默认都不加，系统可自行加，需要咨询项目安全工程师
 * 禁止trace track options 三种类型请求
+
+## License¬
+
+[MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)¬
+

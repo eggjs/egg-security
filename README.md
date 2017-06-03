@@ -489,4 +489,5 @@ Defaulting to "SAMEORIGIN", only allow iframe embed by same origin.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)
+
