@@ -1,7 +1,6 @@
 'use strict';
 
 const methods = require('methods');
-const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/method_not_allow.test.js', () => {
@@ -37,7 +36,7 @@ describe('test/method_not_allow.test.js', () => {
         return;
       }
 
-      request(app.callback())[method]('/')
+      app.httpRequest()[method]('/')
         .expect(200)
         .end(err => {
           if (err) {
@@ -55,14 +54,14 @@ describe('test/method_not_allow.test.js', () => {
   });
 
   it('should not allow trace method', () => {
-    return request(app.callback())
+    return app.httpRequest()
       .trace('/')
       .set('accept', 'text/html')
       .expect(405);
   });
 
   it('should not allow option method', () => {
-    return request(app.callback())
+    return app.httpRequest()
       .options('/')
       .set('accept', 'text/html')
       .expect(405);

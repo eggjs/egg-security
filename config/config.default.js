@@ -22,7 +22,7 @@ module.exports = () => {
   exports.security = {
     domainWhiteList: [],
     protocolWhiteList: [],
-    defaultMiddleware: 'csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe',
+    defaultMiddleware: 'csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe,dta',
 
     csrf: {
       enable: true,
@@ -47,6 +47,10 @@ module.exports = () => {
       enable: false,
       maxAge: 365 * 24 * 3600,
       includeSubdomains: false,
+    },
+
+    dta: {
+      enable: true,
     },
 
     methodnoallow: {

@@ -2,7 +2,6 @@
 
 require('should-http');
 const mm = require('egg-mock');
-const request = require('supertest');
 const assert = require('assert');
 
 describe('test/noopen.test.js', function() {
@@ -19,7 +18,7 @@ describe('test/noopen.test.js', function() {
     afterEach(mm.restore);
 
     it('should return default download noopen http header', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('X-Download-Options', 'noopen')
@@ -27,7 +26,7 @@ describe('test/noopen.test.js', function() {
     });
 
     it('should not return download noopen http header', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/disable')
         .set('accept', 'text/html')
         .expect(res => assert(!res.headers['x-download-options']))

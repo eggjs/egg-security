@@ -1,7 +1,6 @@
 'use strict';
 
 require('should');
-const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/app/extends/helper.test.js', function() {
@@ -33,7 +32,7 @@ describe('test/app/extends/helper.test.js', function() {
 
   describe('helper.escape()', function() {
     it('should work', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/escape')
         .expect(200)
         .expect('true', done);
@@ -42,56 +41,56 @@ describe('test/app/extends/helper.test.js', function() {
 
   describe('helper.shtml()', function() {
     it('should basic usage work', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-basic')
         .expect(200)
         .expect('true', done);
     });
 
     it('should escape tag not in default whitelist', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-escape-tag-not-in-default-whitelist')
         .expect(200)
         .expect('true', done);
     });
 
     it('should support multiple filter', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-multiple-filter')
         .expect(200)
         .expect('true', done);
     });
 
     it('should escape script', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-escape-script')
         .expect(200)
         .expect('true', done);
     });
 
     it('should escape img onload', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-escape-img-onload')
         .expect(200)
         .expect('true', done);
     });
 
     it('should support configuration', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/shtml-configuration')
         .expect(200)
         .expect('true', done);
     });
 
     it('should ignore domains not in default domainList', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-ignore-domains-not-in-default-domainList')
         .expect(200)
         .expect('true', done);
     });
 
     it('should ignore hash', function(done) {
-      request(this.app3.callback())
+      this.app3.httpRequest()
         .get('/shtml-ignore-hash')
         .expect(200)
         .expect('true', done);
@@ -99,28 +98,28 @@ describe('test/app/extends/helper.test.js', function() {
 
 
     it('should support extending domainList via config.helper.shtml.domainWhiteList', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/shtml-extending-domainList-via-config.helper.shtml.domainWhiteList')
         .expect(200)
         .expect('true', done);
     });
 
     it('should support absolute path', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-absolute-path')
         .expect(200)
         .expect('true', done);
     });
 
     it('should stripe css url', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/shtml-stripe-css-url')
         .expect(200)
         .expect('true', done);
     });
 
     it('should customize whitelist via this.securityOptions.shtml', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/shtml-custom-via-security-options')
         .expect(200)
         .expect('true', done);
@@ -135,14 +134,14 @@ describe('test/app/extends/helper.test.js', function() {
 
   describe('helper.sjs()', function() {
     it('should sjs(foo) work', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/sjs')
         .expect(200)
         .expect('true', done);
     });
 
     it('should convert special chars on js context', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/sjs-2')
         .expect(200)
         .expect('true', done);
