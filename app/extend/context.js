@@ -4,6 +4,7 @@ const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const rndm = require('rndm');
 const Tokens = require('csrf');
 const debug = require('debug')('egg-security:context');
+const utils = require('../../lib/utils');
 
 const tokens = new Tokens();
 
@@ -127,6 +128,11 @@ module.exports = {
    * @public
    */
   assertCsrf() {
+    if (utils.checkIfIgnore(this.app.config.security.csrf, this)) {
+      debug('%s, ignore by csrf options', this.path);
+      return;
+    }
+
     if (!this[CSRF_SECRET]) {
       debug('missing csrf token');
       this[LOG_CSRF_NOTICE]('missing csrf token');

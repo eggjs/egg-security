@@ -404,4 +404,23 @@ describe('test/csrf.test.js', function() {
       .post('/foo')
       .expect(500);
   });
+
+  it('should assertCsrf ignore path', function() {
+    const ctx = this.app2.mockContext({
+      path: '/api/foo',
+    });
+    ctx.assertCsrf();
+  });
+
+  it('should assertCsrf throw if not ignore', function(done) {
+    const ctx = this.app2.mockContext({
+      path: '/foo/bar',
+    });
+    try {
+      ctx.assertCsrf();
+    } catch (err) {
+      assert(err.message, 'missing csrf token');
+      done();
+    }
+  });
 });
