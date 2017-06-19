@@ -1,4 +1,9 @@
 
+1.11.0 / 2017-06-19
+==================
+
+  * feat: add global path blocking to avoid directory traversal attack (#19)
+
 1.10.2 / 2017-06-14
 ==================
 
