@@ -1,7 +1,6 @@
 'use strict';
 
 require('should');
-const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/inject.test.js', function() {
@@ -18,7 +17,7 @@ describe('test/inject.test.js', function() {
 
   describe('csrfInject', function() {
     it('should support inject csrf', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsrf')
         .expect(200)
         .end(function(err, res) {
@@ -32,7 +31,7 @@ describe('test/inject.test.js', function() {
     });
 
     it('should not inject csrf when user write a csrf hidden area', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsrf2')
         .expect(200)
         .end(function(err, res) {
@@ -45,7 +44,7 @@ describe('test/inject.test.js', function() {
         });
     });
     it('should not inject csrf when user write a csrf hidden area within a single dot area', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsrf3')
         .expect(200)
         .end(function(err, res) {
@@ -60,7 +59,7 @@ describe('test/inject.test.js', function() {
   });
   describe('nonceInject', function() {
     it('should inject nonce', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testnonce')
         .expect(200)
         .end(function(err, res) {
@@ -76,7 +75,7 @@ describe('test/inject.test.js', function() {
         });
     });
     it('should not inject nonce when existed', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testnonce2')
         .expect(200)
         .end(function(err, res) {
@@ -93,7 +92,7 @@ describe('test/inject.test.js', function() {
 
   describe('IspInjectDefence', function() {
     it('should inject IspInjectDefence', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testispInjection')
         .expect(200)
         .end(function(err, res) {
@@ -110,7 +109,7 @@ describe('test/inject.test.js', function() {
 
   describe('work with view', function() {
     it('should successful render with csrf&nonce', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testrender')
         .expect(200)
         .end(function(err, res) {

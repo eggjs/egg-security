@@ -2,7 +2,6 @@
 
 require('should-http');
 const mm = require('egg-mock');
-const request = require('supertest');
 const assert = require('assert');
 
 describe('test/hsts.test.js', function() {
@@ -28,7 +27,7 @@ describe('test/hsts.test.js', function() {
     afterEach(mm.restore);
 
     it('should contain not Strict-Transport-Security header with default', function(done) {
-      request(this.app3.callback())
+      this.app3.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect(200)
@@ -39,7 +38,7 @@ describe('test/hsts.test.js', function() {
     });
 
     it('should contain Strict-Transport-Security header when configured', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('Strict-Transport-Security', 'max-age=31536000')
@@ -48,7 +47,7 @@ describe('test/hsts.test.js', function() {
     });
 
     it('should contain includeSubdomains rule when defined', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('Strict-Transport-Security', 'max-age=31536000; includeSubdomains')
@@ -57,7 +56,7 @@ describe('test/hsts.test.js', function() {
     });
 
     it('should not contain includeSubdomains rule with this.securityOptions', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/nosub')
         .set('accept', 'text/html')
         .expect('Strict-Transport-Security', 'max-age=31536000')

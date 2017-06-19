@@ -1,7 +1,6 @@
 'use strict';
 
 const pedding = require('pedding');
-const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/safe_redirect.test.js', function() {
@@ -24,7 +23,7 @@ describe('test/safe_redirect.test.js', function() {
 
   it('should redirect to / when url is in white list', function(done) {
 
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
       .expect('location', 'http://domain.com', done);
@@ -32,12 +31,12 @@ describe('test/safe_redirect.test.js', function() {
 
   it('should redirect to / when white list is blank', function(done) {
     done = pedding(2, done);
-    request(app2.callback())
+    app2.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
       .expect('location', 'http://domain.com', done);
 
-    request(app2.callback())
+    app2.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(302)
       .expect('location', 'http://baidu.com', done);
@@ -46,17 +45,17 @@ describe('test/safe_redirect.test.js', function() {
   it('should redirect to / when url is invaild', function(done) {
     app.mm(process.env, 'NODE_ENV', 'production');
     done = pedding(3, done);
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(302)
       .expect('location', '/', done);
 
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=' + encodeURIComponent('http://domain.com.baidu.com/domain.com'))
       .expect(302)
       .expect('location', '/', done);
 
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=https://x.yahoo.com')
       .expect(302)
       .expect('location', '/', done);
@@ -64,7 +63,7 @@ describe('test/safe_redirect.test.js', function() {
 
   it('should redirect to / when url is baidu.com', function(done) {
     app.mm(process.env, 'NODE_ENV', 'production');
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=baidu.com')
       .expect(302)
       .expect('location', '/', done);
@@ -72,7 +71,7 @@ describe('test/safe_redirect.test.js', function() {
 
   it('should redirect to not safe url throw error on not production', function(done) {
     app.mm(process.env, 'NODE_ENV', 'dev');
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(/redirection is prohibited./)
       .expect(500, done);
@@ -80,12 +79,12 @@ describe('test/safe_redirect.test.js', function() {
 
   it('should redirect path directly', function(done) {
     done = pedding(2, done);
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=/')
       .expect(302)
       .expect('location', '/', done);
 
-    request(app.callback())
+    app.httpRequest()
       .get('/safe_redirect?goto=/foo/bar/')
       .expect(302)
       .expect('location', '/foo/bar/', done);
@@ -123,7 +122,7 @@ describe('test/safe_redirect.test.js', function() {
       done = pedding(blackurls.length, done);
 
       blackurls.forEach(function(url) {
-        request(app.callback())
+        app.httpRequest()
           .get('/safe_redirect?goto=' + encodeURIComponent(url))
           .expect('location', '/')
           .expect(302, done);
@@ -134,7 +133,7 @@ describe('test/safe_redirect.test.js', function() {
       done = pedding(whiteurls.length, done);
 
       whiteurls.forEach(function(url) {
-        request(app.callback())
+        app.httpRequest()
           .get('/safe_redirect?goto=' + encodeURIComponent(url))
           .expect('location', url)
           .expect(302, done);
@@ -151,7 +150,7 @@ describe('test/safe_redirect.test.js', function() {
       done = pedding(urls.length, done);
 
       urls.forEach(function(url) {
-        request(app.callback())
+        app.httpRequest()
           .get('/unsafe_redirect?goto=' + encodeURIComponent(url))
           .expect(302)
           .expect('location', url, done);

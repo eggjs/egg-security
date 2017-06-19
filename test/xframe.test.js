@@ -2,7 +2,6 @@
 
 const should = require('should');
 const mm = require('egg-mock');
-const request = require('supertest');
 const pedding = require('pedding');
 require('should-http');
 
@@ -40,33 +39,33 @@ describe('test/xframe.test.js', function() {
     it('should contain X-Frame-Options: SAMEORIGIN', function(done) {
       done = pedding(2, done);
 
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('X-Frame-Options', 'SAMEORIGIN', done);
 
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/foo')
         .set('accept', 'text/html')
         .expect('X-Frame-Options', 'SAMEORIGIN', done);
     });
 
     it('should contain X-Frame-Options: ALLOW-FROM http://www.domain.com by this.securityOptions', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/options')
         .set('accept', 'text/html')
         .expect('X-Frame-Options', 'ALLOW-FROM http://www.domain.com', done);
     });
 
     it('should contain X-Frame-Options: SAMEORIGIN when dont set value option', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/foo')
         .set('accept', 'text/html')
         .expect('X-Frame-Options', 'SAMEORIGIN', done);
     });
 
     it('should contain X-Frame-Options: ALLOW-FROM with page when set ALLOW-FROM and page option', function(done) {
-      request(this.app3.callback())
+      this.app3.httpRequest()
         .get('/foo')
         .set('accept', 'text/html')
         .expect('X-Frame-Options', 'ALLOW-FROM http://www.domain.com', done);
@@ -75,7 +74,7 @@ describe('test/xframe.test.js', function() {
     it('should not contain X-Frame-Options: SAMEORIGIN when use ignore', function(done) {
       done = pedding(7, done);
 
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/hello')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -84,7 +83,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app4.callback())
+      this.app4.httpRequest()
         .get('/hello')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -93,7 +92,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/world/12')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -102,7 +101,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/world/12?xx=xx')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -111,7 +110,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/hello')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -120,7 +119,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/world/12')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {
@@ -129,7 +128,7 @@ describe('test/xframe.test.js', function() {
           done();
         });
 
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/world/12?xx=xx')
         .set('accept', 'text/html')
         .expect(200, function(err, res) {

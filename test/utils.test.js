@@ -3,7 +3,6 @@
 require('should-http');
 const should = require('should');
 const mm = require('egg-mock');
-const request = require('supertest');
 const utils = require('..').utils;
 const pedding = require('pedding');
 
@@ -20,7 +19,7 @@ describe('test/utils.test.js', function() {
     afterEach(mm.restore);
     const domainWhiteList = [ '.domain.com' ];
     it('should return false when domain is not save', function() {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect(200)
@@ -30,7 +29,7 @@ describe('test/utils.test.js', function() {
     });
 
     it('should return true when domain is save', function() {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/safe')
         .set('accept', 'text/html')
         .expect(200)
@@ -98,7 +97,7 @@ describe('test/utils.test.js', function() {
     afterEach(mm.restore);
 
     it('should use match', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/match')
         .expect(200, function(err, res) {
           should.not.exist(err);
@@ -108,7 +107,7 @@ describe('test/utils.test.js', function() {
     });
 
     it('global match should not work', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/luckydrq')
         .expect(200, function(err, res) {
           should.not.exist(err);
@@ -119,12 +118,12 @@ describe('test/utils.test.js', function() {
 
     it('own match should replace global match', function(done) {
       const app2 = this.app2;
-      request(app2.callback())
+      app2.httpRequest()
         .get('/mymatch')
         .expect(200, function(err, res) {
           should.not.exist(err);
           res.headers['x-csp-nonce'].length.should.equal(16);
-          request(app2.callback())
+          app2.httpRequest()
             .get('/match')
             .expect(200, function(err, res) {
               should.not.exist(err);
@@ -135,7 +134,7 @@ describe('test/utils.test.js', function() {
     });
 
     it('own match has priority over own ignore', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/mytrueignore')
         .expect(200, function(err, res) {
           should.not.exist(err);
@@ -145,7 +144,7 @@ describe('test/utils.test.js', function() {
     });
 
     it('should not use global ignore', function(done) {
-      request(this.app3.callback())
+      this.app3.httpRequest()
         .get('/ignore')
         .expect(200, function(err, res) {
           should.not.exist(err);
@@ -157,12 +156,12 @@ describe('test/utils.test.js', function() {
     it('own ignore should replace global ignore', function(done) {
       const app4 = this.app4;
 
-      request(app4.callback())
+      app4.httpRequest()
         .get('/ignore')
         .expect(200, function(err, res) {
           should.not.exist(err);
           res.headers['x-csp-nonce'].length.should.equal(16);
-          request(app4.callback())
+          app4.httpRequest()
             .get('/myignore')
             .expect(200, function(err, res) {
               should.not.exist(err);
@@ -176,7 +175,7 @@ describe('test/utils.test.js', function() {
       done = pedding(3, done);
       const app5 = this.app5;
 
-      request(app5.callback())
+      app5.httpRequest()
         .get('/ignore1')
         .expect(200, function(err, res) {
           res.should.not.have.header('X-Frame-Options');
@@ -184,7 +183,7 @@ describe('test/utils.test.js', function() {
           done();
         });
 
-      request(app5.callback())
+      app5.httpRequest()
         .get('/ignore2')
         .expect(200, function(err, res) {
           res.should.not.have.header('X-Frame-Options');
@@ -192,7 +191,7 @@ describe('test/utils.test.js', function() {
           done();
         });
 
-      request(app5.callback())
+      app5.httpRequest()
         .get('/')
         .expect(200, function(err, res) {
           res.should.have.header('X-Frame-Options');
@@ -205,7 +204,7 @@ describe('test/utils.test.js', function() {
       done = pedding(3, done);
       const app6 = this.app6;
 
-      request(app6.callback())
+      app6.httpRequest()
         .get('/match1')
         .expect(200, function(err, res) {
           res.should.have.header('X-Frame-Options');
@@ -213,7 +212,7 @@ describe('test/utils.test.js', function() {
           done();
         });
 
-      request(app6.callback())
+      app6.httpRequest()
         .get('/match2')
         .expect(200, function(err, res) {
           res.should.have.header('X-Frame-Options');
@@ -221,7 +220,7 @@ describe('test/utils.test.js', function() {
           done();
         });
 
-      request(app6.callback())
+      app6.httpRequest()
         .get('/')
         .expect(200, function(err, res) {
           res.should.not.have.header('X-Frame-Options');

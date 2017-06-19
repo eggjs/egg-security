@@ -73,7 +73,7 @@ describe('test/csrf.test.js', function() {
   });
 
   it('should not set cookie when rotate without csrf token', function* () {
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .get('/api/rotate')
       .set('accept', 'text/html')
       .expect(200)
@@ -262,7 +262,7 @@ describe('test/csrf.test.js', function() {
 
   it('should ignore json if ignoreJSON = true', function* () {
     mm(this.app.config.security.csrf, 'ignoreJSON', true);
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .send({
         title: 'without token ok',
@@ -275,7 +275,7 @@ describe('test/csrf.test.js', function() {
 
   it('should not ignore form if ignoreJSON = true', function* () {
     mm(this.app.config.security.csrf, 'ignoreJSON', true);
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({
@@ -319,7 +319,7 @@ describe('test/csrf.test.js', function() {
   });
 
   it('should return 403 update form without csrf secret', function* () {
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .expect(403)
@@ -328,7 +328,7 @@ describe('test/csrf.test.js', function() {
 
   it('should return 403 and log debug info in local env', function* () {
     mm(this.app.config, 'env', 'local');
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .expect(403)
@@ -340,21 +340,21 @@ describe('test/csrf.test.js', function() {
 
 
   it('should support ignore paths', function* () {
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .send({
         foo: 'bar',
       })
       .expect(403);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/api/update')
       .send({
         foo: 'bar',
       })
       .expect(404);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/api/users/posts')
       .send({
         foo: 'bar',
@@ -363,14 +363,14 @@ describe('test/csrf.test.js', function() {
   });
 
   it('should support ignore function', function* () {
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .send({
         foo: 'bar',
       })
       .expect(403);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/update')
       .send({
         foo: 'bar',
@@ -380,19 +380,19 @@ describe('test/csrf.test.js', function() {
   });
 
   it('should got next when is GET/HEAD/OPTIONS/TRACE method', function* () {
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .get('/update.json;')
       .expect(404);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .head('/update.tile;')
       .expect(404);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .options('/update.ajax;')
       .expect(404);
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .trace('/update.ajax;')
       .expect(404);
   });
@@ -400,7 +400,7 @@ describe('test/csrf.test.js', function() {
   it('should throw 500 if this.assertCsrf() throw not 403 error', function* () {
     mm.syncError(this.app.context, 'assertCsrf', 'mock assertCsrf error');
 
-    yield request(this.app.callback())
+    yield this.app.httpRequest()
       .post('/foo')
       .expect(500);
   });

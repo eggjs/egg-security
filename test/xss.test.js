@@ -2,7 +2,6 @@
 
 require('should-http');
 const mm = require('egg-mock');
-const request = require('supertest');
 
 describe('test/xss.test.js', function() {
 
@@ -31,28 +30,28 @@ describe('test/xss.test.js', function() {
     afterEach(mm.restore);
 
     it('should contain default X-XSS-Protection header', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('X-XSS-Protection', '1; mode=block')
         .expect(200, done);
     });
     it('should set X-XSS-Protection header value 0 by this.securityOptions', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/0')
         .set('accept', 'text/html')
         .expect('X-XSS-Protection', '0')
         .expect(200, done);
     });
     it('should set X-XSS-Protection header value 0', function(done) {
-      request(this.app2.callback())
+      this.app2.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('X-XSS-Protection', '0')
         .expect(200, done);
     });
     it('should set X-XSS-Protection header value 0 when config is number 0', function(done) {
-      request(this.app3.callback())
+      this.app3.httpRequest()
         .get('/')
         .set('accept', 'text/html')
         .expect('X-XSS-Protection', '0')

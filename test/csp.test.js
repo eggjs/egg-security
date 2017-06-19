@@ -1,7 +1,6 @@
 'use strict';
 
 const should = require('should');
-const request = require('supertest');
 const mm = require('egg-mock');
 
 describe('test/csp.test.js', function() {
@@ -33,7 +32,7 @@ describe('test/csp.test.js', function() {
 
   describe('directives', function() {
     it('should support other directives when pattern match', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp')
         .expect(200)
         .end(function(err, res) {
@@ -49,7 +48,7 @@ describe('test/csp.test.js', function() {
     });
 
     it('should support with custom policy', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp/custom')
         .expect(200)
         .end(function(err, res) {
@@ -65,7 +64,7 @@ describe('test/csp.test.js', function() {
     });
 
     it('should support dynamic disable', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp/disable')
         .expect(200)
         .end(function(err, res) {
@@ -78,7 +77,7 @@ describe('test/csp.test.js', function() {
     });
 
     it('should support IE', function(done) {
-      request(this.app4.callback())
+      this.app4.httpRequest()
         .get('/testcsp')
         .set('user-agent', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0)')
         .expect(200)
@@ -95,7 +94,7 @@ describe('test/csp.test.js', function() {
     });
 
     it('should support report-uri', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp')
         .expect(200)
         .end(function(err, res) {
@@ -108,7 +107,7 @@ describe('test/csp.test.js', function() {
 
   describe('nonce', function() {
     it('should support nonce', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp')
         .expect(200)
         .end(function(err, res) {
@@ -126,7 +125,7 @@ describe('test/csp.test.js', function() {
     });
 
     it('should have X-CSP-Nonce header', function(done) {
-      request(this.app.callback())
+      this.app.httpRequest()
         .get('/testcsp')
         .expect(200)
         .end(function(err, res) {
@@ -141,7 +140,7 @@ describe('test/csp.test.js', function() {
   });
 
   it('should ignore path', function(done) {
-    request(this.app2.callback())
+    this.app2.httpRequest()
       .get('/api/update')
       .expect(200, function(err, res) {
         should.not.exist(res.headers['x-csp-nonce']);
@@ -151,7 +150,7 @@ describe('test/csp.test.js', function() {
 
 
   it('should not ignore path when do not match', function(done) {
-    request(this.app2.callback())
+    this.app2.httpRequest()
       .get('/testcsp')
       .expect(200, function(err, res) {
         should.exist(res.headers['x-csp-nonce']);
@@ -160,7 +159,7 @@ describe('test/csp.test.js', function() {
   });
 
   it('should support report only when pattern match and report only config open', function(done) {
-    request(this.app3.callback())
+    this.app3.httpRequest()
       .get('/testcsp')
       .expect(200)
       .end(function(err, res) {
@@ -177,7 +176,7 @@ describe('test/csp.test.js', function() {
   });
 
   it('should support report only when pattern match and report only config open and support ie', function(done) {
-    request(this.app3.callback())
+    this.app3.httpRequest()
       .get('/testcsp2')
       .set('user-agent', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0)')
       .expect(200)
