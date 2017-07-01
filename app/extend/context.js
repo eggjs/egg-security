@@ -33,6 +33,15 @@ module.exports = {
 
   isSafeDomain(domain) {
     const domainWhiteList = this.app.config.security.domainWhiteList || [];
+    
+    if (domainWhiteList === '*') return true;
+    
+    const allowAll = domainWhiteList.some(domin => {
+      if (domin === '*') return true;
+      else return false;
+    });
+    if (allowAll) return true;
+    
     return isSafeDomainUtil(domain, domainWhiteList);
   },
 
