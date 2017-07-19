@@ -31,6 +31,10 @@ module.exports = (_, app) => {
       return;
     }
 
+    if (middlewareName === 'csrf' && opt.useSession && !app.plugins.session) {
+      throw new Error('csrf.useSession enabled, but session plugin is disabled');
+    }
+
     // use opt.match first (compatibility)
     if (opt.match && opt.ignore) {
       app.coreLogger.warn('[egg-security] `options.match` and `options.ignore` are both set, using `options.match`');
