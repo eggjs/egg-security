@@ -22,6 +22,16 @@ describe('test/csrf.test.js', function() {
 
   afterEach(mm.restore);
 
+  it('should throw when session disabled and useSession enabled', function* () {
+    try {
+      const app = mm.app({ baseDir: 'apps/csrf-session-disable' });
+      yield app.ready();
+      throw new Error('should not execute');
+    } catch (err) {
+      assert(err.message === 'csrf.useSession enabled, but session plugin is disabled');
+    }
+  });
+
   it('should update form with csrf token', function* () {
     const agent = request.agent(this.app.callback());
 
