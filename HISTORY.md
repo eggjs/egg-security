@@ -1,4 +1,10 @@
 
+1.12.1 / 2017-08-03
+==================
+
+**others**
+  * [[`870a7e2`](http://github.com/eggjs/egg-security/commit/870a7e2d26ad622a035e70565a9ca6830465326f)] - fix(csrf): ignore json request even body not exist (#23) (Yiyu He <<dead-horse@users.noreply.github.com>>)
+
 1.12.0 / 2017-07-19
 ==================
 
