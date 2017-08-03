@@ -283,6 +283,16 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should ignore json if ignoreJSON = true and body not exist', function* () {
+    mm(this.app.config.security.csrf, 'ignoreJSON', true);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('content-length', '')
+      .set('content-type', 'application/json')
+      .expect(200)
+      .expect({});
+  });
+
   it('should not ignore form if ignoreJSON = true', function* () {
     mm(this.app.config.security.csrf, 'ignoreJSON', true);
     yield this.app.httpRequest()
