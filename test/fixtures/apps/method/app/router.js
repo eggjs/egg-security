@@ -4,10 +4,8 @@ const methods = require('methods');
 
 module.exports = function(app) {
   methods.forEach(function(m){
-    app[m] && app[m]('/', function *(){
+    app.router[m] && app.router[m]('/', function *(){
       this.body = '123';
     });
-
-  })
-
+  });
 };
