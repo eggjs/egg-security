@@ -1,4 +1,10 @@
 
+2.0.0 / 2017-11-10
+==================
+
+**others**
+  * [[`0ec7d2f`](http://github.com/eggjs/egg-security/commit/0ec7d2f5af03c31623b9286125d74652ba596b8b)] - refactor: use async function and support egg@2 (#25) (Yiyu He <<dead_horse@qq.com>>)
+
 1.12.1 / 2017-08-03
 ==================
 
