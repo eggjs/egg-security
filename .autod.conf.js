@@ -11,7 +11,6 @@ module.exports = {
     'autod',
     'beautify-benchmark',
     'benchmark',
-    'egg',
     'egg-bin',
     'egg-ci',
     'egg-mock',
@@ -27,8 +26,5 @@ module.exports = {
   ],
   exclude: [
     './test/fixtures',
-  ],
-  semver: [
-    'koa-compose@2',
   ],
 }

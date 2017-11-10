@@ -99,17 +99,17 @@ There are times when we want to be more flexible to configure security plugins.F
 1. To decide whether to enable or disable the xframe security header from the context of the request.
 2. To decide csp policies from different request urls.
 
-Then we can configure `this.securityOptions[name] opts` in the custom middleware or controller,then the current request configuration will overrides the default configuration (new configuration will be merged and override the default project configuration, but only take effect in the current request)
+Then we can configure `ctx.securityOptions[name] opts` in the custom middleware or controller,then the current request configuration will overrides the default configuration (new configuration will be merged and override the default project configuration, but only take effect in the current request)
 
 ```js
-function*() {
+async ctx => {
   // if satisfied some condition
   // change configuration
-  this.securityOptions.xframe = {
+  ctx.securityOptions.xframe = {
     value: 'ALLOW-FROM: https://domain.com',
   };
   // disable configuration
-  this.securityOptions.xssProtection = {
+  ctx.securityOptions.xssProtection = {
     enable: false,
   }
 }
@@ -131,7 +131,7 @@ And in ` helper `：
 helper is the same way to configure.
 
 ```js
-this.securityOptions.shtml = {
+ctx.securityOptions.shtml = {
   whiteList: {
   },
 };
@@ -140,8 +140,8 @@ this.securityOptions.shtml = {
 #### Mention
 
 - Security is a big thing, please pay attention to the risk of changes in the security configuration (especially dynamic changes)
-- `this.securityOptions` the current request configuration will overrides the default configuration, but it does not make a deep copy，so pay attention to configure `csp.policy`, it will not be merged.
-- If you configure `this.securityOptions`，please write unit tests to ensure the code is correct.
+- `ctx.securityOptions` the current request configuration will overrides the default configuration, but it does not make a deep copy，so pay attention to configure `csp.policy`, it will not be merged.
+- If you configure `ctx.securityOptions`，please write unit tests to ensure the code is correct.
 
 
 ## API
@@ -331,7 +331,7 @@ console.log(`var foo = "${foo}";`);
 // => var foo = ""hello"";
 
 // use sjs
-console.log(`var foo = "${this.helper.sjs(foo)}";`);
+console.log(`var foo = "${ctx.helper.sjs(foo)}";`);
 // => var foo = "\\x22hello\\x22";
 ```
 
@@ -403,7 +403,7 @@ Illegal path:
 
 ```js
 const foo = '/usr/local/bin';
-console.log(this.helper.spath(foo2));
+console.log(ctx.helper.spath(foo2));
 // => null
 ```
 
@@ -413,7 +413,7 @@ json encode.
 
 If you want to output json in javascript without encoding, it will be a risk for XSS.
 sjson supports json encode，it will iterate all keys in json, then escape all characters in the value to `\x` to avoid XSS attack, and keep the json structure unchanged.
-If you want to output json string in your views, please use `${this.helper.sjson(变量名)}`to escape.
+If you want to output json string in your views, please use `${ctx.helper.sjson(var)}`to escape.
 
 **it has a very complex process and will lost performance, so avoid the use as far as possible**
 
@@ -421,7 +421,7 @@ example:
 
 ```js
   <script>
-    window.locals = ${this.helper.sjson(locals)};
+    window.locals = ${ctx.helper.sjson(locals)};
   </script>
 ```
 
@@ -443,7 +443,7 @@ after fix:
 
 ```js
 
-  cp.exec("bash /home/admin/ali-knowledge-graph-backend/initrun.sh " + this.helper.cliFilter(port));
+  cp.exec("bash /home/admin/ali-knowledge-graph-backend/initrun.sh " + ctx.helper.cliFilter(port));
 
 ```
 
@@ -490,4 +490,3 @@ Defaulting to "SAMEORIGIN", only allow iframe embed by same origin.
 ## License
 
 [MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)
-
