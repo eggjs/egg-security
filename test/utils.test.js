@@ -47,6 +47,13 @@ describe('test/utils.test.js', function() {
       utils.isSafeDomain('okokok----.domain.com', domainWhiteList).should.equal(true);
     });
 
+    it('should return true when wildcard character inuse', function() {
+      const domainWhiteList = [ '*.domain.com' ];
+      utils.isSafeDomain('api.domain.com', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('products.domain.com', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('foo.domain.com', domainWhiteList).should.equal(true);
+    });
+
     it('should return false', function() {
       utils.isSafeDomain('aaa-domain.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain(' domain.com', domainWhiteList).should.equal(false);
