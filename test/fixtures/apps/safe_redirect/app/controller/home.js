@@ -2,7 +2,7 @@
 
 exports.safeRedirect = function* () {
   const goto = this.query.goto;
-  console.log(goto);
+  console.log('%j, %s', goto, goto);
   this.redirect(goto);
 };
 

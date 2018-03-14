@@ -129,6 +129,15 @@ describe('test/safe_redirect.test.js', function() {
       });
     });
 
+    it('should block evil path', function() {
+      app.mm(process.env, 'NODE_ENV', 'production');
+
+      return app.httpRequest()
+        .get('/safe_redirect?goto=' + encodeURIComponent('/\\evil.com/'))
+        .expect('location', '/')
+        .expect(302);
+    });
+
     it('should pass', function(done) {
       done = pedding(whiteurls.length, done);
 
