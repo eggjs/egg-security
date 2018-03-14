@@ -1,4 +1,9 @@
 
+2.0.1 / 2018-03-14
+==================
+
+  * fix: absolute path detect should ignore evil path (#28)
+
 2.0.0 / 2017-11-10
 ==================
 
