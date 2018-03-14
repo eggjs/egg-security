@@ -1,4 +1,10 @@
 
+1.12.2 / 2018-03-14
+==================
+
+**fixes**
+  * [[`c89e291`](http://github.com/eggjs/egg-security/commit/c89e291985af6cd10496699309aa4c0565178a08)] - fix: absolute path detect should ignore evil path (#29) (fengmk2 <<fengmk2@gmail.com>>)
+
 1.12.1 / 2017-08-03
 ==================
 
