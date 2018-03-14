@@ -1,4 +1,13 @@
 
+2.1.0 / 2018-03-14
+==================
+
+**features**
+  * [[`97f372c`](http://github.com/eggjs/egg-security/commit/97f372c275cb3db99d4bdd86b19583464cdce4e3)] - feat: add RefererPolicy support (#27) (Adams <<jtyjty99999@126.com>>)
+
+**others**
+  * [[`76bd83f`](http://github.com/eggjs/egg-security/commit/76bd83fbe96e7e81a3a0a61d182c5d7e480c7856)] - chore:bump to 2.0.1 (jtyjty99999 <<jtyjty99999@126.com>>),
+
 2.0.1 / 2018-03-14
 ==================
 
