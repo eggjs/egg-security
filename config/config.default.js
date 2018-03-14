@@ -16,6 +16,8 @@ module.exports = () => {
    * @property {Object} nosniff -  whether enable IE8 automaticlly dedect mime
    * @property {Object} xssProtection -  whether enable IE8 XSS Filter, default is open
    * @property {Object} csp - content security policy config
+   * @property {Object} referrerPolicy - referrer policy config
+   * @property {Object} dta - auto avoid directory traversal attack
    * @property {Array} domainWhiteList - domain white list
    * @property {Array} protocolWhiteList - protocal white list
    */
@@ -63,6 +65,11 @@ module.exports = () => {
 
     nosniff: {
       enable: true,
+    },
+
+    referrerPolicy: {
+      enable: false,
+      value: 'no-referrer-when-downgrade',
     },
 
     xssProtection: {

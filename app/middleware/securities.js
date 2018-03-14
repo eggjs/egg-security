@@ -21,6 +21,7 @@ module.exports = (_, app) => {
   }
 
   defaultMiddleware.forEach(middlewareName => {
+
     middlewareName = middlewareName.trim();
 
     const opt = options[middlewareName];
