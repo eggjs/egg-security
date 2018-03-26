@@ -14,7 +14,7 @@ describe('test/ssrf.test.js', function() {
       return app.ready();
     });
 
-    it('should safeCurl work', async () => {
+    it('should safeCurl work', function* () {
       const ctx = app.createAnonymousContext();
       const url = 'https://127.0.0.1';
       mm.data(app, 'curl', 'response');
@@ -31,9 +31,9 @@ describe('test/ssrf.test.js', function() {
       mm(app.agent.logger, 'warn', mockWarn);
       mm(ctx.logger, 'warn', mockWarn);
 
-      const r1 = await app.safeCurl(url);
-      const r2 = await app.agent.safeCurl(url);
-      const r3 = await ctx.safeCurl(url);
+      const r1 = yield app.safeCurl(url);
+      const r2 = yield app.agent.safeCurl(url);
+      const r3 = yield ctx.safeCurl(url);
       assert(r1 === 'response');
       assert(r2 === 'response');
       assert(r3 === 'response');
@@ -48,7 +48,7 @@ describe('test/ssrf.test.js', function() {
       return app.ready();
     });
 
-    it('should safeCurl work', async () => {
+    it('should safeCurl work', function* () {
       const urls = [
         'https://127.0.0.1/foo',
         'http://10.1.2.3/foo?bar=1',
@@ -59,9 +59,9 @@ describe('test/ssrf.test.js', function() {
       const ctx = app.createAnonymousContext();
 
       for (const url of urls) {
-        await checkIllegalAddressError(app, url);
-        await checkIllegalAddressError(app.agent, url);
-        await checkIllegalAddressError(ctx, url);
+        yield checkIllegalAddressError(app, url);
+        yield checkIllegalAddressError(app.agent, url);
+        yield checkIllegalAddressError(ctx, url);
       }
     });
   });
@@ -72,7 +72,7 @@ describe('test/ssrf.test.js', function() {
       return app.ready();
     });
 
-    it('should safeCurl work', async () => {
+    it('should safeCurl work', function* () {
       const urls = [
         'https://127.0.0.2/foo',
         'https://www.google.com/foo',
@@ -80,17 +80,17 @@ describe('test/ssrf.test.js', function() {
       mm.data(dns, 'lookup', '127.0.0.2');
       const ctx = app.createAnonymousContext();
       for (const url of urls) {
-        await checkIllegalAddressError(app, url);
-        await checkIllegalAddressError(app.agent, url);
-        await checkIllegalAddressError(ctx, url);
+        yield checkIllegalAddressError(app, url);
+        yield checkIllegalAddressError(app.agent, url);
+        yield checkIllegalAddressError(ctx, url);
       }
     });
   });
 });
 
-async function checkIllegalAddressError(instance, url) {
+function* checkIllegalAddressError(instance, url) {
   try {
-    await instance.safeCurl(url);
+    yield instance.safeCurl(url);
     throw new Error('should not execute');
   } catch (err) {
     assert(err.name === 'IllegalAddressError');
