@@ -30,3 +30,19 @@ const INJECTION_DEFENSE = '<!--for injection--><!--</html>--><!--for injection--
 exports.injectHijackingDefense = function injectHijackingDefense(tmplStr) {
   return INJECTION_DEFENSE + tmplStr + INJECTION_DEFENSE;
 };
+
+/**
+ * safe curl with ssrf protect
+ * @param {String} url request url
+ * @param {Object} options request options
+ * @return {Promise} response
+ */
+exports.safeCurl = function safeCurl(url, options = {}) {
+  if (this.config.security.ssrf && this.config.security.ssrf.checkAddress) {
+    options.checkAddress = this.config.security.ssrf.checkAddress;
+  } else {
+    this.logger.warn('[egg-security] please configure `config.security.ssrf` first');
+  }
+
+  return this.curl(url, options);
+};
