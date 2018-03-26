@@ -154,4 +154,20 @@ module.exports = {
       this.logger.warn(`${msg}. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范`);
     }
   },
+
+  /**
+   * safe curl with ssrf protect
+   * @param {String} url request url
+   * @param {Object} options request options
+   * @return {Promise} response
+   */
+  safeCurl(url, options = {}) {
+    if (this.app.config.security.ssrf && this.app.config.security.ssrf.checkAddress) {
+      options.checkAddress = this.app.config.security.ssrf.checkAddress;
+    } else {
+      this.logger.warn('[egg-security] please configure `config.security.ssrf` first');
+    }
+
+    return this.curl(url, options);
+  },
 };
