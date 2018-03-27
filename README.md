@@ -483,6 +483,35 @@ Defaulting to "SAMEORIGIN", only allow iframe embed by same origin.
 
 - disable Defaulting to `false`，same as `1; mode=block`.
 
+### SSRF Protection
+
+In a [Server-Side Request Forgery (SSRF)]((https://www.owasp.org/index.php/Server_Side_Request_Forgery)) attack, the attacker can abuse functionality on the server to read or update internal resources.
+
+`egg-security` provide `ctx.safeCurl`, `app.safeCurl` and `agent.safeCurl` to provide http request(like `ctx.curl`, `app.curl` and `agent.curl`) with SSRF protection.
+
+#### Configuration
+
+* ipBlackList(Array) - specific which ip are illegal when request with `safeCurl`.
+* checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
+
+```js
+// config/config.default.js
+exports.security = {
+  ssrf: {
+    // support both cidr subnet or specific ip
+    ipBlackList: [
+      '10.0.0.0/8',
+      '127.0.0.1',
+      '0.0.0.0/32',
+    ],
+    // checkAddress has higher priority than ipBlackList
+    checkAddress(ip) {
+      return ip !== '127.0.0.1';
+    }
+  },
+};
+```
+
 ## Other
 
 * Forbidden `trace` `track` `options` http method.

@@ -81,6 +81,11 @@ module.exports = () => {
       enable: false,
       policy: {},
     },
+
+    ssrf: {
+      ipBlackList: null,
+      checkAddress: null,
+    },
   };
 
   exports.helper = {
