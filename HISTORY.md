@@ -1,4 +1,16 @@
 
+1.13.0 / 2018-03-27
+==================
+
+**features**
+  * [[`21abb13`](http://github.com/eggjs/egg-security/commit/21abb13c166bde7d9fbae9a29d9b1057d9ca1fa6)] - feat: support safeCurl for SSRF protection  (#33) (Yiyu He <<dead_horse@qq.com>>)
+
+**fixes**
+  * [[`e573b61`](http://github.com/eggjs/egg-security/commit/e573b61e53e315cc969a805c2655bf011e2d59b1)] - fix: deprecate ignoreJSON (#31) (Yiyu He <<dead_horse@qq.com>>)
+
+**others**
+  * [[`48eadd4`](http://github.com/eggjs/egg-security/commit/48eadd47447e41d25e3d8e12614fa273bda5b8ad)] - deps: add missing dependencies ip (dead-horse <<dead_horse@qq.com>>)
+
 1.12.2 / 2018-03-14
 ==================
 
