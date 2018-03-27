@@ -1,5 +1,6 @@
 'use strict';
 
+const safeCurl = require('../../lib/extend/safe_curl');
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const rndm = require('rndm');
 const Tokens = require('csrf');
@@ -154,4 +155,6 @@ module.exports = {
       this.logger.warn(`${msg}. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范`);
     }
   },
+
+  safeCurl,
 };

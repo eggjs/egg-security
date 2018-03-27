@@ -1,5 +1,7 @@
 'use strict';
 
+const safeCurl = require('../../lib/extend/safe_curl');
+
 const INPUT_CSRF = '\r\n<input type="hidden" name="_csrf" value="{{ctx.csrf}}" /></form>';
 
 exports.injectCsrf = function injectCsrf(tmplStr) {
@@ -30,3 +32,5 @@ const INJECTION_DEFENSE = '<!--for injection--><!--</html>--><!--for injection--
 exports.injectHijackingDefense = function injectHijackingDefense(tmplStr) {
   return INJECTION_DEFENSE + tmplStr + INJECTION_DEFENSE;
 };
+
+exports.safeCurl = safeCurl;
