@@ -270,6 +270,12 @@ describe('test/csrf.test.js', function() {
       });
   });
 
+  it('should show deprecate message if ignoreJSON = true', function* () {
+    const app = mm.app({ baseDir: 'apps/csrf-ignorejson' });
+    yield app.ready();
+    // will show deprecate message
+  });
+
   it('should ignore json if ignoreJSON = true', function* () {
     mm(this.app.config.security.csrf, 'ignoreJSON', true);
     yield this.app.httpRequest()
