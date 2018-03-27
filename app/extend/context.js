@@ -1,5 +1,6 @@
 'use strict';
 
+const safeCurl = require('../../lib/extend/safe_curl');
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const rndm = require('rndm');
 const Tokens = require('csrf');
@@ -155,19 +156,5 @@ module.exports = {
     }
   },
 
-  /**
-   * safe curl with ssrf protect
-   * @param {String} url request url
-   * @param {Object} options request options
-   * @return {Promise} response
-   */
-  safeCurl(url, options = {}) {
-    if (this.app.config.security.ssrf && this.app.config.security.ssrf.checkAddress) {
-      options.checkAddress = this.app.config.security.ssrf.checkAddress;
-    } else {
-      this.logger.warn('[egg-security] please configure `config.security.ssrf` first');
-    }
-
-    return this.curl(url, options);
-  },
+  safeCurl,
 };
