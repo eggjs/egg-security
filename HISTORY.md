@@ -1,4 +1,10 @@
 
+2.2.1 / 2018-03-28
+==================
+
+**others**
+  * [[`e6e5e65`](http://github.com/eggjs/egg-security/commit/e6e5e65034d314646bd5cf98303cce97fece86dd)] - docs: fix SSRF link (#34) (Haoliang Gao <<sakura9515@gmail.com>>)
+
 2.2.0 / 2018-03-27
 ==================
 
