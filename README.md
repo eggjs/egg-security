@@ -485,7 +485,7 @@ Defaulting to "SAMEORIGIN", only allow iframe embed by same origin.
 
 ### SSRF Protection
 
-In a [Server-Side Request Forgery (SSRF)]((https://www.owasp.org/index.php/Server_Side_Request_Forgery)) attack, the attacker can abuse functionality on the server to read or update internal resources.
+In a [Server-Side Request Forgery (SSRF)](https://www.owasp.org/index.php/Server_Side_Request_Forgery) attack, the attacker can abuse functionality on the server to read or update internal resources.
 
 `egg-security` provide `ctx.safeCurl`, `app.safeCurl` and `agent.safeCurl` to provide http request(like `ctx.curl`, `app.curl` and `agent.curl`) with SSRF protection.
 
