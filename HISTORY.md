@@ -1,4 +1,13 @@
 
+1.13.1 / 2018-04-12
+==================
+
+**fixes**
+  * [[`fbc552d`](http://github.com/eggjs/egg-security/commit/fbc552dbd3cdb67e7eb830417cf266b90fd07807)] - fix: format illegal url (#36) (Yiyu He <<dead_horse@qq.com>>)
+
+**others**
+  * [[`cf36048`](http://github.com/eggjs/egg-security/commit/cf3604823bb2e2cb72c9f90e393cac82dcfa9c4d)] - docs: update warning infomation for ignoreJSON (#35) (Haoliang Gao <<sakura9515@gmail.com>>)
+
 1.13.0 / 2018-03-27
 ==================
 
