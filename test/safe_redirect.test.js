@@ -26,7 +26,7 @@ describe('test/safe_redirect.test.js', function() {
     app.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com', done);
+      .expect('location', 'http://domain.com/', done);
   });
 
   it('should redirect to / when white list is blank', function(done) {
@@ -34,12 +34,12 @@ describe('test/safe_redirect.test.js', function() {
     app2.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com', done);
+      .expect('location', 'http://domain.com/', done);
 
     app2.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(302)
-      .expect('location', 'http://baidu.com', done);
+      .expect('location', 'http://baidu.com/', done);
   });
 
   it('should redirect to / when url is invaild', function(done) {
@@ -114,7 +114,9 @@ describe('test/safe_redirect.test.js', function() {
     ];
 
     const whiteurls = [
-      'http://domain.com',
+      'http://domain.com/',
+      'http://domain.com/foo',
+      'http://domain.com/foo/bar?a=123',
     ];
 
     it('should block', function(done) {
@@ -138,6 +140,14 @@ describe('test/safe_redirect.test.js', function() {
         .expect(302);
     });
 
+    it('should format illegal url', function(done) {
+      app.mm(process.env, 'NODE_ENV', 'production');
+      app.httpRequest()
+        .get('/safe_redirect?goto=' + encodeURIComponent('http://domain.com%0a.cn/path?abc=bar#123'))
+        .expect(302)
+        .expect('location', 'http://domain.com/%0a.cn/path?abc=bar#123', done);
+    });
+
     it('should pass', function(done) {
       done = pedding(whiteurls.length, done);
 
@@ -153,7 +163,7 @@ describe('test/safe_redirect.test.js', function() {
   describe('unsafeRedirect()', function() {
     it('should redirect to unsafe url', function(done) {
       const urls = [
-        'http://baidu.com',
+        'http://baidu.com/',
         'http://xxx.oo.com/123.html',
       ];
       done = pedding(urls.length, done);
