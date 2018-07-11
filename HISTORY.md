@@ -1,4 +1,10 @@
 
+2.2.3 / 2018-07-11
+==================
+
+**fixes**
+  * [[`b5e1741`](http://github.com/eggjs/egg-security/commit/b5e17410045cb36b68d2e4f897c60ea6841c0f42)] - fix: disable nosniff on redirect status (#38) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.2.2 / 2018-04-12
 ==================
 
