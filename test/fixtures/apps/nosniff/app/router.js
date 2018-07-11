@@ -9,4 +9,18 @@ module.exports = function(app) {
     this.securityOptions.nosniff = { enable: false };
     this.body = '123';
   });
+
+  app.get('/redirect', function *(){
+    this.redirect('/');
+  });
+
+  app.get('/redirect301', function *(){
+    this.status = 301;
+    this.redirect('/');
+  });
+
+  app.get('/redirect307', function *(){
+    this.status = 307;
+    this.redirect('/');
+  });
 };
