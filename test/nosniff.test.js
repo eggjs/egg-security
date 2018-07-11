@@ -33,5 +33,28 @@ describe('test/nosniff.test.js', function() {
         .expect(200, done);
     });
 
+    it('should disable nosniff on redirect 302', function() {
+      return this.app.httpRequest()
+        .get('/redirect')
+        .expect(res => assert(!res.headers['x-content-type-options']))
+        .expect('location', '/')
+        .expect(302);
+    });
+
+    it('should disable nosniff on redirect 301', function() {
+      return this.app.httpRequest()
+        .get('/redirect301')
+        .expect(res => assert(!res.headers['x-content-type-options']))
+        .expect('location', '/')
+        .expect(301);
+    });
+
+    it('should disable nosniff on redirect 307', function() {
+      return this.app.httpRequest()
+        .get('/redirect307')
+        .expect(res => assert(!res.headers['x-content-type-options']))
+        .expect('location', '/')
+        .expect(307);
+    });
   });
 });
