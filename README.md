@@ -516,7 +516,7 @@ exports.security = {
 
 ## Other
 
-* Forbidden `trace` `track` `options` http method.
+* Forbid `trace` `track` http methods.
 
 ## License
 
