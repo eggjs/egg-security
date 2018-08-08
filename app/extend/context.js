@@ -37,7 +37,7 @@ module.exports = {
     return isSafeDomainUtil(domain, domainWhiteList);
   },
 
-  // 添加nonce，随机字符串就好
+  // Add nonce, random characters will be OK.
   // https://w3c.github.io/webappsec/specs/content-security-policy/#nonce_source
 
   get nonce() {
@@ -142,7 +142,7 @@ module.exports = {
     const token = this[INPUT_TOKEN];
 
     // AJAX requests get csrf token from cookie, in this situation token will equal to secret
-    //  synchronize form requests' token always changing to protect against BREACH attacks
+    // synchronize form requests' token always changing to protect against BREACH attacks
     if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
       debug('verify secret and token error');
       this[LOG_CSRF_NOTICE]('invalid csrf token');
