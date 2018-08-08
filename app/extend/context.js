@@ -2,7 +2,7 @@
 
 const safeCurl = require('../../lib/extend/safe_curl');
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
-const nanoid = require('nanoid');
+const nanoid = require('nanoid/non-secure');
 const Tokens = require('csrf');
 const debug = require('debug')('egg-security:context');
 const utils = require('../../lib/utils');

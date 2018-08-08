@@ -24,7 +24,7 @@
     "ip": "^1.1.5",
     "koa-compose": "^4.0.0",
     "methods": "^1.1.2",
-    "nanoid": "^1.1.0",
+    "nanoid": "^1.1.1",
     "platform": "^1.3.4",
     "statuses": "^1.5.0",
     "type-is": "^1.6.15",
