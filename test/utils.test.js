@@ -17,7 +17,7 @@ describe('test/utils.test.js', function() {
     });
 
     afterEach(mm.restore);
-    const domainWhiteList = [ '.domain.com' ];
+    const domainWhiteList = [ '.domain.com', '*.alibaba.com', 'http://www.baidu.com', '192.*.0.*' ];
     it('should return false when domain is not save', function() {
       this.app.httpRequest()
         .get('/')
@@ -45,6 +45,13 @@ describe('test/utils.test.js', function() {
       utils.isSafeDomain('.foo.domain.com', domainWhiteList).should.equal(true);
       utils.isSafeDomain('.....domain.com', domainWhiteList).should.equal(true);
       utils.isSafeDomain('okokok----.domain.com', domainWhiteList).should.equal(true);
+
+      // Wild Cast check
+      utils.isSafeDomain('www.alibaba.com', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('www.tianmao.alibaba.com', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('www.tianmao.AlIBAba.COm', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('http://www.baidu.com', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('192.168.0.255', domainWhiteList).should.equal(true);
     });
 
     it('should return false', function() {
@@ -52,6 +59,12 @@ describe('test/utils.test.js', function() {
       utils.isSafeDomain(' domain.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain('pwd---.-domain.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain('ok. domain.com', domainWhiteList).should.equal(false);
+
+      // Wild Cast check
+      utils.isSafeDomain('www.alibaba.com.cn', domainWhiteList).should.equal(false);
+      utils.isSafeDomain('www.tianmao.alibab.com', domainWhiteList).should.equal(false);
+      utils.isSafeDomain('http://www.baidu.com/zh-CN', domainWhiteList).should.equal(false);
+      utils.isSafeDomain('192.168.1.255', domainWhiteList).should.equal(false);
     });
   });
 
