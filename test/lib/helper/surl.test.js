@@ -38,15 +38,19 @@ describe('test/lib/helper/surl.test.js', () => {
     ctx.helper.surl('https://foo.com/').should.equal('https://foo.com/');
     ctx.helper.surl('https://foo.com/>').should.equal('https://foo.com/&gt;');
     ctx.helper.surl('file://foo.com/').should.equal('file://foo.com/');
-    ctx.helper.surl(ctx.helper.surl('file://foo.com/')).should.equal('file://foo.com/');
+    ctx.helper.surl('file://fo<o.com/').should.equal('file://fo&lt;o.com/');
     ctx.helper.surl('data://foo.com/').should.equal('data://foo.com/');
     ctx.helper.surl('//foo.com/').should.equal('//foo.com/');
     ctx.helper.surl('/////foo.com/').should.equal('/////foo.com/');
+    ctx.helper.surl('/////"foo.com/').should.equal('/////&quot;foo.com/');
     ctx.helper.surl('/XXX/xxx.htm').should.equal('/XXX/xxx.htm');
+    ctx.helper.surl('/XXX/\'xxx.htm').should.equal('/XXX/&#x27;xxx.htm');
   });
 
-  it('should convert to empty string when protocol invaild', () => {
+  it('should convert to empty string when protocol invalid', () => {
     const ctx = app.mockContext();
+    ctx.helper.surl(123).should.equal(123);
+    ctx.helper.surl(true).should.equal(true);
     ctx.helper.surl('datad://foo.com').should.equal('');
     ctx.helper.surl('javascript1://foo.com').should.equal('');
     /* eslint-disable no-script-url */

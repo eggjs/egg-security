@@ -241,7 +241,7 @@ exports.security = {
 };
 ```
 
-If user do not configure `domainWhiteList` or `domainWhiteList` is empty, it will pass all redirects, equal to `ctx.unsafeRedirect(url)`
+If user do not configure `domainWhiteList` or `domainWhiteList` is empty, it will pass all redirects, equal to `ctx.unsafeRedirect(url)`. `domainWhiteList` and `url` are case insensitive.
 
 ### jsonp
 

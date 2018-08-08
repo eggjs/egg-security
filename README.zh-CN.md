@@ -147,7 +147,7 @@ exports.security = {
 };
 ```
 
-若用户没有配置 `domainWhiteList` 或者 `domainWhiteList`数组内为空，则默认会对所有跳转请求放行，即等同于`ctx.unsafeRedirect(url)`
+若用户没有配置 `domainWhiteList` 或者 `domainWhiteList` 数组内为空，则默认会对所有跳转请求放行，即等同于`ctx.unsafeRedirect(url)`。同时域名和 url 检查时不区分大小写。
 
 ### jsonp
 
