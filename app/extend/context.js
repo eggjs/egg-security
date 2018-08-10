@@ -2,7 +2,7 @@
 
 const safeCurl = require('../../lib/extend/safe_curl');
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
-const rndm = require('rndm');
+const nanoid = require('nanoid/non-secure');
 const Tokens = require('csrf');
 const debug = require('debug')('egg-security:context');
 const utils = require('../../lib/utils');
@@ -42,7 +42,7 @@ module.exports = {
 
   get nonce() {
     if (!this._nonceCache) {
-      this._nonceCache = rndm(16);
+      this._nonceCache = nanoid(16);
     }
     return this._nonceCache;
   },
