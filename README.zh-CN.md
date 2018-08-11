@@ -360,7 +360,7 @@ json转义
 
 ### X-Content-Type-Options:nosniff
 
-禁用 IE8 自动嗅探 mime 功能。例如：`text/plain` 却当成 `text/html` 渲染，特别当本站点 serve 的内容未必可信的时候。
+禁用 IE8 自动嗅探 mime 功能。例如：`text/plain` 却当成 `text/html` 渲染，特别当本站点服务内容未必可信的时候。
 
 ### X-Frame-Options
 
