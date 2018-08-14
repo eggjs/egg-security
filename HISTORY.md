@@ -1,4 +1,15 @@
 
+2.3.0 / 2018-08-14
+==================
+
+**fixes**
+  * [[`835eff5`](http://github.com/eggjs/egg-security/commit/835eff54fb2fe159ce86cc810f714259ba988bca)] - Fix: Make `domain` and `whiteList`, `protocalWhiteList` case insensitive (Maledong <<maledong_github@outlook.com>>)
+  * [[`81f757a`](http://github.com/eggjs/egg-security/commit/81f757a291f1a8084c6b5e106de11f16a6ef1e0a)] - fix: use faster non-secure ID generator (#43) (Andrey Sitnik <<andrey@sitnik.ru>>)
+
+**others**
+  * [[`72e7ceb`](http://github.com/eggjs/egg-security/commit/72e7ceb04e2d4ff2d65ebb8926aa938093da289c)] - utils (isSafeDomain): Use `matcher` to check for a wild character of a (#42) (Maledong <<maledong_github@outlook.com>>)
+  * [[`a7035cf`](http://github.com/eggjs/egg-security/commit/a7035cfa7bea9e53be4227964836a1de79f7b75c)] - doc: Translate from Chinese into English for several files for their comments (#41) (Maledong <<maledong_github@outlook.com>>)
+
 2.2.3 / 2018-07-11
 ==================
 
