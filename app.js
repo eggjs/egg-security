@@ -13,5 +13,5 @@ module.exports = app => {
   // patch response.redirect
   safeRedirect(app);
 
-  utils.processSSRFConfig(app.config.security.ssrf);
+  utils.preprocessConfig(app.config.security);
 };
