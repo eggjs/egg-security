@@ -18,7 +18,7 @@ describe('test/utils.test.js', function() {
 
     afterEach(mm.restore);
     const domainWhiteList = [ '.domain.com', '*.alibaba.com', 'http://www.baidu.com', '192.*.0.*' ];
-    it('should return false when domain is not save', function() {
+    it('should return false when domains are not safe', function() {
       this.app.httpRequest()
         .get('/')
         .set('accept', 'text/html')
@@ -28,7 +28,7 @@ describe('test/utils.test.js', function() {
         });
     });
 
-    it('should return true when domain is save', function() {
+    it('should return true when domains are safe', function() {
       this.app.httpRequest()
         .get('/safe')
         .set('accept', 'text/html')

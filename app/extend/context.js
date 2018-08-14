@@ -32,8 +32,14 @@ module.exports = {
     return this._securityOptions;
   },
 
+  /**
+   * Check whether the specific `domain` is in / matches the whiteList or not.
+   * @param {string} domain The assigned domain.
+   * @return {boolean} If the domain is in / matches the whiteList, return true;
+   * otherwise false.
+   */
   isSafeDomain(domain) {
-    const domainWhiteList = this.app.config.security.domainWhiteList || [];
+    const domainWhiteList = this.app.config.security.domainWhiteList;
     return isSafeDomainUtil(domain, domainWhiteList);
   },
 

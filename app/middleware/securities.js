@@ -10,6 +10,21 @@ module.exports = (_, app) => {
   const middlewares = [];
   const defaultMiddleware = (options.defaultMiddleware || '').split(',');
 
+  // Make sure that `whiteList` or `protocolWhiteList` is case insensitive
+  options.domainWhiteList = options.domainWhiteList || [];
+  options.domainWhiteList = options.domainWhiteList.map(domain => domain.toLowerCase());
+
+  options.protocolWhiteList = options.protocolWhiteList || [];
+  options.protocolWhiteList = options.protocolWhiteList.map(protocol => protocol.toLowerCase());
+
+  // Directly converted to Set collection by a private property (not documented),
+  // And we NO LONGER need to do conversion in `foreach` again and again in `surl.js`.
+  options._protocolWhiteListSet = new Set(options.protocolWhiteList);
+  options._protocolWhiteListSet.add('http');
+  options._protocolWhiteListSet.add('https');
+  options._protocolWhiteListSet.add('file');
+  options._protocolWhiteListSet.add('data');
+
   if (options.match || options.ignore) {
     app.coreLogger.warn('[egg-security] Please set `match` or `ignore` on sub config');
   }
