@@ -14,6 +14,8 @@ const _CSRF_SECRET = Symbol('egg-security#_CSRF_SECRET');
 const NEW_CSRF_SECRET = Symbol('egg-security#NEW_CSRF_SECRET');
 const LOG_CSRF_NOTICE = Symbol('egg-security#LOG_CSRF_NOTICE');
 const INPUT_TOKEN = Symbol('egg-security#INPUT_TOKEN');
+const NONCE_CACHE = Symbol('egg-security#NONCE_CACHE');
+const SECURITY_OPTIONS = Symbol('egg-security#SECURITY_OPTIONS');
 
 function findToken(obj, keys) {
   if (!obj) return;
@@ -26,10 +28,10 @@ function findToken(obj, keys) {
 
 module.exports = {
   get securityOptions() {
-    if (!this._securityOptions) {
-      this._securityOptions = {};
+    if (!this[SECURITY_OPTIONS]) {
+      this[SECURITY_OPTIONS] = {};
     }
-    return this._securityOptions;
+    return this[SECURITY_OPTIONS];
   },
 
   /**
@@ -47,10 +49,10 @@ module.exports = {
   // https://w3c.github.io/webappsec/specs/content-security-policy/#nonce_source
 
   get nonce() {
-    if (!this._nonceCache) {
-      this._nonceCache = nanoid(16);
+    if (!this[NONCE_CACHE]) {
+      this[NONCE_CACHE] = nanoid(16);
     }
-    return this._nonceCache;
+    return this[NONCE_CACHE];
   },
 
   /**

@@ -255,11 +255,15 @@ shtml 在 [xss](https://github.com/leizongmin/js-xss/) 模块基础上增加了�
 - [默认规则](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
 - 自定义过滤项 http://jsxss.com/zh/options.html
 
-例如只支持 a 标签，且除了 title 其他属性都过滤掉： `whiteList: {a: ['title']}`
+例如只支持 a 标签，且除了 title 其他属性都过滤掉：
+
+```javascript
+whiteList: {a: ['title']}
+```
 
 options:
 
-- `config.helper.shtml.domainWhiteList: []` 可拓展 href 和 src 中可出现的域名白名单。
+> `config.helper.shtml.domainWhiteList` 已过时，请使用 `config.security.domainWhiteList` 代替。
 
 注意，shtml 使用了严格的白名单机制，除了过滤掉 xss 风险的字符串外，
 在 [默认规则](https://github.com/leizongmin/js-xss/blob/master/lib/default.js) 外的 tag 和 attr 都会被过滤掉。

@@ -362,13 +362,15 @@ shtml based on [xss](https://github.com/leizongmin/js-xss/), and add filter by d
 - [default rule](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
 - custom rule http://jsxss.com/zh/options.html
 
-For example, only support `a` tag, and filter all attributes except for `title`:
+For example, only support `a` tag, and filter all attributes except for `title`: 
 
-`whiteList: {a: ['title']}`
+```javascript
+whiteList: {a: ['title']}
+```
 
 options:
 
-> `config.helper.shtml.domainWhiteList: []` has been deprecated, please use config.security.domainWhiteList
+> `config.helper.shtml.domainWhiteList` has been deprecated, please use `config.security.domainWhiteList` instead.
 
 Mention that `shtml` uses a strict white list mechanism, in addition to filtering out the XSS risk of the string,`tags` and `attrs` which are not in the [default rule](https://github.com/leizongmin/js-xss/blob/master/lib/default.js) will be filtered.
 
