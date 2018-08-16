@@ -1,4 +1,13 @@
 
+2.3.1 / 2018-08-16
+==================
+
+**fixes**
+  * [[`8997866`](http://github.com/eggjs/egg-security/commit/8997866d5ff9d3aa445752be1d3b93ed94dc113b)] - fix: preprocess config in app.js (#46) (Yiyu He <<dead_horse@qq.com>>)
+
+**others**
+  * [[`9baf72e`](http://github.com/eggjs/egg-security/commit/9baf72ece4431b55eb85dd0daf4b8ace6ddb314e)] - chore (shtml,cliFilter,sjs,README): Modifications of files (#47) (Maledong <<maledong_github@outlook.com>>)
+
 2.3.0 / 2018-08-14
 ==================
 
