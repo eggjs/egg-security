@@ -473,7 +473,7 @@ Default enabled, disable IE download dialog automatically open download file and
 
 ### X-Content-Type-Options:nosniff
 
-禁用IE8自动嗅探mime功能例如 text/plain 却当成 text/html 渲染，特别当本站点 serve 的内容未必可信的时候。
+Disable IE8's auto MIME sniffing. E.g: take `text/plain` as `text/html` by mistake and render it, especially when there's something untrusted in the local service.
 
 ### X-Frame-Options
 
