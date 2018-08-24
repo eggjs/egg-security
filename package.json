@@ -53,10 +53,10 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "test": "npm run lint && npm run test-local",
+    "lint": "eslint .",
+    "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "lint": "eslint --ext js . --fix",
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
   },
