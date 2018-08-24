@@ -21,7 +21,7 @@ describe('test/method_not_allow.test.js', () => {
     let count = 0,
       exCount = 0,
       keepgoing = true;
-    const exclude = [ 'trace', 'track', 'options' ];
+    const exclude = [ 'trace', 'track' ];
 
     const ms = methods.filter(m => {
       return app[m];
@@ -60,10 +60,10 @@ describe('test/method_not_allow.test.js', () => {
       .expect(405);
   });
 
-  it('should not allow option method', () => {
+  it('should allow options method', () => {
     return app.httpRequest()
       .options('/')
       .set('accept', 'text/html')
-      .expect(405);
+      .expect(200);
   });
 });
