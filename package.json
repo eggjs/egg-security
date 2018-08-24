@@ -53,7 +53,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "lint": "eslint app config lib test *.js",
+    "lint": "eslint .",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
