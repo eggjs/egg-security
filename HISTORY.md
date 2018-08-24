@@ -1,4 +1,12 @@
 
+2.4.0 / 2018-08-24
+==================
+
+**others**
+  * [[`57bc4d9`](http://github.com/eggjs/egg-security/commit/57bc4d9bb1334e699f87306820a0e6bb42d6aed8)] - bug (methodnoallow): Fix for '`OPTIONS` not allowed' (#40) (Maledong <<maledong_github@outlook.com>>)
+  * [[`8ead61e`](http://github.com/eggjs/egg-security/commit/8ead61eb38370b6dade6785bc945fbb32caedd63)] - chore: improve npm scripts (#48) (Maledong <<maledong_github@outlook.com>>)
+  * [[`817d114`](http://github.com/eggjs/egg-security/commit/817d11462e43aee9986f3cd4b13acf9a1e70f7b9)] - doc (README.zh-CN.md, README.md): Fix typos and add missing trans (#45) (Maledong <<maledong_github@outlook.com>>)
+
 2.3.1 / 2018-08-16
 ==================
 
