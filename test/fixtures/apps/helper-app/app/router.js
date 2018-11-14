@@ -27,6 +27,10 @@ module.exports = function(app) {
     this.body = this.helper.shtml('<h1>Hello</h1><img onload="alert(1);" src="http://domain.com/1.png" title="this is image">') == '<h1>Hello</h1><img src="http://domain.com/1.png" title="this is image">';
   });
 
+  app.get('/shtml-escape-hostname-null', function*() {
+    this.body = this.helper.shtml('<a href="javascript:;">test</a>') == '<a href>test</a>';
+  });
+
   app.get('/shtml-ignore-domains-not-in-default-domainList', function*() {
     this.body = this.helper.shtml('<img src="http://shaoshuai.me" alt="alt"><a href="http://shaoshuai.me">xx</a>') == '<img alt="alt"><a>xx</a>';
   });
