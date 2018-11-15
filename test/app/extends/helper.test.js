@@ -75,6 +75,13 @@ describe('test/app/extends/helper.test.js', function() {
         .expect('true', done);
     });
 
+    it('should escape hostname null', function(done) {
+      this.app.httpRequest()
+        .get('/shtml-escape-hostname-null')
+        .expect(200)
+        .expect('true', done);
+    });
+
     it('should support configuration', function(done) {
       this.app2.httpRequest()
         .get('/shtml-configuration')
