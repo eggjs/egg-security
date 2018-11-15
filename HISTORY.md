@@ -1,4 +1,9 @@
 
+2.4.1 / 2018-11-15
+==================
+
+  * fix: shtml check domainWhiteList hostname get null (#49)
+
 2.4.0 / 2018-08-24
 ==================
 
