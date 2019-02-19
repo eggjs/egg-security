@@ -1,9 +1,7 @@
 'use strict';
 
 const mm = require('egg-mock');
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
+const sleep = require('mz-modules/sleep');
 
 describe('test/dta.test.js', () => {
   let app;
@@ -73,12 +71,13 @@ describe('test/dta.test.js', () => {
       .expect(400);
   });
 
-  it('should log err under dev', function* () {
-    yield app.httpRequest()
+  it('should log err under dev', async () => {
+    app.mockLog();
+    await app.httpRequest()
       .get('/%2c%2f%')
       .expect(404);
-    const log = fs.readFileSync(path.join(__dirname, 'fixtures/apps/dta/logs/dta/egg-web.log'), 'utf8');
-    assert(log.indexOf('decode file path') > -1);
+    if (process.platform === 'win32') await sleep(2000);
+    app.expectLog('decode file path', 'coreLogger');
   });
 
 });
