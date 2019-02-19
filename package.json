@@ -35,7 +35,7 @@
     "autod": "^2.10.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.4",
-    "egg": "next",
+    "egg": "^2.16.0",
     "egg-bin": "^4.3.5",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.1",
@@ -61,7 +61,7 @@
     "autod": "autod"
   },
   "ci": {
-    "version": "8, 10"
+    "version": "8, 10, 11"
   },
   "repository": {
     "type": "git",
