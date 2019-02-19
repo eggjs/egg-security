@@ -42,6 +42,7 @@
     "egg-view-nunjucks": "^2.1.4",
     "eslint": "^4.10.0",
     "eslint-config-egg": "^5.1.1",
+    "mz-modules": "^2.1.0",
     "pedding": "^1.1.0",
     "rimraf": "^2.6.2",
     "should": "^13.1.3",

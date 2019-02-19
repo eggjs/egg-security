@@ -1,6 +1,7 @@
 'use strict';
 
 const mm = require('egg-mock');
+const sleep = require('mz-modules/sleep');
 
 describe('test/dta.test.js', () => {
   let app;
@@ -75,6 +76,7 @@ describe('test/dta.test.js', () => {
     await app.httpRequest()
       .get('/%2c%2f%')
       .expect(404);
+    if (process.platform === 'win32') await sleep(2000);
     app.expectLog('decode file path', 'coreLogger');
   });
 
