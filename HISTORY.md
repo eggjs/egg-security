@@ -1,4 +1,10 @@
 
+2.4.3 / 2019-02-19
+==================
+
+**fixes**
+  * [[`b80202f`](http://github.com/eggjs/egg-security/commit/b80202ffde474e3ade09f6dc4b29a9bb925e4241)] - fix: make sure domain is string before use it (#52) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.4.2 / 2019-01-04
 ==================
 
