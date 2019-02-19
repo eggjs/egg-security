@@ -55,6 +55,13 @@ describe('test/utils.test.js', function() {
     });
 
     it('should return false', function() {
+      utils.isSafeDomain('', domainWhiteList).should.equal(false);
+      utils.isSafeDomain(undefined, domainWhiteList).should.equal(false);
+      utils.isSafeDomain(null, domainWhiteList).should.equal(false);
+      utils.isSafeDomain(0, domainWhiteList).should.equal(false);
+      utils.isSafeDomain(1, domainWhiteList).should.equal(false);
+      utils.isSafeDomain({}, domainWhiteList).should.equal(false);
+      utils.isSafeDomain(function() {}, domainWhiteList).should.equal(false);
       utils.isSafeDomain('aaa-domain.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain(' domain.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain('pwd---.-domain.com', domainWhiteList).should.equal(false);
