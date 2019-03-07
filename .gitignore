@@ -6,3 +6,4 @@ _book
 npm-debug.log
 run/
 .vscode
+package-lock.json
