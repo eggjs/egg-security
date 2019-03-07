@@ -37,5 +37,24 @@ describe('test/referrer.test.js', function() {
         .expect(200, done);
     });
 
+    it('should throw error when Referrer-Policy settings is invalid when configured', function(done) {
+      const policy = 'oorigin';
+      this.app2.httpRequest()
+        .get(`/referrer?policy=${policy}`)
+        .set('accept', 'text/html')
+        .expect(new RegExp(`"${policy}" is not available.`))
+        .expect(500, done);
+    });
+
+    // check for fix https://github.com/eggjs/egg-security/pull/50
+    it('should throw error when Referrer-Policy is set to index of item in ALLOWED_POLICIES_ENUM', function(done) {
+      const policy = 0;
+      this.app2.httpRequest()
+        .get(`/referrer?policy=${policy}`)
+        .set('accept', 'text/html')
+        .expect(new RegExp(`"${policy}" is not available.`))
+        .expect(500, done);
+    });
+
   });
 });

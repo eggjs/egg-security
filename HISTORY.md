@@ -1,4 +1,16 @@
 
+2.4.3 / 2019-02-19
+==================
+
+**fixes**
+  * [[`b80202f`](http://github.com/eggjs/egg-security/commit/b80202ffde474e3ade09f6dc4b29a9bb925e4241)] - fix: make sure domain is string before use it (#52) (fengmk2 <<fengmk2@gmail.com>>)
+
+2.4.2 / 2019-01-04
+==================
+
+**fixes**
+  * [[`ad21465`](http://github.com/eggjs/egg-security/commit/ad21465b3a40f6c9e38fa58ba85b8e86eda47ca3)] - fix: fix referrer-policy enum check (#50) (Century Guo <<648772021@qq.com>>)
+
 2.4.1 / 2018-11-15
 ==================
 
