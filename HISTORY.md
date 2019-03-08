@@ -1,4 +1,11 @@
 
+2.5.0 / 2019-03-08
+==================
+
+**others**
+  * [[`4fcadc4`](http://github.com/eggjs/egg-security/commit/4fcadc4d34f915333bd02264f49ccb28400bfb1f)] - deps: update packs and ignore lock file (#54) (Maledong <<maledong_github@outlook.com>>)
+  * [[`5772242`](http://github.com/eggjs/egg-security/commit/577224217e079fd6fe38b7a86401d99ddf03a22c)] - test: use expectLog to assert log (#53) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.4.3 / 2019-02-19
 ==================
 
