@@ -362,7 +362,7 @@ shtml based on [xss](https://github.com/leizongmin/js-xss/), and add filter by d
 - [default rule](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
 - custom rule http://jsxss.com/zh/options.html
 
-For example, only support `a` tag, and filter all attributes except for `title`: 
+For example, only support `a` tag, and filter all attributes except for `title`:
 
 ```javascript
 whiteList: {a: ['title']}
@@ -517,6 +517,18 @@ exports.security = {
 ## Other
 
 * Forbid `trace` `track` http methods.
+
+<!-- GITCONTRIBUTOR_START -->
+
+## Contributors
+
+|[<img src="https://avatars3.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars0.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars0.githubusercontent.com/u/40081831?v=4" width="100px;"/><br/><sub><b>Maledong</b></sub>](https://github.com/Maledong)<br/>|[<img src="https://avatars0.githubusercontent.com/u/893152?v=4" width="100px;"/><br/><sub><b>jtyjty99999</b></sub>](https://github.com/jtyjty99999)<br/>|[<img src="https://avatars1.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars0.githubusercontent.com/u/456108?v=4" width="100px;"/><br/><sub><b>shaoshuai0102</b></sub>](https://github.com/shaoshuai0102)<br/>|
+| :---: | :---: | :---: | :---: | :---: | :---: |
+[<img src="https://avatars1.githubusercontent.com/u/19343?v=4" width="100px;"/><br/><sub><b>ai</b></sub>](https://github.com/ai)<br/>|[<img src="https://avatars3.githubusercontent.com/u/7298095?v=4" width="100px;"/><br/><sub><b>guoshencheng</b></sub>](https://github.com/guoshencheng)<br/>|[<img src="https://avatars2.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars0.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
+
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Fri Mar 08 2019 10:02:52 GMT+0800`.
+
+<!-- GITCONTRIBUTOR_END -->
 
 ## License
 
