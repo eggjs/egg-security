@@ -513,7 +513,7 @@ describe('test/csrf.test.js', () => {
       yield app.ready();
       throw new Error('should throw error');
     } catch (e) {
-      assert(e.message.includes('`config.security.csrf.refererWhiteList` must has at least one host while `config.security.csrf.type` is `referer`'));
+      assert(e.message.includes('`config.security.csrf.refererWhiteList` must has at least one domain while `config.security.csrf.type` is `referer`'));
     }
   });
 

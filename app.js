@@ -18,7 +18,7 @@ module.exports = app => {
 
     // throw error if type is 'referer' but refererWhiteList is empty
     assert(!shouldCheckReferer || (shouldCheckReferer && refererWhiteList.length),
-      '[egg-security] `config.security.csrf.refererWhiteList` must has at least one host while `config.security.csrf.type` is `referer`.');
+      '[egg-security] `config.security.csrf.refererWhiteList` must has at least one domain while `config.security.csrf.type` is `referer`.');
   }
 
   // patch response.redirect
