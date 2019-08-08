@@ -503,20 +503,6 @@ describe('test/csrf.test.js', () => {
     this.app.expectLog('invalid csrf referer. See http');
   });
 
-  it('should throw with empty refererWhiteList when type is referer', function* () {
-    const app = mm.app({
-      baseDir: 'apps/csrf-empty-referer',
-      plugin: 'security',
-    });
-
-    try {
-      yield app.ready();
-      throw new Error('should throw error');
-    } catch (e) {
-      assert(e.message.includes('`config.security.csrf.refererWhiteList` must has at least one domain while `config.security.csrf.type` is `referer`'));
-    }
-  });
-
   it('should throw with error type', function* () {
     const app = mm.app({
       baseDir: 'apps/csrf-error-type',
