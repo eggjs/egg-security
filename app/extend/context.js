@@ -174,8 +174,8 @@ module.exports = {
       }
 
       const refererParsed = url.parse(referer);
-      const domainList = refererWhiteList.concat(this.hostname);
-      if (!utils.isSafeDomain(refererParsed.hostname, domainList)) {
+      const domainList = refererWhiteList.concat(this.host);
+      if (!utils.isSafeDomain(refererParsed.host, domainList)) {
         debug('verify referer error');
         this[LOG_CSRF_NOTICE]('invalid csrf referer');
         this.throw(403, 'invalid csrf referer');
