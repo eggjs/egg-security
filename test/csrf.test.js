@@ -477,7 +477,8 @@ describe('test/csrf.test.js', () => {
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
-      .expect(403);
+      .expect(403)
+      .expect(/invalid csrf referer/);
   });
 
   it('should check both ctoken and referer when type is all', function* () {
