@@ -64,7 +64,7 @@
     "contributor": "git-contributor"
   },
   "ci": {
-    "version": "8, 10, 11"
+    "version": "8, 10, 12"
   },
   "repository": {
     "type": "git",
