@@ -457,6 +457,29 @@ describe('test/csrf.test.js', () => {
       .expect(200);
   });
 
+  it('should return 200 with same domain request', function* () {
+    mm(this.app.config, 'env', 'local');
+    mm(this.app.config.security.csrf, 'type', 'referer');
+    this.app.mockLog();
+    const httpRequestObj = this.app.httpRequest().post('/update');
+    const port = httpRequestObj.app.address().port;
+    yield httpRequestObj
+      .set('accept', 'text/html')
+      .set('referer', `http://127.0.0.1:${port}/`)
+      .expect(200);
+  });
+
+  it('should return 403 with different domain request', function* () {
+    mm(this.app.config, 'env', 'local');
+    mm(this.app.config.security.csrf, 'type', 'referer');
+    this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('referer', 'https://nodejs.org/en/')
+      .expect(403);
+  });
+
   it('should check both ctoken and referer when type is all', function* () {
     mm(this.app.config.security.csrf, 'type', 'all');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
