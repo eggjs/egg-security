@@ -1,4 +1,10 @@
 
+1.14.0 / 2019-08-09
+==================
+
+**others**
+  * [[`244b176`](http://github.com/eggjs/egg-security/commit/244b17681e9e7109868007f42481dec827bc988d)] - backport: csrf support referer (#57) (吖猩 <<whxaxes@gmail.com>>)
+
 1.13.2 / 2018-07-11
 ==================
 
