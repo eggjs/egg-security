@@ -1,4 +1,13 @@
 
+2.6.0 / 2019-08-09
+==================
+
+**features**
+  * [[`a1b8e00`](http://github.com/eggjs/egg-security/commit/a1b8e006feef717d8cc9767d001a48efa56fca79)] - feat: csrf support referer type (#56) (吖猩 <<whxaxes@gmail.com>>)
+
+**others**
+  * [[`1890644`](http://github.com/eggjs/egg-security/commit/189064406befc7e284f67eb22d95aa1d13079ee9)] - chore: show contributors on README (#55) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.5.0 / 2019-03-08
 ==================
 
