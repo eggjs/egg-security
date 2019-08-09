@@ -11,7 +11,5 @@ exports.security = {
     enable: false
   },
 
-  csrf: {
-    enable: false,
-  },
+  csrf: false,
 };
