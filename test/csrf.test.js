@@ -540,4 +540,16 @@ describe('test/csrf.test.js', () => {
       assert(e.message.includes('`config.security.csrf.type` must be one of all, referer, ctoken'));
     }
   });
+
+  it('should works without error with csrf.enable = false', function* () {
+    const app = mm.app({
+      baseDir: 'apps/csrf-enable-false',
+      plugin: 'security',
+    });
+    yield app.ready();
+    yield app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .expect(200);
+  });
 });

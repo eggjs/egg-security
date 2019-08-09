@@ -7,7 +7,7 @@ const assert = require('assert');
 module.exports = app => {
   app.config.coreMiddleware.push('securities');
 
-  if (app.config.security.csrf) {
+  if (app.config.security.csrf && app.config.security.csrf.enable) {
     const { ignoreJSON, type } = app.config.security.csrf;
     if (ignoreJSON) {
       app.deprecate('[egg-security] `app.config.security.csrf.ignoreJSON` is not safe now, please disable it.');
