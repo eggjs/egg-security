@@ -6,6 +6,7 @@ const rndm = require('rndm');
 const Tokens = require('csrf');
 const debug = require('debug')('egg-security:context');
 const utils = require('../../lib/utils');
+const url = require('url');
 
 const tokens = new Tokens();
 
@@ -125,7 +126,7 @@ module.exports = {
   },
 
   /**
-   * assert csrf token is present
+   * assert csrf token/referer is present
    * @public
    */
   assertCsrf() {
@@ -134,19 +135,43 @@ module.exports = {
       return;
     }
 
-    if (!this[CSRF_SECRET]) {
-      debug('missing csrf token');
-      this[LOG_CSRF_NOTICE]('missing csrf token');
-      this.throw(403, 'missing csrf token');
-    }
-    const token = this[INPUT_TOKEN];
+    const { type, refererWhiteList } = this.app.config.security.csrf;
+    const { shouldCheckReferer, shouldCheckCtoken } = utils.checkCsrfType(type);
 
-    // AJAX requests get csrf token from cookie, in this situation token will equal to secret
-    //  synchronize form requests' token always changing to protect against BREACH attacks
-    if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
-      debug('verify secret and token error');
-      this[LOG_CSRF_NOTICE]('invalid csrf token');
-      this.throw(403, 'invalid csrf token');
+    // check ctoken
+    if (shouldCheckCtoken) {
+      if (!this[CSRF_SECRET]) {
+        debug('missing csrf token');
+        this[LOG_CSRF_NOTICE]('missing csrf token');
+        this.throw(403, 'missing csrf token');
+      }
+      const token = this[INPUT_TOKEN];
+
+      // AJAX requests get csrf token from cookie, in this situation token will equal to secret
+      // synchronize form requests' token always changing to protect against BREACH attacks
+      if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
+        debug('verify secret and token error');
+        this[LOG_CSRF_NOTICE]('invalid csrf token');
+        this.throw(403, 'invalid csrf token');
+      }
+    }
+
+    // check referer
+    if (shouldCheckReferer) {
+      const referer = (this.headers.referer || '').toLowerCase();
+      if (!referer) {
+        debug('missing csrf referer');
+        this[LOG_CSRF_NOTICE]('missing csrf referer');
+        this.throw(403, 'missing csrf referer');
+      }
+
+      const refererParsed = url.parse(referer);
+      const domainList = refererWhiteList.concat(this.host);
+      if (!utils.isSafeDomain(refererParsed.host, domainList)) {
+        debug('verify referer error');
+        this[LOG_CSRF_NOTICE]('invalid csrf referer');
+        this.throw(403, 'invalid csrf referer');
+      }
     }
   },
 

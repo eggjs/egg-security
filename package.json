@@ -60,7 +60,7 @@
     "autod": "autod"
   },
   "ci": {
-    "version": "6, 8, 10"
+    "version": "6, 8, 10, 12"
   },
   "publishConfig": {
     "tag": "latest-1"

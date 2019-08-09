@@ -210,6 +210,7 @@ there are some options that you can customize:
 ```js
 exports.security = {
   csrf: {
+    type: 'ctoken',             // can be ctoken or referer or all, default to ctoken
     useSession: false,          // if useSession set to true, the secret will keep in session instead of cookie
     ignoreJSON: false,          // skip check JSON requests if ignoreJSON set to true
     cookieName: 'csrfToken',    // csrf token's cookie name
@@ -217,6 +218,7 @@ exports.security = {
     headerName: 'x-csrf-token', // request csrf token's name in header
     bodyName: '_csrf',          // request csrf token's name in body
     queryName: '_csrf',         // request csrf token's name in query
+    refererWhiteList: [],       // referer white list
   },
 }
 ```
