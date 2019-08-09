@@ -1,4 +1,10 @@
 
+2.6.1 / 2019-08-09
+==================
+
+**fixes**
+  * [[`b72a1eb`](http://github.com/eggjs/egg-security/commit/b72a1eb5b9cfbfc9a8821d3b560f2402f12b709e)] - fix: csrf false check (#58) (吖猩 <<whxaxes@gmail.com>>)
+
 2.6.0 / 2019-08-09
 ==================
 
