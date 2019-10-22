@@ -466,7 +466,7 @@ console.log(cmd);
 
 ### .escapeShellCmd()
 
-Command line escape to remove the following characters from the entered command line: ```#&;`|*?~<>^()[]{}$;'", 0x0A 和 0xFF```
+Command line escape to remove the following characters from the entered command line: ```#&;`|*?~<>^()[]{}$;'", 0x0A and 0xFF```
 
 
 ```js
