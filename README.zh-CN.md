@@ -360,6 +360,32 @@ json转义
 
 如果用户可控变量为命令中的命令，则和开发协商修改功能或功能下线。
 
+### .escapeShellArg()
+
+命令行参数转义。给字符串增加一对单引号并且能引用或者转码任何已经存在的单引号， 这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。
+
+
+```js
+const ip = '127.0.0.1 && cat /etc/passwd'
+const cmd = 'ping -c 1 ' + this.helper.escapeShellArg(ip);
+
+console.log(cmd);
+//ping -c 1 '127.0.0.1 && cat /etc/passwd'
+```
+
+### .escapeShellCmd()
+
+命令行转义，从输入的命令行中删除下列字符: ```#&;`|*?~<>^()[]{}$;'", 0x0A 和 0xFF```
+
+
+```js
+const ip = '127.0.0.1 && cat /etc/passwd'
+const cmd = 'ping -c 1 ' + this.helper.escapeShellCmd(ip);
+
+console.log(cmd);
+//ping -c 1 127.0.0.1  cat /etc/passwd
+```
+
 ## Web 安全头
 
 ### hsts Strict-Transport-Security

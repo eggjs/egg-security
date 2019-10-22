@@ -451,6 +451,32 @@ after fix:
 
 ```
 
+### .escapeShellArg()
+
+Escape command line arguments. Add single quotes around a string and quotes/escapes any existing single quotes allowing you to pass a string directly to a shell function and having it be treated as a single safe argument.
+
+
+```js
+const ip = '127.0.0.1 && cat /etc/passwd'
+const cmd = 'ping -c 1 ' + this.helper.escapeShellArg(ip);
+
+console.log(cmd);
+//ping -c 1 '127.0.0.1 && cat /etc/passwd'
+```
+
+### .escapeShellCmd()
+
+Command line escape to remove the following characters from the entered command line: ```#&;`|*?~<>^()[]{}$;'", 0x0A 和 0xFF```
+
+
+```js
+const ip = '127.0.0.1 && cat /etc/passwd'
+const cmd = 'ping -c 1 ' + this.helper.escapeShellCmd(ip);
+
+console.log(cmd);
+//ping -c 1 127.0.0.1  cat /etc/passwd
+```
+
 ## Security Headers
 
 Refer to [lusca](https://github.com/krakenjs/lusca), appriciate for their works.
