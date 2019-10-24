@@ -445,24 +445,41 @@ describe('test/csrf.test.js', () => {
     }
   });
 
-  it('should return 200 with correct referer when type is referer', function* () {
+  it('should return 200 with correct origin when type is origin', function* () {
     mm(this.app.config, 'env', 'local');
-    mm(this.app.config.security.csrf, 'type', 'referer');
-    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
+    mm(this.app.config.security.csrf, 'type', 'origin');
+    mm(this.app.config.security.csrf, 'originWhiteList', [ 'nodejs.org' ]);
     this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .expect(200);
     yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(200);
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .set('referer', 'https://nodejs.org/en/')
+      .expect(200);
   });
+
 
   it('should return 200 with same domain request', function* () {
     mm(this.app.config, 'env', 'local');
-    mm(this.app.config.security.csrf, 'type', 'referer');
+    mm(this.app.config.security.csrf, 'type', 'origin');
     this.app.mockLog();
     const httpRequestObj = this.app.httpRequest().post('/update');
     const port = httpRequestObj.app.address().port;
+    yield httpRequestObj
+      .set('accept', 'text/html')
+      .set('origin', `http://127.0.0.1:${port}/`)
+      .expect(200);
     yield httpRequestObj
       .set('accept', 'text/html')
       .set('referer', `http://127.0.0.1:${port}/`)
@@ -471,24 +488,32 @@ describe('test/csrf.test.js', () => {
 
   it('should return 403 with different domain request', function* () {
     mm(this.app.config, 'env', 'local');
-    mm(this.app.config.security.csrf, 'type', 'referer');
+    mm(this.app.config.security.csrf, 'type', 'origin');
     this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .expect(403)
+      .expect(/invalid csrf origin/);
+    this.app.expectLog('invalid csrf origin. See http');
     yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(403)
-      .expect(/invalid csrf referer/);
+      .expect(/invalid csrf origin/);
+    this.app.expectLog('invalid csrf origin. See http');
   });
 
   it('should check both ctoken and referer when type is all', function* () {
     mm(this.app.config.security.csrf, 'type', 'all');
-    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
+    mm(this.app.config.security.csrf, 'originWhiteList', [ 'https://eggjs.org/' ]);
     this.app.mockLog();
     yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
-      .set('referer', 'https://eggjs.org/en/')
+      .set('origin', 'https://eggjs.org/en/')
       .expect(403)
       .expect(/missing csrf token/);
     yield this.app.httpRequest()
@@ -497,34 +522,41 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('cookie', 'csrfToken=1')
       .expect(403)
-      .expect(/missing csrf referer/);
+      .expect(/missing csrf origin/);
   });
 
-  it('should return 403 without referer when type is referer', function* () {
+  it('should return 403 without origin when type is origin', function* () {
     mm(this.app.config, 'env', 'local');
-    mm(this.app.config.security.csrf, 'type', 'referer');
-    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
+    mm(this.app.config.security.csrf, 'type', 'origin');
+    mm(this.app.config.security.csrf, 'originWhiteList', [ 'https://eggjs.org/' ]);
     this.app.mockLog();
     yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .expect(403)
-      .expect(/missing csrf referer/);
-    this.app.expectLog('missing csrf referer. See http');
+      .expect(/missing csrf origin/);
+    this.app.expectLog('missing csrf origin. See http');
   });
 
-  it('should return 403 with invalid referer when type is referer', function* () {
+  it('should return 403 with invalid origin when type is origin', function* () {
     mm(this.app.config, 'env', 'local');
-    mm(this.app.config.security.csrf, 'type', 'referer');
-    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
+    mm(this.app.config.security.csrf, 'type', 'origin');
+    mm(this.app.config.security.csrf, 'originWhiteList', [ 'https://eggjs.org/' ]);
     this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .expect(403)
+      .expect(/invalid csrf origin/);
+    this.app.expectLog('invalid csrf origin. See http');
     yield this.app.httpRequest()
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(403)
-      .expect(/invalid csrf referer/);
-    this.app.expectLog('invalid csrf referer. See http');
+      .expect(/invalid csrf origin/);
+    this.app.expectLog('invalid csrf origin. See http');
   });
 
   it('should throw with error type', function* () {
@@ -537,7 +569,7 @@ describe('test/csrf.test.js', () => {
       yield app.ready();
       throw new Error('should throw error');
     } catch (e) {
-      assert(e.message.includes('`config.security.csrf.type` must be one of all, referer, ctoken'));
+      assert(e.message.includes('`config.security.csrf.type` must be one of all, origin, ctoken'));
     }
   });
 

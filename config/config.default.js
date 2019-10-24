@@ -43,8 +43,8 @@ module.exports = () => {
       bodyName: '_csrf',
       queryName: '_csrf',
 
-      // These config works when using referer type
-      refererWhiteList: [
+      // These config works when using origin type
+      originWhiteList: [
         // 'eggjs.org'
       ],
     },
