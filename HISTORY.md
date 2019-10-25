@@ -1,4 +1,13 @@
 
+2.7.0 / 2019-10-25
+==================
+
+**features**
+  * [[`f03aeed`](http://github.com/eggjs/egg-security/commit/f03aeed246ca7dffc589d98b0dd4966700c4d90d)] - feat: add escapeShellArg and escapeShellCmd (#60) (p0sec <<7829373@qq.com>>)
+
+**others**
+  * [[`22b155f`](http://github.com/eggjs/egg-security/commit/22b155f63db42f880c4ac1ae1035ca1ad6ac6586)] - style: fix document (#59) (刘放 <<brizer@users.noreply.github.com>>)
+
 2.6.1 / 2019-08-09
 ==================
 
