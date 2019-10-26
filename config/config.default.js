@@ -29,7 +29,7 @@ module.exports = () => {
     csrf: {
       enable: true,
 
-      // can be ctoken or referer or all
+      // can be ctoken or origin or all
       type: 'ctoken',
       ignoreJSON: false,
 

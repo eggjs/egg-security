@@ -506,7 +506,7 @@ describe('test/csrf.test.js', () => {
     this.app.expectLog('invalid csrf origin. See http');
   });
 
-  it('should check both ctoken and referer when type is all', function* () {
+  it('should check both ctoken and origin when type is all', function* () {
     mm(this.app.config.security.csrf, 'type', 'all');
     mm(this.app.config.security.csrf, 'originWhiteList', [ 'https://eggjs.org/' ]);
     this.app.mockLog();

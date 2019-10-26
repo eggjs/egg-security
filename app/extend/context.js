@@ -134,7 +134,7 @@ module.exports = {
   },
 
   /**
-   * assert csrf token/referer is present
+   * assert csrf token/origin is present
    * @public
    */
   assertCsrf() {
