@@ -1,4 +1,10 @@
 
+2.7.1 / 2019-11-14
+==================
+
+**fixes**
+  * [[`ef0e439`](http://github.com/eggjs/egg-security/commit/ef0e439ee743f3d8069f81eb8bf614f5564de932)] - fix(security): use new URL instead of url.parse (#62) (Yiyu He <<dead_horse@qq.com>>)
+
 2.7.0 / 2019-10-25
 ==================
 
