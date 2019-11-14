@@ -1,6 +1,5 @@
 'use strict';
 
-const url = require('url');
 const safeCurl = require('../../lib/extend/safe_curl');
 const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
 const nanoid = require('nanoid/non-secure');
@@ -173,9 +172,9 @@ module.exports = {
         this.throw(403, 'missing csrf referer');
       }
 
-      const refererParsed = url.parse(referer);
+      const host = utils.getFromUrl(referer, 'host');
       const domainList = refererWhiteList.concat(this.host);
-      if (!utils.isSafeDomain(refererParsed.host, domainList)) {
+      if (!host || !utils.isSafeDomain(host, domainList)) {
         debug('verify referer error');
         this[LOG_CSRF_NOTICE]('invalid csrf referer');
         this.throw(403, 'invalid csrf referer');
