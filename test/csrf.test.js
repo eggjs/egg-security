@@ -457,6 +457,30 @@ describe('test/csrf.test.js', () => {
       .expect(200);
   });
 
+  it('should return 403 with evil referer when type is referer', function* () {
+    mm(this.app.config, 'env', 'local');
+    mm(this.app.config.security.csrf, 'type', 'referer');
+    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
+    this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('referer', 'https://nodejs.org!.evil.com/en/')
+      .expect(403);
+  });
+
+  it('should return 403 with illegal referer when type is referer', function* () {
+    mm(this.app.config, 'env', 'local');
+    mm(this.app.config.security.csrf, 'type', 'referer');
+    mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
+    this.app.mockLog();
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('referer', '/en/')
+      .expect(403);
+  });
+
   it('should return 200 with same domain request', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
