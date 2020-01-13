@@ -1,6 +1,6 @@
 {
   "name": "egg-security",
-  "version": "2.6.1",
+  "version": "2.7.1",
   "description": "security plugin in egg framework",
   "eggPlugin": {
     "name": "security",

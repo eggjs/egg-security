@@ -26,7 +26,7 @@ describe('test/safe_redirect.test.js', function() {
     app.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com/', done);
+      .expect('location', 'http://domain.com', done);
   });
 
   it('should redirect to / when white list is blank', function(done) {
@@ -34,12 +34,12 @@ describe('test/safe_redirect.test.js', function() {
     app2.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com/', done);
+      .expect('location', 'http://domain.com', done);
 
     app2.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(302)
-      .expect('location', 'http://baidu.com/', done);
+      .expect('location', 'http://baidu.com', done);
   });
 
   it('should redirect to / when url is invaild', function(done) {
@@ -140,12 +140,20 @@ describe('test/safe_redirect.test.js', function() {
         .expect(302);
     });
 
-    it('should format illegal url', function(done) {
+    it('should block illegal url', function(done) {
       app.mm(process.env, 'NODE_ENV', 'production');
       app.httpRequest()
         .get('/safe_redirect?goto=' + encodeURIComponent('http://domain.com%0a.cn/path?abc=bar#123'))
         .expect(302)
-        .expect('location', 'http://domain.com/%0a.cn/path?abc=bar#123', done);
+        .expect('location', '/', done);
+    });
+
+    it('should block evil url', function(done) {
+      app.mm(process.env, 'NODE_ENV', 'production');
+      app.httpRequest()
+        .get('/safe_redirect?goto=' + encodeURIComponent('http://domain.com!.a.cn/path?abc=bar#123'))
+        .expect(302)
+        .expect('location', '/', done);
     });
 
     it('should pass', function(done) {
