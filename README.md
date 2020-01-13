@@ -66,28 +66,30 @@ For example, just open csp when path contains `/example`, you can configure with
 exports.security = {
   csp: {
     match: '/example',
+    // match: /^\/api/, // support regexp
+    // match: ctx => ctx.path.startsWith('/api'), // support function
+    // match: [ ctx => ctx.path.startsWith('/api'), /^\/foo$/, '/bar'], // support Array
     policy: {
       //...
     },
   },
 };
-
 ```
 
-If you want to set security config disable for a certain path, you can configure `match` option.
+If you want to set security config disable for a certain path, you can configure `ignore` option.
 
 For example, just disable xframe when path contains `/example` while our pages can be embedded in cooperative businesses , you can configure with the following configuration:
 
 ```js
 exports.security = {
-  csp: {
+  iframe: {
     ignore: '/example',
-    xframe: {
-      //...
-    },
+    // ignore: /^\/api/, // support regexp
+    // ignore: ctx => ctx.path.startsWith('/api'), // support function
+    // ignore: [ ctx => ctx.path.startsWith('/api'), /^\/foo$/, '/bar'], // support Array
+    // ...
   },
 };
-
 ```
 
 __mention：`match` has higher priority than `ignore`__
