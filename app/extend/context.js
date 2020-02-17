@@ -102,15 +102,14 @@ module.exports = {
 
     if (useSession) {
       this.session[sessionName] = secret;
-    } else {
-      const cookieOpts = {
-        domain: cookieDomain && cookieDomain(this),
-        signed: false,
-        httpOnly: false,
-        overwrite: true,
-      };
-      this.cookies.set(cookieName, secret, cookieOpts);
     }
+    const cookieOpts = {
+      domain: cookieDomain && cookieDomain(this),
+      signed: false,
+      httpOnly: false,
+      overwrite: true,
+    };
+    this.cookies.set(cookieName, secret, cookieOpts);
   },
 
   get [INPUT_TOKEN]() {
