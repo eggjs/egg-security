@@ -115,6 +115,28 @@ describe('test/csrf.test.js', () => {
       });
   });
 
+  it('should update form with csrf token using session & cookie', function* () {
+    mm(this.app.config.security.csrf, 'useSession', true);
+    const agent = request.agent(this.app.callback());
+
+    let res = yield agent
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+    const setCookies = res.headers['set-cookie'];
+    const csrfCookie = setCookies.find(cookie => {
+      return cookie.indexOf('csrfToken') > -1;
+    });
+    const csrfToken = csrfCookie.split(';')[0].split('=')[1];
+    assert(csrfToken);
+    res = yield agent
+      .post('/update')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .set('x-csrf-token', csrfToken)
+      .expect(200);
+    assert(res.text === '{}');
+  });
+
   it('should update json with csrf token using session', function* () {
     mm(this.app.config.security.csrf, 'useSession', true);
     const agent = request.agent(this.app.callback());
