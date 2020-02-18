@@ -291,7 +291,7 @@ describe('test/csrf.test.js', () => {
     mm(this.app.config.security.csrf, 'ignoreJSON', true);
     yield this.app.httpRequest()
       .post('/update')
-      .set('content-length', '')
+      .set('content-length', '0')
       .set('content-type', 'application/json')
       .expect(200)
       .expect({});
