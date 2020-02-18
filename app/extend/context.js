@@ -98,18 +98,22 @@ module.exports = {
     debug('ensure csrf secret, exists: %s, rotate; %s', this[CSRF_SECRET], rotate);
     const secret = tokens.secretSync();
     this[NEW_CSRF_SECRET] = secret;
-    const { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
-
-    if (useSession) {
-      this.session[sessionName] = secret;
-    }
+    const { useSession, useSessionWithCookie, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
     const cookieOpts = {
       domain: cookieDomain && cookieDomain(this),
       signed: false,
       httpOnly: false,
       overwrite: true,
     };
-    this.cookies.set(cookieName, secret, cookieOpts);
+
+    if (useSession) {
+      this.session[sessionName] = secret;
+      if (useSessionWithCookie) {
+        this.cookies.set(cookieName, secret, cookieOpts);
+      }
+    } else {
+      this.cookies.set(cookieName, secret, cookieOpts);
+    }
   },
 
   get [INPUT_TOKEN]() {

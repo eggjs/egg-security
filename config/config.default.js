@@ -35,6 +35,8 @@ module.exports = () => {
 
       // These config works when using ctoken type
       useSession: false,
+      // This config only work when using useSession:true
+      useSessionWithCookie: false,
       // can be function(ctx) or String
       cookieDomain: undefined,
       cookieName: 'csrfToken',

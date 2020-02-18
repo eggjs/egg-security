@@ -214,6 +214,7 @@ exports.security = {
   csrf: {
     type: 'ctoken',             // can be ctoken or referer or all, default to ctoken
     useSession: false,          // if useSession set to true, the secret will keep in session instead of cookie
+    useSessionWithCookie: false,          // Only work if useSession is true. It will set Cookie cookieName with csrf token. csrf token compare with cookie and session.
     ignoreJSON: false,          // skip check JSON requests if ignoreJSON set to true
     cookieName: 'csrfToken',    // csrf token's cookie name
     sessionName: 'csrfToken',   // csrf token's session name
