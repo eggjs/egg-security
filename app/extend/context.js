@@ -78,12 +78,17 @@ module.exports = {
    */
   get [CSRF_SECRET]() {
     if (this[_CSRF_SECRET]) return this[_CSRF_SECRET];
-    const { useSession, cookieName, sessionName } = this.app.config.security.csrf;
+    let { useSession, cookieName, sessionName } = this.app.config.security.csrf;
     // get secret from session or cookie
     if (useSession) {
       this[_CSRF_SECRET] = this.session[sessionName] || '';
     } else {
-      this[_CSRF_SECRET] = this.cookies.get(cookieName, { signed: false }) || '';
+      // cookieName support array. so we can change csrf cookie name smoothly
+      if (!Array.isArray(cookieName)) cookieName = [ cookieName ];
+      for (const name of cookieName) {
+        this[_CSRF_SECRET] = this.cookies.get(name, { signed: false }) || '';
+        if (this[_CSRF_SECRET]) break;
+      }
     }
     return this[_CSRF_SECRET];
   },
@@ -98,7 +103,7 @@ module.exports = {
     debug('ensure csrf secret, exists: %s, rotate; %s', this[CSRF_SECRET], rotate);
     const secret = tokens.secretSync();
     this[NEW_CSRF_SECRET] = secret;
-    const { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
+    let { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
 
     if (useSession) {
       this.session[sessionName] = secret;
@@ -109,7 +114,11 @@ module.exports = {
         httpOnly: false,
         overwrite: true,
       };
-      this.cookies.set(cookieName, secret, cookieOpts);
+      // cookieName support array. so we can change csrf cookie name smoothly
+      if (!Array.isArray(cookieName)) cookieName = [ cookieName ];
+      for (const name of cookieName) {
+        this.cookies.set(name, secret, cookieOpts);
+      }
     }
   },
 
@@ -153,7 +162,6 @@ module.exports = {
         this.throw(403, 'missing csrf token');
       }
       const token = this[INPUT_TOKEN];
-
       // AJAX requests get csrf token from cookie, in this situation token will equal to secret
       // synchronize form requests' token always changing to protect against BREACH attacks
       if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
