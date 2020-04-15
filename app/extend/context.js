@@ -211,7 +211,7 @@ module.exports = {
     }
 
     const host = utils.getFromUrl(referer, 'host');
-    const domainList = refererWhiteList.concat(`.${this.host}`);
+    const domainList = refererWhiteList.concat(this.host);
     if (!host || !utils.isSafeDomain(host, domainList)) {
       debug('verify referer error');
       this[LOG_CSRF_NOTICE]('invalid csrf referer');

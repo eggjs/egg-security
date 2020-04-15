@@ -17,7 +17,7 @@ describe('test/utils.test.js', function() {
     });
 
     afterEach(mm.restore);
-    const domainWhiteList = [ '.domain.com', '*.alibaba.com', 'http://www.baidu.com', '192.*.0.*' ];
+    const domainWhiteList = [ '.domain.com', '*.alibaba.com', 'http://www.baidu.com', '192.*.0.*', 'foo.bar' ];
     it('should return false when domains are not safe', function() {
       this.app.httpRequest()
         .get('/')
@@ -52,6 +52,7 @@ describe('test/utils.test.js', function() {
       utils.isSafeDomain('www.tianmao.AlIBAba.COm', domainWhiteList).should.equal(true);
       utils.isSafeDomain('http://www.baidu.com', domainWhiteList).should.equal(true);
       utils.isSafeDomain('192.168.0.255', domainWhiteList).should.equal(true);
+      utils.isSafeDomain('foo.bar', domainWhiteList).should.equal(true);
     });
 
     it('should return false', function() {
@@ -72,6 +73,7 @@ describe('test/utils.test.js', function() {
       utils.isSafeDomain('www.tianmao.alibab.com', domainWhiteList).should.equal(false);
       utils.isSafeDomain('http://www.baidu.com/zh-CN', domainWhiteList).should.equal(false);
       utils.isSafeDomain('192.168.1.255', domainWhiteList).should.equal(false);
+      utils.isSafeDomain('foofoo.bar', domainWhiteList).should.equal(false);
     });
   });
 

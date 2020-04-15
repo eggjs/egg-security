@@ -503,6 +503,12 @@ describe('test/csrf.test.js', () => {
       .set('referer', 'https://www.nodejs.org/en/')
       .set('host', 'nodejs.org')
       .expect(200);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('referer', 'https://nodejs.org/en/')
+      .set('host', 'nodejs.org')
+      .expect(200);
   });
 
   it('should return 403 with invalid host when type is referer', function* () {
