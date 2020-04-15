@@ -1,4 +1,15 @@
 
+2.8.0 / 2020-04-16
+==================
+
+**features**
+  * [[`a9aff4f`](http://github.com/eggjs/egg-security/commit/a9aff4ff75b343fc8b12248d304d3dba82f71bc1)] - feat: csrf support any, fix isSafeDomain bug (#67) (Yiyu He <<dead_horse@qq.com>>)
+  * [[`beeded1`](http://github.com/eggjs/egg-security/commit/beeded1901d77af65a9580e2e80027d71997fc52)] - feat: config.cookieName support array (#66) (Yiyu He <<dead_horse@qq.com>>)
+
+**others**
+  * [[`5bd4719`](http://github.com/eggjs/egg-security/commit/5bd471995ffdc93de146ae94e0644da15acb04a7)] - test: content-length should not be empty string (pusongyang <<ukyo.pu@gmail.com>>)
+  * [[`def5bfa`](http://github.com/eggjs/egg-security/commit/def5bfa8a2139ca3e2f221ded0dc66d1b405d418)] - docs: typos & optimization (#63) (吖猩 <<whx89768@alibaba-inc.com>>)
+
 2.7.1 / 2019-11-14
 ==================
 
