@@ -14,6 +14,7 @@ exports.security = {
   csrf: {
     ignore: /^\/api\//,
     queryName: ['_csrf', '_csgo'],
-    bodyName: ['_csrf', '_csgo']
+    bodyName: ['_csrf', '_csgo'],
+    cookieName: [ 'ctoken', 'csrfToken' ],
   }
 };

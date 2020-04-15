@@ -191,6 +191,8 @@ describe('test/csrf.test.js', () => {
     assert(res.text);
     const cookie = res.headers['set-cookie'].join(';');
     const csrfToken = cookie.match(/csrfToken=(.*?);/)[1];
+    const ctoken = cookie.match(/ctoken=(.*?);/)[1];
+    assert(ctoken === csrfToken);
     res = yield agent
       .post(`/update?_csrf=${csrfToken}`)
       .send({
@@ -202,6 +204,28 @@ describe('test/csrf.test.js', () => {
       });
     res = yield agent
       .post(`/update?_csgo=${csrfToken}`)
+      .send({
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        title: `ok token: ${csrfToken}`,
+      });
+
+    res = yield this.app2.httpRequest()
+      .post(`/update?_csgo=${csrfToken}`)
+      .set('cookie', `csrfToken=${csrfToken}`)
+      .send({
+        title: `ok token: ${csrfToken}`,
+      })
+      .expect(200)
+      .expect({
+        title: `ok token: ${csrfToken}`,
+      });
+
+    res = yield this.app2.httpRequest()
+      .post(`/update?_csgo=${csrfToken}`)
+      .set('cookie', `ctoken=${csrfToken}`)
       .send({
         title: `ok token: ${csrfToken}`,
       })
