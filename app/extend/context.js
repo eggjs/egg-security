@@ -16,6 +16,8 @@ const LOG_CSRF_NOTICE = Symbol('egg-security#LOG_CSRF_NOTICE');
 const INPUT_TOKEN = Symbol('egg-security#INPUT_TOKEN');
 const NONCE_CACHE = Symbol('egg-security#NONCE_CACHE');
 const SECURITY_OPTIONS = Symbol('egg-security#SECURITY_OPTIONS');
+const CSRF_REFERER_CHECK = Symbol('egg-security#CSRF_REFERER_CHECK');
+const CSRF_CTOKEN_CHECK = Symbol('egg-security#CSRF_CTOKEN_CHECK');
 
 function findToken(obj, keys) {
   if (!obj) return;
@@ -151,42 +153,69 @@ module.exports = {
       return;
     }
 
-    const { type, refererWhiteList } = this.app.config.security.csrf;
-    const { shouldCheckReferer, shouldCheckCtoken } = utils.checkCsrfType(type);
+    const { type } = this.app.config.security.csrf;
+    let message;
+    const messages = [];
+    switch (type) {
+      case 'ctoken':
+        message = this[CSRF_CTOKEN_CHECK]();
+        if (message) this.throw(403, message);
+        break;
+      case 'referer':
+        message = this[CSRF_REFERER_CHECK]();
+        if (message) this.throw(403, message);
+        break;
+      case 'all':
+        message = this[CSRF_CTOKEN_CHECK]();
+        if (message) this.throw(403, message);
+        message = this[CSRF_REFERER_CHECK]();
+        if (message) this.throw(403, message);
+        break;
+      case 'any':
+        message = this[CSRF_CTOKEN_CHECK]();
+        if (!message) return;
+        messages.push(message);
+        message = this[CSRF_REFERER_CHECK]();
+        if (!message) return;
+        messages.push(message);
+        this.throw(403, `both ctoken and referer check error: ${messages.join(', ')}`);
+        break;
+      default:
+        this.throw(`invalid type ${type}`);
+    }
+  },
 
-    // check ctoken
-    if (shouldCheckCtoken) {
-      if (!this[CSRF_SECRET]) {
-        debug('missing csrf token');
-        this[LOG_CSRF_NOTICE]('missing csrf token');
-        this.throw(403, 'missing csrf token');
-      }
-      const token = this[INPUT_TOKEN];
-      // AJAX requests get csrf token from cookie, in this situation token will equal to secret
-      // synchronize form requests' token always changing to protect against BREACH attacks
-      if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
-        debug('verify secret and token error');
-        this[LOG_CSRF_NOTICE]('invalid csrf token');
-        this.throw(403, 'invalid csrf token');
-      }
+  [CSRF_CTOKEN_CHECK]() {
+    if (!this[CSRF_SECRET]) {
+      debug('missing csrf token');
+      this[LOG_CSRF_NOTICE]('missing csrf token');
+      return 'missing csrf token';
+    }
+    const token = this[INPUT_TOKEN];
+    // AJAX requests get csrf token from cookie, in this situation token will equal to secret
+    // synchronize form requests' token always changing to protect against BREACH attacks
+    if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
+      debug('verify secret and token error');
+      this[LOG_CSRF_NOTICE]('invalid csrf token');
+      return 'invalid csrf token';
+    }
+  },
+
+  [CSRF_REFERER_CHECK]() {
+    const { refererWhiteList } = this.app.config.security.csrf;
+    const referer = (this.headers.referer || '').toLowerCase();
+    if (!referer) {
+      debug('missing csrf referer');
+      this[LOG_CSRF_NOTICE]('missing csrf referer');
+      return 'missing csrf referer';
     }
 
-    // check referer
-    if (shouldCheckReferer) {
-      const referer = (this.headers.referer || '').toLowerCase();
-      if (!referer) {
-        debug('missing csrf referer');
-        this[LOG_CSRF_NOTICE]('missing csrf referer');
-        this.throw(403, 'missing csrf referer');
-      }
-
-      const host = utils.getFromUrl(referer, 'host');
-      const domainList = refererWhiteList.concat(this.host);
-      if (!host || !utils.isSafeDomain(host, domainList)) {
-        debug('verify referer error');
-        this[LOG_CSRF_NOTICE]('invalid csrf referer');
-        this.throw(403, 'invalid csrf referer');
-      }
+    const host = utils.getFromUrl(referer, 'host');
+    const domainList = refererWhiteList.concat(this.host);
+    if (!host || !utils.isSafeDomain(host, domainList)) {
+      debug('verify referer error');
+      this[LOG_CSRF_NOTICE]('invalid csrf referer');
+      return 'invalid csrf referer';
     }
   },
 

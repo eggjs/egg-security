@@ -13,8 +13,9 @@ module.exports = app => {
       app.deprecate('[egg-security] `app.config.security.csrf.ignoreJSON` is not safe now, please disable it.');
     }
 
-    const { isLegalType } = utils.checkCsrfType(type);
-    assert(isLegalType, '[egg-security] `config.security.csrf.type` must be one of ' + utils.allowTypeList.join(', '));
+    const legalTypes = [ 'all', 'referer', 'ctoken', 'any' ];
+    assert(legalTypes.includes(type),
+      '[egg-security] `config.security.csrf.type` must be one of ' + legalTypes.join(', '));
   }
 
   // patch response.redirect
