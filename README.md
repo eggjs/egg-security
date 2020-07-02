@@ -82,7 +82,7 @@ For example, just disable xframe when path contains `/example` while our pages c
 
 ```js
 exports.security = {
-  iframe: {
+  xframe: {
     ignore: '/example',
     // ignore: /^\/api/, // support regexp
     // ignore: ctx => ctx.path.startsWith('/api'), // support function
