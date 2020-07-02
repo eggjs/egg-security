@@ -56,6 +56,9 @@ exports.security = {
 exports.security = {
   csp: {
     match: '/example',
+    // match: /^\/api/, // support regexp
+    // match: ctx => ctx.path.startsWith('/api'), // support function
+    // match: [ ctx => ctx.path.startsWith('/api'), /^\/foo$/, '/bar'], // support Array
     policy: {
       //...
     },
@@ -68,11 +71,12 @@ exports.security = {
 
 ```js
 exports.security = {
-  csp: {
+  xframe: {
     ignore: '/example',
-    xframe: {
-      //...
-    },
+    // ignore: /^\/api/, // support regexp
+    // ignore: ctx => ctx.path.startsWith('/api'), // support function
+    // ignore: [ ctx => ctx.path.startsWith('/api'), /^\/foo$/, '/bar'], // support Array
+    // ...
   },
 };
 
