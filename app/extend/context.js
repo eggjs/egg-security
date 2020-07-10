@@ -204,7 +204,7 @@ module.exports = {
   [CSRF_REFERER_CHECK]() {
     const { refererWhiteList } = this.app.config.security.csrf;
     // check Origin/Referer headers
-    const referer = (this.headers.referer || this.headers.origin || '').toLowerCase();
+    const referer = (this.headers.origin || this.headers.referer || '').toLowerCase();
 
     if (!referer) {
       debug('missing csrf referer or origin');
