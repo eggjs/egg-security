@@ -143,7 +143,7 @@ module.exports = {
       return;
     }
 
-    const { type, originWhiteList } = this.app.config.security.csrf;
+    const { type, refererWhiteList } = this.app.config.security.csrf;
     const { shouldCheckOrigin, shouldCheckCtoken } = utils.checkCsrfType(type);
 
     // check ctoken
@@ -166,19 +166,19 @@ module.exports = {
 
     // check origin (via Origin/Referer header)
     if (shouldCheckOrigin) {
-      const source = (this.headers.origin || this.headers.referer || '').toLowerCase();
+      const source = (this.headers.referer || this.headers.origin || '').toLowerCase();
       if (!source) {
-        debug('missing csrf origin');
-        this[LOG_CSRF_NOTICE]('missing csrf origin');
-        this.throw(403, 'missing csrf origin');
+        debug('missing csrf referer or origin');
+        this[LOG_CSRF_NOTICE]('missing csrf referer or origin');
+        this.throw(403, 'missing csrf referer or origin');
       }
 
       const sourceParsed = url.parse(source);
-      const domainList = originWhiteList.concat(this.host);
+      const domainList = refererWhiteList.concat(this.host);
       if (!utils.isSafeDomain(sourceParsed.host, domainList)) {
-        debug('verify origin error');
-        this[LOG_CSRF_NOTICE]('invalid csrf origin');
-        this.throw(403, 'invalid csrf origin');
+        debug('verify referer or origin error');
+        this[LOG_CSRF_NOTICE]('invalid csrf referer or origin');
+        this.throw(403, 'invalid csrf referer or origin');
       }
     }
   },

@@ -29,7 +29,7 @@ module.exports = () => {
     csrf: {
       enable: true,
 
-      // can be ctoken or origin or all
+      // can be ctoken or referer or all
       type: 'ctoken',
       ignoreJSON: false,
 
@@ -43,8 +43,8 @@ module.exports = () => {
       bodyName: '_csrf',
       queryName: '_csrf',
 
-      // These config works when using origin type
-      originWhiteList: [
+      // These config works when using referer type
+      refererWhiteList: [
         // 'eggjs.org'
       ],
     },

@@ -136,7 +136,7 @@ __安全开发者约定__
 ```js
 exports.security = {
   csrf: {
-    type: 'ctoken',             // 可以是 ctoken / origin / all, 默认为 ctoken
+    type: 'ctoken',             // 可以是 ctoken / referer / all, 默认为 ctoken
     useSession: false,          // 如果设为 true，secret 将存储在 session 中
     ignoreJSON: false,          // 如果设为 true ，将忽略 json 请求
     cookieName: 'csrfToken',    // csrf 的 token 在 cookie 中存储的 key 名称
@@ -144,7 +144,7 @@ exports.security = {
     headerName: 'x-csrf-token', // csrf token 在 header 中的名称
     bodyName: '_csrf',          // csrf token 在 body 中的名称
     queryName: '_csrf',         // csrf token 在 query 中的名称
-    originWhiteList: [],       // origin 白名单
+    refererWhiteList: [],       // referer 白名单  
   },
 }
 ```

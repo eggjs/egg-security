@@ -12,7 +12,7 @@ exports.security = {
   },
 
   csrf: {
-    type: 'origin',
-    originWhiteList: [],
+    type: 'referer',
+    refererWhiteList: [],
   },
 };
