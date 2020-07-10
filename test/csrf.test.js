@@ -469,7 +469,7 @@ describe('test/csrf.test.js', () => {
     }
   });
 
-  it('should return 200 with correct referer when type is referer', function* () {
+  it('should return 200 with correct referer or origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ '.nodejs.org' ]);
@@ -479,9 +479,14 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(200);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .expect(200);
   });
 
-  it('should return 403 with correct referer when type is referer', function* () {
+  it('should return 403 with correct referer or origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
@@ -490,6 +495,12 @@ describe('test/csrf.test.js', () => {
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://wwwnodejs.org/en/')
+      .expect(403);
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://wwwnodejs.org/en/')
       .expect(403);
   });
 
@@ -509,6 +520,19 @@ describe('test/csrf.test.js', () => {
       .set('referer', 'https://nodejs.org/en/')
       .set('host', 'nodejs.org')
       .expect(200);
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://www.nodejs.org/en/')
+      .set('host', 'nodejs.org')
+      .expect(200);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .set('host', 'nodejs.org')
+      .expect(200);
   });
 
   it('should return 403 with invalid host when type is referer', function* () {
@@ -521,9 +545,16 @@ describe('test/csrf.test.js', () => {
       .set('referer', 'https://wwwnodejs.org/en/')
       .set('host', 'nodejs.org')
       .expect(403);
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://wwwnodejs.org/en/')
+      .set('host', 'nodejs.org')
+      .expect(403);
   });
 
-  it('should return 403 with evil referer when type is referer', function* () {
+  it('should return 403 with evil referer or origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
@@ -533,9 +564,14 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org!.evil.com/en/')
       .expect(403);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org!.evil.com/en/')
+      .expect(403);
   });
 
-  it('should return 403 with illegal referer when type is referer', function* () {
+  it('should return 403 with illegal referer or origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'nodejs.org' ]);
@@ -544,6 +580,11 @@ describe('test/csrf.test.js', () => {
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', '/en/')
+      .expect(403);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', '/en/')
       .expect(403);
   });
 
@@ -557,6 +598,13 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('referer', `http://127.0.0.1:${port}/`)
       .expect(200);
+
+    const httpRequestObj2 = this.app.httpRequest().post('/update');
+    const port2 = httpRequestObj2.app.address().port;
+    yield httpRequestObj2
+      .set('accept', 'text/html')
+      .set('origin', `http://127.0.0.1:${port2}/`)
+      .expect(200);
   });
 
   it('should return 403 with different domain request', function* () {
@@ -568,7 +616,14 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(403)
-      .expect(/invalid csrf referer/);
+      .expect(/invalid csrf referer or origin/);
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://nodejs.org/en/')
+      .expect(403)
+      .expect(/invalid csrf referer or origin/);
   });
 
   it('should check both ctoken and referer when type is all', function* () {
@@ -583,11 +638,17 @@ describe('test/csrf.test.js', () => {
       .expect(/missing csrf token/);
     yield this.app.httpRequest()
       .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://eggjs.org/en/')
+      .expect(403)
+      .expect(/missing csrf token/);
+    yield this.app.httpRequest()
+      .post('/update')
       .send({ _csrf: '1' })
       .set('accept', 'text/html')
       .set('cookie', 'csrfToken=1')
       .expect(403)
-      .expect(/missing csrf referer/);
+      .expect(/missing csrf referer or origin/);
   });
 
   it('should check one of ctoken and referer when type is any', function* () {
@@ -598,6 +659,11 @@ describe('test/csrf.test.js', () => {
       .post('/update')
       .set('accept', 'text/html')
       .set('referer', 'https://eggjs.org/en/')
+      .expect(200);
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('origin', 'https://eggjs.org/en/')
       .expect(200);
     yield this.app.httpRequest()
       .post('/update')
@@ -615,7 +681,7 @@ describe('test/csrf.test.js', () => {
       .expect(/ForbiddenError: both ctoken and referer check error: invalid csrf token, missing csrf referer/);
   });
 
-  it('should return 403 without referer when type is referer', function* () {
+  it('should return 403 without referer and origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
@@ -624,11 +690,11 @@ describe('test/csrf.test.js', () => {
       .post('/update')
       .set('accept', 'text/html')
       .expect(403)
-      .expect(/missing csrf referer/);
-    this.app.expectLog('missing csrf referer. See http');
+      .expect(/missing csrf referer or origin/);
+    this.app.expectLog('missing csrf referer or origin. See http');
   });
 
-  it('should return 403 with invalid referer when type is referer', function* () {
+  it('should return 403 with invalid referer or origin when type is referer', function* () {
     mm(this.app.config, 'env', 'local');
     mm(this.app.config.security.csrf, 'type', 'referer');
     mm(this.app.config.security.csrf, 'refererWhiteList', [ 'https://eggjs.org/' ]);
@@ -638,8 +704,16 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .set('referer', 'https://nodejs.org/en/')
       .expect(403)
-      .expect(/invalid csrf referer/);
-    this.app.expectLog('invalid csrf referer. See http');
+      .expect(/invalid csrf referer or origin/);
+    this.app.expectLog('invalid csrf referer or origin. See http');
+
+    yield this.app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .set('referer', 'https://nodejs.org/en/')
+      .expect(403)
+      .expect(/invalid csrf referer or origin/);
+    this.app.expectLog('invalid csrf referer or origin. See http');
   });
 
   it('should throw with error type', function* () {
