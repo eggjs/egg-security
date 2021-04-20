@@ -90,7 +90,7 @@ describe('test/ssrf.test.js', function() {
     });
   });
 
-  describe.only('ipExceptionList', () => {
+  describe('ipExceptionList', () => {
     before(() => {
       app = mm.app({ baseDir: 'apps/ssrf-ip-exception-list' });
       return app.ready();
