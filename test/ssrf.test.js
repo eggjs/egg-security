@@ -108,17 +108,29 @@ describe('test/ssrf.test.js', function() {
         await checkIllegalAddressError(ctx, url);
       }
 
-      mm.data(app, 'curl', 'response');
-      mm.data(app.agent, 'curl', 'response');
-      mm.data(ctx, 'curl', 'response');
-
       const url = 'https://10.1.1.1';
+      
+      let count = 0;
+      mm(app, 'curl', async (url, options) => {
+        options.checkAddress('10.1.1.1') && count++;
+        return 'response';
+      });
+      mm(app.agent, 'curl', async (url, options) => {
+        options.checkAddress('10.1.1.1') && count++;
+        return 'response';
+      });
+      mm(ctx, 'curl', async (url, options) => {
+        options.checkAddress('10.1.1.1') && count++;
+        return 'response';
+      });
+
       const r1 = await app.safeCurl(url);
       const r2 = await app.agent.safeCurl(url);
       const r3 = await ctx.safeCurl(url);
       assert(r1 === 'response');
       assert(r2 === 'response');
       assert(r3 === 'response');
+      assert(count === 3);
     });
   });
 });
