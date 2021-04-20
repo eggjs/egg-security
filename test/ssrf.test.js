@@ -41,7 +41,6 @@ describe('test/ssrf.test.js', function() {
     });
   });
 
-
   describe('ipBlackList', () => {
     before(() => {
       app = mm.app({ baseDir: 'apps/ssrf-ip-black-list' });
@@ -84,6 +83,42 @@ describe('test/ssrf.test.js', function() {
         await checkIllegalAddressError(app.agent, url);
         await checkIllegalAddressError(ctx, url);
       }
+    });
+  });
+
+  describe('ipExceptionList', () => {
+    before(() => {
+      app = mm.app({ baseDir: 'apps/ssrf-ip-exception-list' });
+      return app.ready();
+    });
+
+    it('should safeCurl work', async () => {
+      const urls = [
+        'https://127.0.0.1/foo',
+        'http://10.1.2.3/foo?bar=1',
+        'https://0.0.0.0/',
+        'https://www.google.com/',
+      ];
+      mm.data(dns, 'lookup', '127.0.0.1');
+      const ctx = app.createAnonymousContext();
+
+      for (const url of urls) {
+        await checkIllegalAddressError(app, url);
+        await checkIllegalAddressError(app.agent, url);
+        await checkIllegalAddressError(ctx, url);
+      }
+
+      mm.data(app, 'curl', 'response');
+      mm.data(app.agent, 'curl', 'response');
+      mm.data(ctx, 'curl', 'response');
+
+      const url = 'https://10.1.1.1';
+      const r1 = await app.safeCurl(url);
+      const r2 = await app.agent.safeCurl(url);
+      const r3 = await ctx.safeCurl(url);
+      assert(r1 === 'response');
+      assert(r2 === 'response');
+      assert(r3 === 'response');
     });
   });
 });

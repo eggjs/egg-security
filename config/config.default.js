@@ -94,6 +94,7 @@ module.exports = () => {
 
     ssrf: {
       ipBlackList: null,
+      ipExceptionList: null,
       checkAddress: null,
     },
   };
