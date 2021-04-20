@@ -109,7 +109,7 @@ describe('test/ssrf.test.js', function() {
       }
 
       const url = 'https://10.1.1.1';
-      
+
       let count = 0;
       mm(app, 'curl', async (url, options) => {
         options.checkAddress('10.1.1.1') && count++;
