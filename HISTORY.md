@@ -1,4 +1,11 @@
 
+2.9.0 / 2021-04-21
+==================
+
+**others**
+  * [[`9d80e90`](http://github.com/eggjs/egg-security/commit/9d80e90d273a3ac24231d200ac248f44d1fbd822)] - add ssrf.ipExceptionList (#70) (shadyzoz <<shadyzoz@icloud.com>>)
+  * [[`79c38e0`](http://github.com/eggjs/egg-security/commit/79c38e001b431466361c711680d975eb0cfcb301)] - docs: fix typos (#68) (viko16 <<viko16@users.noreply.github.com>>)
+
 2.8.0 / 2020-04-16
 ==================
 
