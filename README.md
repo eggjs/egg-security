@@ -524,6 +524,7 @@ In a [Server-Side Request Forgery (SSRF)](https://www.owasp.org/index.php/Server
 #### Configuration
 
 * ipBlackList(Array) - specific which ip are illegal when request with `safeCurl`.
+* ipExceptionList(Array) - specific which ip are legal within ipBlackList.
 * checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
 
 ```js
@@ -535,6 +536,11 @@ exports.security = {
       '10.0.0.0/8',
       '127.0.0.1',
       '0.0.0.0/32',
+    ],
+    // support both cidr subnet or specific ip
+    ipExceptionList: [
+      '10.1.1.1',
+      '10.10.0.1/24',
     ],
     // checkAddress has higher priority than ipBlackList
     checkAddress(ip) {
