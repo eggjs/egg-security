@@ -210,9 +210,9 @@ module.exports = {
       return 'missing csrf referer';
     }
 
-    const host = utils.getFromUrl(referer, 'host');
-    const domainList = refererWhiteList.concat(this.host);
-    if (!host || !utils.isSafeDomain(host, domainList)) {
+    const hostname = utils.getFromUrl(referer, 'hostname');
+    const domainList = refererWhiteList.concat(this.hostname);
+    if (!hostname || !utils.isSafeDomain(hostname, domainList)) {
       debug('verify referer error');
       this[LOG_CSRF_NOTICE]('invalid csrf referer');
       return 'invalid csrf referer';
