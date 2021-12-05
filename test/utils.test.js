@@ -251,4 +251,17 @@ describe('test/utils.test.js', function() {
         });
     });
   });
+
+  describe('utils.checkInvalidHeaderChar', function() {
+    it('Invalid character return true', function() {
+      utils.checkInvalidHeaderChar('aaaaa\naaaaaa').should.equal(true);
+      utils.checkInvalidHeaderChar('aaaa\raaaaa').should.equal(true);
+    });
+
+    it('character return false', function() {
+      utils.checkInvalidHeaderChar('aaaaa').should.equal(false);
+      utils.checkInvalidHeaderChar('aaaa aaaaa').should.equal(false);
+      utils.checkInvalidHeaderChar('aaaaaaaaa').should.equal(false);
+    });
+  });
 });
