@@ -149,9 +149,14 @@ exports.security = {
     bodyName: '_csrf',          // csrf token 在 body 中的名称
     queryName: '_csrf',         // csrf token 在 query 中的名称
     refererWhiteList: [],       // referer 白名单
+    supportedRequests: [        // 支持的 url path pattern 和方法，根据配置名单由上至下匹配 url path 正则，建议在自定义时配置 {path: /^\//, methods:['POST','PATCH','DELETE','PUT']} 为兜底规则
+      {path: /^\//, methods:['POST','PATCH','DELETE','PUT']},
+    ],
   },
 }
 ```
+
+注意，methods 可以为空， 如果将 supportedRequests 设置为`supportedRequests: [{path: /^\//, methods:[]}]`, 那么等效于关闭 csrf 防御。
 
 ### safe redirect
 

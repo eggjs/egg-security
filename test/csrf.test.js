@@ -667,4 +667,54 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .expect(200);
   });
+  it('should works without error', function* () {
+    const app = mm.app({
+      baseDir: 'apps/csrf-supported-requests',
+      plugin: 'security',
+    });
+    yield app.ready();
+    yield app.httpRequest()
+      .post('/')
+      .set('accept', 'text/html')
+      .expect(200);
+  });
+  it('should works without error', function* () {
+    const app = mm.app({
+      baseDir: 'apps/csrf-supported-requests',
+      plugin: 'security',
+    });
+    yield app.ready();
+    yield app.httpRequest()
+      .get('/')
+      .set('accept', 'text/html')
+      .expect(200);
+  });
+
+  it('should throw with error type', function* () {
+    const app = mm.app({
+      baseDir: 'apps/csrf-supported-requests',
+      plugin: 'security',
+    });
+
+    yield app.ready();
+    yield app.httpRequest()
+      .post('/update')
+      .set('accept', 'text/html')
+      .expect(403)
+      .expect(/missing csrf token/);
+  });
+
+  it('should throw with error type', function* () {
+    const app = mm.app({
+      baseDir: 'apps/csrf-supported-requests',
+      plugin: 'security',
+    });
+
+    yield app.ready();
+    yield app.httpRequest()
+      .get('/api/rotate')
+      .set('accept', 'text/html')
+      .expect(403)
+      .expect(/missing csrf token/);
+  });
 });
