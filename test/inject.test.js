@@ -70,7 +70,7 @@ describe('test/inject.test.js', function() {
           const parts = body.split('|');
           const expectedNonce = parts[0];
           const scriptTag = parts[1];
-          scriptTag.should.equal(`<script nonce="${expectedNonce}"></script><script nonce="${expectedNonce}"></script>`);
+          scriptTag.should.equal(`<script nonce="${expectedNonce}"></script><script nonce="${expectedNonce}"></script><script nonce="${expectedNonce}"></script><script nonce="${expectedNonce}"></script>`);
           done();
         });
     });

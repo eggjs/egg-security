@@ -26,7 +26,7 @@ module.exports = function(app) {
     this.body = app.injectCsrf(bodyString9);
   });
   app.get('/testnonce', function*() {
-    let bodyString3 = "<script></script><script></script>";
+    let bodyString3 = "<script></script><script></script><script></script ><script></script                    >";
     this.body = yield this.renderString(this.nonce + '|' + app.injectNonce(bodyString3), this);
   });
   app.get('/testnonce2', function*() {
