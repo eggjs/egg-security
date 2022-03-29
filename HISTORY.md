@@ -1,4 +1,15 @@
 
+2.9.1 / 2022-03-29
+==================
+
+**fixes**
+  * [[`0b3fb1e`](http://github.com/eggjs/egg-security/commit/0b3fb1ebd9107c555f15cc97722a5a390a98e1e5)] - fix: should match script end tags like </script > (#76) (fengmk2 <<fengmk2@gmail.com>>)
+
+**others**
+  * [[`1cde817`](http://github.com/eggjs/egg-security/commit/1cde8178e0058136f62203752622efe02467fa3b)] - 🤖 TEST: Run ci on GitHub Action (#75) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`23fef7d`](http://github.com/eggjs/egg-security/commit/23fef7d3a4150afa4e001be186bc191c08878a75)] - Delete SECURITY.md (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`f6aeb97`](http://github.com/eggjs/egg-security/commit/f6aeb977203db5686fe279d0e8b3ec1a64535e07)] - docs: Add Security Policy (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.0 / 2021-04-21
 ==================
 
