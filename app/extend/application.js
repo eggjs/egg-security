@@ -17,7 +17,7 @@ exports.injectCsrf = function injectCsrf(tmplStr) {
 };
 
 exports.injectNonce = function injectNonce(tmplStr) {
-  tmplStr = tmplStr.replace(/<script(.*?)>([\s\S]*?)<\/script\s*?>/gi, function replaceNonce(_, $1, $2) {
+  tmplStr = tmplStr.replace(/<script(.*?)>([\s\S]*?)<\/script[^>]*?>/gi, function replaceNonce(_, $1, $2) {
     if ($1.indexOf('nonce=') === -1) {
       $1 += ' nonce="{{ctx.nonce}}"';
     }
