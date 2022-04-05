@@ -42,6 +42,9 @@ module.exports = () => {
       headerName: 'x-csrf-token',
       bodyName: '_csrf',
       queryName: '_csrf',
+      supportedRequests: [
+        { path: /^\//, methods: [ 'POST', 'PATCH', 'DELETE', 'PUT', 'CONNECT' ] },
+      ],
 
       // These config works when using referer type
       refererWhiteList: [
