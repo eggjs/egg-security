@@ -3,20 +3,15 @@
 Security plugin in egg
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![Node.js CI](https://github.com/eggjs/egg-security/actions/workflows/nodejs.yml/badge.svg)](https://github.com/eggjs/egg-security/actions/workflows/nodejs.yml)
 [![Test coverage][codecov-image]][codecov-url]
-[![David deps][david-image]][david-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/egg-security.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/egg-security
-[travis-image]: https://img.shields.io/travis/eggjs/egg-security.svg?style=flat-square
-[travis-url]: https://travis-ci.org/eggjs/egg-security
 [codecov-image]: https://codecov.io/gh/eggjs/egg-security/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/eggjs/egg-security
-[david-image]: https://img.shields.io/david/eggjs/egg-security.svg?style=flat-square
-[david-url]: https://david-dm.org/eggjs/egg-security
 [snyk-image]: https://snyk.io/test/npm/egg-security/badge.svg?style=flat-square
 [snyk-url]: https://snyk.io/test/npm/egg-security
 [download-image]: https://img.shields.io/npm/dm/egg-security.svg?style=flat-square
@@ -221,8 +216,8 @@ exports.security = {
     bodyName: '_csrf',          // request csrf token's name in body
     queryName: '_csrf',         // request csrf token's name in query
     refererWhiteList: [],       // referer white list
-    supportedRequests: [        // supported URL path and method, the package will match URL path regex patterns one by one until path matched. We recommend you set {path: /^\//, methods:['POST','PATCH','DELETE','PUT']} as the last rule in the list, which is also the default config.
-        {path: /^\//, methods:['POST','PATCH','DELETE','PUT']}
+    supportedRequests: [        // supported URL path and method, the package will match URL path regex patterns one by one until path matched. We recommend you set {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']} as the last rule in the list, which is also the default config.
+      {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']}
     ],
   },
 }

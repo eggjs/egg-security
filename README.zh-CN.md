@@ -3,20 +3,15 @@
 egg 内置的安全插件
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![Node.js CI](https://github.com/eggjs/egg-security/actions/workflows/nodejs.yml/badge.svg)](https://github.com/eggjs/egg-security/actions/workflows/nodejs.yml)
 [![Test coverage][codecov-image]][codecov-url]
-[![David deps][david-image]][david-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/egg-security.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/egg-security
-[travis-image]: https://img.shields.io/travis/eggjs/egg-security.svg?style=flat-square
-[travis-url]: https://travis-ci.org/eggjs/egg-security
 [codecov-image]: https://codecov.io/gh/eggjs/egg-security/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/eggjs/egg-security
-[david-image]: https://img.shields.io/david/eggjs/egg-security.svg?style=flat-square
-[david-url]: https://david-dm.org/eggjs/egg-security
 [snyk-image]: https://snyk.io/test/npm/egg-security/badge.svg?style=flat-square
 [snyk-url]: https://snyk.io/test/npm/egg-security
 [download-image]: https://img.shields.io/npm/dm/egg-security.svg?style=flat-square
@@ -149,8 +144,8 @@ exports.security = {
     bodyName: '_csrf',          // csrf token 在 body 中的名称
     queryName: '_csrf',         // csrf token 在 query 中的名称
     refererWhiteList: [],       // referer 白名单
-    supportedRequests: [        // 支持的 url path pattern 和方法，根据配置名单由上至下匹配 url path 正则，建议在自定义时配置 {path: /^\//, methods:['POST','PATCH','DELETE','PUT']} 为兜底规则
-      {path: /^\//, methods:['POST','PATCH','DELETE','PUT']},
+    supportedRequests: [        // 支持的 url path pattern 和方法，根据配置名单由上至下匹配 url path 正则，建议在自定义时配置 {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']} 为兜底规则
+      {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']},
     ],
   },
 }
