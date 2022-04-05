@@ -667,54 +667,73 @@ describe('test/csrf.test.js', () => {
       .set('accept', 'text/html')
       .expect(200);
   });
-  it('should works without error', function* () {
-    const app = mm.app({
-      baseDir: 'apps/csrf-supported-requests',
-      plugin: 'security',
-    });
-    yield app.ready();
-    yield app.httpRequest()
-      .post('/')
-      .set('accept', 'text/html')
-      .expect(200);
-  });
-  it('should works without error', function* () {
-    const app = mm.app({
-      baseDir: 'apps/csrf-supported-requests',
-      plugin: 'security',
-    });
-    yield app.ready();
-    yield app.httpRequest()
-      .get('/')
-      .set('accept', 'text/html')
-      .expect(200);
-  });
 
-  it('should throw with error type', function* () {
-    const app = mm.app({
-      baseDir: 'apps/csrf-supported-requests',
-      plugin: 'security',
+  describe('apps/csrf-supported-requests', () => {
+    let app;
+    before(() => {
+      app = mm.app({
+        baseDir: 'apps/csrf-supported-requests',
+      });
+      return app.ready();
     });
 
-    yield app.ready();
-    yield app.httpRequest()
-      .post('/update')
-      .set('accept', 'text/html')
-      .expect(403)
-      .expect(/missing csrf token/);
+    it('should works without error', async () => {
+      await app.httpRequest()
+        .post('/')
+        .set('accept', 'text/html')
+        .expect(200);
+    });
+
+    it('should throw with error type', async () => {
+      await app.httpRequest()
+        .post('/update')
+        .set('accept', 'text/html')
+        .expect(403)
+        .expect(/missing csrf token/);
+    });
+
+    it('should throw with error type', async () => {
+      await app.httpRequest()
+        .get('/api/rotate')
+        .set('accept', 'text/html')
+        .expect(403)
+        .expect(/missing csrf token/);
+    });
   });
 
-  it('should throw with error type', function* () {
-    const app = mm.app({
-      baseDir: 'apps/csrf-supported-requests',
-      plugin: 'security',
+  describe('apps/csrf-supported-override-default', () => {
+    let app;
+    before(() => {
+      app = mm.app({
+        baseDir: 'apps/csrf-supported-override-default',
+      });
+      return app.ready();
     });
 
-    yield app.ready();
-    yield app.httpRequest()
-      .get('/api/rotate')
-      .set('accept', 'text/html')
-      .expect(403)
-      .expect(/missing csrf token/);
+    it('should works without error', async () => {
+      await app.httpRequest()
+        .post('/')
+        .set('accept', 'text/html')
+        .expect(200);
+
+      await app.httpRequest()
+        .post('/update')
+        .set('accept', 'text/html')
+        .expect(200);
+    });
+
+    it('should throw with error type', async () => {
+      await app.httpRequest()
+        .post('/api/rotate')
+        .set('accept', 'text/html')
+        .expect(403)
+        .expect(/missing csrf token/);
+
+      await app.httpRequest()
+        .post('/api/foo')
+        .set('accept', 'text/html')
+        .expect(403)
+        .expect(/missing csrf token/);
+    });
   });
 });
