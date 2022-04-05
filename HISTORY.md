@@ -1,4 +1,14 @@
 
+2.10.0 / 2022-04-05
+==================
+
+**features**
+  * [[`2d1b28f`](http://github.com/eggjs/egg-security/commit/2d1b28f94cee80f931d25d9b0905b2b2b10e195f)] - feat: make csrf supported method configurable (#74) (Anemone95 <<x565178035@126.com>>)
+
+**others**
+  * [[`59558fa`](http://github.com/eggjs/egg-security/commit/59558faf0a5e0fca29f2703a65be91364f708867)] - 🐛 FIX: Should detect all rules before ignore on CSRF (#78) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`61a5543`](http://github.com/eggjs/egg-security/commit/61a5543391d6a29050ddf12d39d3997811143852)] - deps: use nanoid@3 (#77) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.1 / 2022-03-29
 ==================
 
