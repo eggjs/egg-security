@@ -1,4 +1,11 @@
 
+2.10.1 / 2022-04-10
+==================
+
+**others**
+  * [[`4bb4741`](http://github.com/eggjs/egg-security/commit/4bb47419f0f9a8703401e0ee1f0b7d496519c587)] - 🐛 FIX: Add warning message on `false` value config (#79) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`184d109`](http://github.com/eggjs/egg-security/commit/184d109dc0e83f2568bbfcf5837f4a8aadb9eff8)] - 📖 DOC: Add CONNECT method on CSRF default config (fengmk2 <<fengmk2@gmail.com>>)
+
 2.10.0 / 2022-04-05
 ==================
 
