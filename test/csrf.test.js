@@ -736,4 +736,28 @@ describe('test/csrf.test.js', () => {
         .expect(/missing csrf token/);
     });
   });
+
+  describe('apps/csrf-supported-requests-default-config', () => {
+    let app;
+    before(() => {
+      app = mm.app({
+        baseDir: 'apps/csrf-supported-requests-default-config',
+      });
+      return app.ready();
+    });
+
+    it('should works without error because csrf = false override default config', async () => {
+      const res = await app.httpRequest()
+        .get('/')
+        .set('accept', 'text/html')
+        .expect(200);
+      assert(res.body.csrf === '');
+      assert(res.body.env === 'unittest');
+      assert(!res.body.supportedRequests);
+
+      await app.httpRequest()
+        .post('/update')
+        .expect(200);
+    });
+  });
 });
