@@ -219,6 +219,7 @@ exports.security = {
     supportedRequests: [        // supported URL path and method, the package will match URL path regex patterns one by one until path matched. We recommend you set {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']} as the last rule in the list, which is also the default config.
       {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']}
     ],
+    cookieOptions: {},          // csrf token's cookie options
   },
 }
 ```
