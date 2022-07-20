@@ -44,4 +44,24 @@ describe('test/csrf_cookieDomain.test.js', () => {
         .expect('Set-Cookie', /csrfToken=[\w\-]+; path=\/; domain=\.string\.com/);
     });
   });
+
+  describe('cookieOptions = object', () => {
+    let app;
+    before(() => {
+      app = mm.app({
+        baseDir: 'apps/csrf-cookieOptions',
+      });
+      return app.ready();
+    });
+    after(() => app.close());
+
+    it('should auto set csrfToken with cookie options on GET request', () => {
+      return app.httpRequest()
+        .get('/hello')
+        .set('Host', 'abc.aaaa.ddd.string.com')
+        .expect('hello csrfToken cookieOptions')
+        .expect(200)
+        .expect('Set-Cookie', /csrfToken=[\w\-]+; path=\/; httponly/);
+    });
+  });
 });

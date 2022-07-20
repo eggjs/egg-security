@@ -105,17 +105,18 @@ module.exports = {
     debug('ensure csrf secret, exists: %s, rotate; %s', this[CSRF_SECRET], rotate);
     const secret = tokens.secretSync();
     this[NEW_CSRF_SECRET] = secret;
-    let { useSession, sessionName, cookieDomain, cookieName } = this.app.config.security.csrf;
+    let { useSession, sessionName, cookieDomain, cookieName, cookieOptions = {} } = this.app.config.security.csrf;
 
     if (useSession) {
       this.session[sessionName] = secret;
     } else {
-      const cookieOpts = {
+      const defaultOpts = {
         domain: cookieDomain && cookieDomain(this),
         signed: false,
         httpOnly: false,
         overwrite: true,
       };
+      const cookieOpts = utils.merge(defaultOpts, cookieOptions);
       // cookieName support array. so we can change csrf cookie name smoothly
       if (!Array.isArray(cookieName)) cookieName = [ cookieName ];
       for (const name of cookieName) {
