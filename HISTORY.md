@@ -1,4 +1,10 @@
 
+2.11.0 / 2022-07-20
+==================
+
+**features**
+  * [[`b97b2b2`](http://github.com/eggjs/egg-security/commit/b97b2b292d249eee69822baa8fe62da9161597d2)] - feat: csrf cookie support cookieOptions (#80) (大木匠贰 <<damujiangr@aliyun.com>>)
+
 2.10.1 / 2022-04-10
 ==================
 
