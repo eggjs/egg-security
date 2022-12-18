@@ -32,12 +32,10 @@
     "xss": "^1.0.3"
   },
   "devDependencies": {
-    "autod": "^3.0.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.4",
     "egg": "^2.16.0",
     "egg-bin": "^4.3.5",
-    "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.1",
     "egg-view-nunjucks": "^2.1.4",
     "eslint": "^5.15.1",
@@ -60,12 +58,7 @@
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
     "ci": "npm run lint && npm run cov",
-    "autod": "autod",
     "contributor": "git-contributor"
-  },
-  "ci": {
-    "version": "8, 10, 12, 14, 16",
-    "type": "github"
   },
   "repository": {
     "type": "git",
