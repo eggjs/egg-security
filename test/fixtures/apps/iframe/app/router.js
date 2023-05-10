@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = function(app) {
   app.get('/', controller);
   app.get('/foo', controller);
@@ -9,11 +7,11 @@ module.exports = function(app) {
 
   app.get('/options', options, controller);
 
-  function* controller() {
+  async function controller() {
     this.body = 'body';
   }
 
-  function* options(next) {
+  async function options(next) {
     this.securityOptions.xframe = {
       value: 'ALLOW-FROM http://www.domain.com',
     };

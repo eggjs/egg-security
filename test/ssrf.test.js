@@ -1,8 +1,6 @@
-'use strict';
-
+const dns = require('node:dns');
+const { strict: assert } = require('node:assert');
 const mm = require('egg-mock');
-const dns = require('dns');
-const assert = require('assert');
 
 let app;
 describe('test/ssrf.test.js', function() {

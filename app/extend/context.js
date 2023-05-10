@@ -1,10 +1,9 @@
 'use strict';
 
-const safeCurl = require('../../lib/extend/safe_curl');
-const isSafeDomainUtil = require('../../lib/utils').isSafeDomain;
-const nanoid = require('nanoid/non-secure').nanoid;
+const debug = require('node:util').debuglog('egg-security:context');
+const { nanoid } = require('nanoid/non-secure');
 const Tokens = require('csrf');
-const debug = require('debug')('egg-security:context');
+const safeCurl = require('../../lib/extend/safe_curl');
 const utils = require('../../lib/utils');
 
 const tokens = new Tokens();
@@ -44,7 +43,7 @@ module.exports = {
    */
   isSafeDomain(domain) {
     const domainWhiteList = this.app.config.security.domainWhiteList;
-    return isSafeDomainUtil(domain, domainWhiteList);
+    return utils.isSafeDomain(domain, domainWhiteList);
   },
 
   // Add nonce, random characters will be OK.

@@ -1,8 +1,6 @@
-'use strict';
-
-const assert = require('assert');
+const { strict: assert } = require('node:assert');
 const mm = require('egg-mock');
-const utils = require('..').utils;
+const { utils } = require('..');
 
 describe('test/utils.test.js', () => {
   afterEach(mm.restore);

@@ -1,30 +1,28 @@
-'use strict';
-
 const mm = require('egg-mock');
 
 describe('test/lib/helper/surl.test.js', () => {
-  let app,
-    app2;
+  let app;
+  let app2;
 
-  before(function* () {
+  before(async function() {
     app = mm.app({
       baseDir: 'apps/helper-app',
     });
-    yield app.ready();
+    await app.ready();
   });
 
-  before(function* () {
+  before(async function() {
     app2 = mm.app({
       baseDir: 'apps/helper-app-surlextend',
     });
-    yield app2.ready();
+    await app2.ready();
   });
 
   afterEach(mm.restore);
 
-  after(() => {
-    app.close();
-    app2.close();
+  after(async () => {
+    await app.close();
+    await app2.close();
   });
 
   it('should ignore hostname without protocol', () => {
