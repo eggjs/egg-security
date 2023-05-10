@@ -11,9 +11,10 @@ module.exports = function(app) {
     this.body = 'body';
   }
 
-  async function options(next) {
-    this.securityOptions.xframe = {
+  async function options(ctx, next) {
+    ctx.securityOptions.xframe = {
       value: 'ALLOW-FROM http://www.domain.com',
     };
+    return next();
   }
 };

@@ -9,8 +9,7 @@ const mockHtml = `
   </html>
 `;
 
-
-module.exports = function(app) {
+module.exports = app => {
   app.get('/testcsrf', async function() {
     let bodyString = "<form></form>";
     this.body = app.injectCsrf(bodyString);
@@ -25,16 +24,15 @@ module.exports = function(app) {
   });
   app.get('/testnonce', async function() {
     let bodyString3 = "<script></script><script></script><script></script ><script></script                    ><script></script        \t\n    \r\n         ><script></script\t\n bar>";
-    this.body = yield this.renderString(this.nonce + '|' + app.injectNonce(bodyString3), this);
+    this.body = await this.renderString(this.nonce + '|' + app.injectNonce(bodyString3), this);
   });
   app.get('/testnonce2', async function() {
     let bodyString4 = '<script nonce="{{ctx.nonce}}"></script><script nonce="{{ctx.nonce}}"></script>';
-    // yield * this.render('index.nj',{});
     this.body = app.injectNonce(bodyString4);
   });
   app.get('/testrender', async function() {
     this.set('x-csrf', this.csrf);
-    yield this.render('index.nj', {});
+    await this.render('index.nj', {});
   });
   app.get('/testispInjection', async function() {
 
@@ -48,7 +46,6 @@ module.exports = function(app) {
       });
     }
     // console.log(mockInject(mockHtml));
-    this.body = yield this.renderString(mockInject(injectDefenceHtml), this);
-
+    this.body = await this.renderString(mockInject(injectDefenceHtml), this);
   });
 };

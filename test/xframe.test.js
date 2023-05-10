@@ -46,11 +46,12 @@ describe('test/xframe.test.js', () => {
       .expect('X-Frame-Options', 'SAMEORIGIN');
   });
 
-  it('should contain X-Frame-Options: ALLOW-FROM http://www.domain.com by this.securityOptions', function(done) {
-    app.httpRequest()
+  it('should contain X-Frame-Options: ALLOW-FROM http://www.domain.com by this.securityOptions', async () => {
+    const res = await app.httpRequest()
       .get('/options')
-      .set('accept', 'text/html')
-      .expect('X-Frame-Options', 'ALLOW-FROM http://www.domain.com', done);
+      .set('accept', 'text/html');
+    assert.equal(res.status, 200);
+    assert.equal(res.headers['x-frame-options'], 'ALLOW-FROM http://www.domain.com');
   });
 
   it('should contain X-Frame-Options: SAMEORIGIN when dont set value option', function(done) {

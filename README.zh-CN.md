@@ -123,10 +123,10 @@ ctoken 从 cookie 中获取
 
 __安全开发者约定__
 
-- `ctx.ctoken` 获取 ctoken 的逻辑。使用者不要调用，安全插件内部使用。
-- `ctx.setCTOKEN()` 设置 ctoken 的逻辑。使用者不要调用，安全插件内部使用。
-- `ctx.assertCTOKEN()` ctoken 校验逻辑。使用者不要调用，安全插件内部使用。
-- `ctx.setCTOKEN()`会将cookie设置到主域名下，主要考虑主域名下其他子域名对应的应用之间的互相调用。例如 A.xx.com 域种了 ctoken,会设置cookie到xx.com域上，在 B.xx.com 域的时候可以利用 ctoken 去请求，在 A 域 jsonp 请求 B 域的时候，B 域也可以验证 ctoken。
+* `ctx.ctoken` 获取 ctoken 的逻辑。使用者不要调用，安全插件内部使用。
+* `ctx.setCTOKEN()` 设置 ctoken 的逻辑。使用者不要调用，安全插件内部使用。
+* `ctx.assertCTOKEN()` ctoken 校验逻辑。使用者不要调用，安全插件内部使用。
+* `ctx.setCTOKEN()`会将cookie设置到主域名下，主要考虑主域名下其他子域名对应的应用之间的互相调用。例如 A.xx.com 域种了 ctoken,会设置cookie到xx.com域上，在 B.xx.com 域的时候可以利用 ctoken 去请求，在 A 域 jsonp 请求 B 域的时候，B 域也可以验证 ctoken。
 
 可拓展实现。例如 ctoken token 存在什么 cookie，存什么字段等，都可以通过以上两个接口拓展。
 
@@ -206,7 +206,7 @@ url 过滤。
 
 对模板中要输出的变量，加 `helper.surl($value)`。
 
-**特别需要注意的是在需要解析url的地方，surl 外面一定要加上双引号，否则就会导致XSS漏洞。**
+__特别需要注意的是在需要解析url的地方，surl 外面一定要加上双引号，否则就会导致XSS漏洞。__
 
 不使用 surl
 
@@ -254,7 +254,7 @@ console.log(`var foo = "${this.helper.sjs(foo)}";`);
 将富文本（包含 html 代码的文本）当成变量直接在模版里面输出时，需要用到 shtml 来处理。
 使用 shtml 可以输出 html 的 tag，同时执行 xss 的过滤动作，过滤掉非法的脚本。
 
-** 由于是一个非常复杂的安全处理过程，对服务器处理性能一定影响，如果不是输出 HTML，请勿使用。**
+**由于是一个非常复杂的安全处理过程，对服务器处理性能一定影响，如果不是输出 HTML，请勿使用。**
 
 简单示例：
 
@@ -273,8 +273,8 @@ const value = `<a href="http://www.domain.com">google</a><script>evilcode…</sc
 
 shtml 在 [xss](https://github.com/leizongmin/js-xss/) 模块基础上增加了针对域名的过滤。
 
-- [默认规则](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
-- 自定义过滤项 http://jsxss.com/zh/options.html
+* [默认规则](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
+* 自定义过滤项 <http://jsxss.com/zh/options.html>
 
 例如只支持 a 标签，且除了 title 其他属性都过滤掉：
 
@@ -311,9 +311,9 @@ ${helper.shtml($html)}
 
 不合法的路径包括：
 
-- 使用 `..` 的相对路径
-- 使用 `/` 开头的绝对路径
-- 以及以上试图通过 url encode 试图绕过校验的结果字符串
+* 使用 `..` 的相对路径
+* 使用 `/` 开头的绝对路径
+* 以及以上试图通过 url encode 试图绕过校验的结果字符串
 
 ```js
 const foo = '/usr/local/bin';
@@ -328,7 +328,7 @@ json转义
 在js中输出json，若未做转义，易被利用为xss漏洞。提供此宏做json encode，会遍历json中的key，将value的值中，所有非白名单字符转义为\x形式，防止xss攻击。同时保持json结构不变。
 若你有模板中输出一个json字符串给js应用的场景，请使用 `${this.helper.sjson(变量名)}`进行转义。
 
-**处理过程较复杂，性能损耗较大，尽量避免使用**
+__处理过程较复杂，性能损耗较大，尽量避免使用__
 
 实例:
 
@@ -368,7 +368,6 @@ json转义
 
 命令行参数转义。给字符串增加一对单引号并且能引用或者转码任何已经存在的单引号， 这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。
 
-
 ```js
 const ip = '127.0.0.1 && cat /etc/passwd'
 const cmd = 'ping -c 1 ' + this.helper.escapeShellArg(ip);
@@ -380,7 +379,6 @@ console.log(cmd);
 ### .escapeShellCmd()
 
 命令行转义，从输入的命令行中删除下列字符: ```#&;`|*?~<>^()[]{}$;'", 0x0A 和 0xFF```
-
 
 ```js
 const ip = '127.0.0.1 && cat /etc/passwd'
@@ -396,14 +394,14 @@ console.log(cmd);
 
 默认开启，如果是 http 站点，需要关闭
 
-- maxAge 默认一年 `365 * 24 * 3600`
-- includeSubdomains 默认 false
+* maxAge 默认一年 `365 * 24 * 3600`
+* includeSubdomains 默认 false
 
 ### csp
 
 默认关闭。需要开启的话，需要和安全工程师确定开启策略。
 
-- policy 策略
+* policy 策略
 
 ### X-Download-Options:noopen
 
@@ -417,11 +415,11 @@ console.log(cmd);
 
 默认 SAMEORIGIN，只允许同域把本页面当作 iframe 嵌入。
 
-- value 默认值 `SAMEORIGIN`
+* value 默认值 `SAMEORIGIN`
 
 ### X-XSS-Protection
 
-- close 默认值false，即设置为 `1; mode=block`
+* close 默认值false，即设置为 `1; mode=block`
 
 ## 其他
 
@@ -435,9 +433,9 @@ console.log(cmd);
 |[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/893152?v=4" width="100px;"/><br/><sub><b>jtyjty99999</b></sub>](https://github.com/jtyjty99999)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/456108?v=4" width="100px;"/><br/><sub><b>shaoshuai0102</b></sub>](https://github.com/shaoshuai0102)<br/>|[<img src="https://avatars.githubusercontent.com/u/5856440?v=4" width="100px;"/><br/><sub><b>whxaxes</b></sub>](https://github.com/whxaxes)<br/>|
 | :---: | :---: | :---: | :---: | :---: | :---: |
 |[<img src="https://avatars.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars.githubusercontent.com/u/19343?v=4" width="100px;"/><br/><sub><b>ai</b></sub>](https://github.com/ai)<br/>|[<img src="https://avatars.githubusercontent.com/u/4996660?v=4" width="100px;"/><br/><sub><b>Anemone95</b></sub>](https://github.com/Anemone95)<br/>|[<img src="https://avatars.githubusercontent.com/u/7298095?v=4" width="100px;"/><br/><sub><b>guoshencheng</b></sub>](https://github.com/guoshencheng)<br/>|[<img src="https://avatars.githubusercontent.com/u/27910496?v=4" width="100px;"/><br/><sub><b>p0sec</b></sub>](https://github.com/p0sec)<br/>|[<img src="https://avatars.githubusercontent.com/u/5009418?v=4" width="100px;"/><br/><sub><b>pusongyang</b></sub>](https://github.com/pusongyang)<br/>|
-[<img src="https://avatars.githubusercontent.com/u/9857273?v=4" width="100px;"/><br/><sub><b>ShadyZOZ</b></sub>](https://github.com/ShadyZOZ)<br/>|[<img src="https://avatars.githubusercontent.com/u/5064777?v=4" width="100px;"/><br/><sub><b>viko16</b></sub>](https://github.com/viko16)<br/>|[<img src="https://avatars.githubusercontent.com/u/12656301?v=4" width="100px;"/><br/><sub><b>brizer</b></sub>](https://github.com/brizer)<br/>|[<img src="https://avatars.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
+[<img src="https://avatars.githubusercontent.com/u/9857273?v=4" width="100px;"/><br/><sub><b>ShadyZOZ</b></sub>](https://github.com/ShadyZOZ)<br/>|[<img src="https://avatars.githubusercontent.com/u/5064777?v=4" width="100px;"/><br/><sub><b>viko16</b></sub>](https://github.com/viko16)<br/>|[<img src="https://avatars.githubusercontent.com/u/12656301?v=4" width="100px;"/><br/><sub><b>brizer</b></sub>](https://github.com/brizer)<br/>|[<img src="https://avatars.githubusercontent.com/u/18703255?v=4" width="100px;"/><br/><sub><b>damujiangr</b></sub>](https://github.com/damujiangr)<br/>|[<img src="https://avatars.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
 
-This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Tue Apr 05 2022 11:54:38 GMT+0800`.
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Wed May 10 2023 16:36:13 GMT+0800`.
 
 <!-- GITCONTRIBUTOR_END -->
 

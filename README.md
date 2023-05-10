@@ -22,7 +22,7 @@ Egg's default security plugin, generally no need to configure.
 ## Install
 
 ```bash
-$ npm i egg-security
+npm i egg-security
 ```
 
 ## Usage & configuration
@@ -140,7 +140,6 @@ ctx.securityOptions.shtml = {
 - `ctx.securityOptions` the current request configuration will overrides the default configuration, but it does not make a deep copy，so pay attention to configure `csp.policy`, it will not be merged.
 - If you configure `ctx.securityOptions`，please write unit tests to ensure the code is correct.
 
-
 ## API
 
 ### ctx.isSafeDomain(domain)
@@ -161,7 +160,7 @@ exports.security = {
 
 __usage__
 
-* `ctx.csrf` getter for CSRF token
+- `ctx.csrf` getter for CSRF token
 
 Generally used when send POST form request. When page rendering, put `ctx.csrf` into form hidden field or query string.(`_csrf` is the key).
 When submitting the form, please submit with the `_csrf` token parameter.
@@ -232,9 +231,9 @@ Must call `ctx.rotateCsrfSecret()` when user login to ensure each user has indep
 
 ### safe redirect
 
-* `ctx.redirect(url)` If url is not in the configuration of the white list, the redirect will be prohibited
+- `ctx.redirect(url)` If url is not in the configuration of the white list, the redirect will be prohibited
 
-* `ctx.unsafeRedirect(url)` Not Recommended;
+- `ctx.unsafeRedirect(url)` Not Recommended;
 
 Security plugin override `ctx.redirect` method，all redirects will be judged by the domain name.
 
@@ -254,13 +253,13 @@ Based on [jsonp-body](https://github.com/node-modules/jsonp-body).
 
 Defense:
 
-* The longest callback function name limit of 50 characters.
-* Callback function only allows "[","]","a-zA-Z0123456789_", "$" "." to prevent `xss` or `utf-7` attack.
+- The longest callback function name limit of 50 characters.
+- Callback function only allows "[","]","a-zA-Z0123456789_", "$" "." to prevent `xss` or `utf-7` attack.
 
 Config：
 
-* callback function default name `_callback`.
-* limit - function name limit, default by 50.
+- callback function default name `_callback`.
+- limit - function name limit, default by 50.
 
 ## helper
 
@@ -284,7 +283,7 @@ Used for url in html tags (like `<a href=""/><img src=""/>`),please do not call 
 
   `helper.surl($value)`。
 
-** Mention: Particular attention, if you need to resolve URL use `surl`，`surl` need warpped in quotes, Otherwise will lead to XSS vulnerability.**
+**Mention: Particular attention, if you need to resolve URL use `surl`，`surl` need warpped in quotes, Otherwise will lead to XSS vulnerability.**
 
 Example: do not use surl
 
@@ -345,7 +344,7 @@ console.log(`var foo = "${ctx.helper.sjs(foo)}";`);
 If you want to output richtexts in views, you need to use `shtml` helper.
 It will do XSS filter, then output html tags to avoid illegal scripts.
 
-** shtml is a very complex process, it will effect server performance, so if you do not need to output HTML, please do not use shtml.**
+**shtml is a very complex process, it will effect server performance, so if you do not need to output HTML, please do not use shtml.**
 
 Examples:
 
@@ -365,7 +364,7 @@ const value = `<a href="http://www.domain.com">google</a><script>evilcode…</sc
 shtml based on [xss](https://github.com/leizongmin/js-xss/), and add filter by domain feature.
 
 - [default rule](https://github.com/leizongmin/js-xss/blob/master/lib/default.js)
-- custom rule http://jsxss.com/zh/options.html
+- custom rule <http://jsxss.com/zh/options.html>
 
 For example, only support `a` tag, and filter all attributes except for `title`:
 
@@ -422,7 +421,7 @@ If you want to output json in javascript without encoding, it will be a risk for
 sjson supports json encode，it will iterate all keys in json, then escape all characters in the value to `\x` to avoid XSS attack, and keep the json structure unchanged.
 If you want to output json string in your views, please use `${ctx.helper.sjson(var)}`to escape.
 
-**it has a very complex process and will lost performance, so avoid the use as far as possible**
+__it has a very complex process and will lost performance, so avoid the use as far as possible__
 
 example:
 
@@ -458,7 +457,6 @@ after fix:
 
 Escape command line arguments. Add single quotes around a string and quotes/escapes any existing single quotes allowing you to pass a string directly to a shell function and having it be treated as a single safe argument.
 
-
 ```js
 const ip = '127.0.0.1 && cat /etc/passwd'
 const cmd = 'ping -c 1 ' + this.helper.escapeShellArg(ip);
@@ -470,7 +468,6 @@ console.log(cmd);
 ### .escapeShellCmd()
 
 Command line escape to remove the following characters from the entered command line: ```#&;`|*?~<>^()[]{}$;'", 0x0A and 0xFF```
-
 
 ```js
 const ip = '127.0.0.1 && cat /etc/passwd'
@@ -490,7 +487,6 @@ Disabled by default. If your website based on https, we recommend you should ena
 
 - maxAge one year by default `365 * 24 * 3600`
 - includeSubdomains false by default
-
 
 ### csp
 
@@ -524,9 +520,9 @@ In a [Server-Side Request Forgery (SSRF)](https://www.owasp.org/index.php/Server
 
 #### Configuration
 
-* ipBlackList(Array) - specific which ip are illegal when request with `safeCurl`.
-* ipExceptionList(Array) - specific which ip are legal within ipBlackList.
-* checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
+- ipBlackList(Array) - specific which ip are illegal when request with `safeCurl`.
+- ipExceptionList(Array) - specific which ip are legal within ipBlackList.
+- checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
 
 ```js
 // config/config.default.js
@@ -553,7 +549,7 @@ exports.security = {
 
 ## Other
 
-* Forbid `trace` `track` http methods.
+- Forbid `trace` `track` http methods.
 
 <!-- GITCONTRIBUTOR_START -->
 
@@ -562,9 +558,9 @@ exports.security = {
 |[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/893152?v=4" width="100px;"/><br/><sub><b>jtyjty99999</b></sub>](https://github.com/jtyjty99999)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/456108?v=4" width="100px;"/><br/><sub><b>shaoshuai0102</b></sub>](https://github.com/shaoshuai0102)<br/>|[<img src="https://avatars.githubusercontent.com/u/5856440?v=4" width="100px;"/><br/><sub><b>whxaxes</b></sub>](https://github.com/whxaxes)<br/>|
 | :---: | :---: | :---: | :---: | :---: | :---: |
 |[<img src="https://avatars.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars.githubusercontent.com/u/19343?v=4" width="100px;"/><br/><sub><b>ai</b></sub>](https://github.com/ai)<br/>|[<img src="https://avatars.githubusercontent.com/u/4996660?v=4" width="100px;"/><br/><sub><b>Anemone95</b></sub>](https://github.com/Anemone95)<br/>|[<img src="https://avatars.githubusercontent.com/u/7298095?v=4" width="100px;"/><br/><sub><b>guoshencheng</b></sub>](https://github.com/guoshencheng)<br/>|[<img src="https://avatars.githubusercontent.com/u/27910496?v=4" width="100px;"/><br/><sub><b>p0sec</b></sub>](https://github.com/p0sec)<br/>|[<img src="https://avatars.githubusercontent.com/u/5009418?v=4" width="100px;"/><br/><sub><b>pusongyang</b></sub>](https://github.com/pusongyang)<br/>|
-[<img src="https://avatars.githubusercontent.com/u/9857273?v=4" width="100px;"/><br/><sub><b>ShadyZOZ</b></sub>](https://github.com/ShadyZOZ)<br/>|[<img src="https://avatars.githubusercontent.com/u/5064777?v=4" width="100px;"/><br/><sub><b>viko16</b></sub>](https://github.com/viko16)<br/>|[<img src="https://avatars.githubusercontent.com/u/12656301?v=4" width="100px;"/><br/><sub><b>brizer</b></sub>](https://github.com/brizer)<br/>|[<img src="https://avatars.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
+[<img src="https://avatars.githubusercontent.com/u/9857273?v=4" width="100px;"/><br/><sub><b>ShadyZOZ</b></sub>](https://github.com/ShadyZOZ)<br/>|[<img src="https://avatars.githubusercontent.com/u/5064777?v=4" width="100px;"/><br/><sub><b>viko16</b></sub>](https://github.com/viko16)<br/>|[<img src="https://avatars.githubusercontent.com/u/12656301?v=4" width="100px;"/><br/><sub><b>brizer</b></sub>](https://github.com/brizer)<br/>|[<img src="https://avatars.githubusercontent.com/u/18703255?v=4" width="100px;"/><br/><sub><b>damujiangr</b></sub>](https://github.com/damujiangr)<br/>|[<img src="https://avatars.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
 
-This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Tue Apr 05 2022 11:54:38 GMT+0800`.
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Wed May 10 2023 16:36:13 GMT+0800`.
 
 <!-- GITCONTRIBUTOR_END -->
 

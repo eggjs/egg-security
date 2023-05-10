@@ -38,8 +38,7 @@ describe('test/security.test.js', () => {
       .expect('X-Download-Options', 'noopen')
       .expect('X-Content-Type-Options', 'nosniff')
       .expect('X-XSS-Protection', '1; mode=block')
-      .expect(200)
-      .end();
+      .expect(200);
   });
 
   it('should load default security headers when developer try to override in controller', () => {
@@ -50,20 +49,19 @@ describe('test/security.test.js', () => {
       .expect('X-Download-Options', 'noopen')
       .expect('X-Content-Type-Options', 'nosniff')
       .expect('X-XSS-Protection', '1; mode=block')
-      .expect(200)
-      .end();
+      .expect(200);
   });
 
-  it('should load default security headers when developer try to override in middleware', () => {
-    return app4.httpRequest()
+  it('should load default security headers when developer try to override in middleware', async () => {
+    const res = await app4.httpRequest()
       .get('/')
       .set('accept', 'text/html')
       .expect('Strict-Transport-Security', 'max-age=31536000')
       .expect('X-Download-Options', 'noopen')
       .expect('X-Content-Type-Options', 'nosniff')
       .expect('X-XSS-Protection', '1; mode=block')
-      .expect(200)
-      .end();
+      .expect(200);
+    assert.equal(res.status, 200);
   });
 
   it('disable hsts for default', async () => {

@@ -96,14 +96,14 @@ describe('test/ssrf.test.js', function() {
 
     it('should safeCurl work', async () => {
       const ctx = app.createAnonymousContext();
-      const url = 'https://httpbin.org/get?foo=bar';
+      const url = 'https://registry.npmmirror.com/';
 
       const r1 = await app.safeCurl(url, { dataType: 'json' });
       const r2 = await app.agent.safeCurl(url, { dataType: 'json' });
       const r3 = await ctx.safeCurl(url, { dataType: 'json' });
-      assert(r1.status === 200);
-      assert(r2.status === 200);
-      assert(r3.status === 200);
+      assert.equal(r1.status, 200);
+      assert.equal(r2.status, 200);
+      assert.equal(r3.status, 200);
     });
 
     it('should safeCurl block illegal address', async () => {
