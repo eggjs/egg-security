@@ -1,8 +1,6 @@
-'use strict';
-
+const path = require('node:path');
+const assert = require('node:assert');
 const compose = require('koa-compose');
-const path = require('path');
-const assert = require('assert');
 const createMatch = require('egg-path-matching');
 
 module.exports = (_, app) => {
