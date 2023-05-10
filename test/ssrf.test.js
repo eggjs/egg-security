@@ -2,8 +2,8 @@ const dns = require('node:dns');
 const { strict: assert } = require('node:assert');
 const mm = require('egg-mock');
 
-let app;
-describe('test/ssrf.test.js', function() {
+describe('test/ssrf.test.js', () => {
+  let app;
   afterEach(mm.restore);
 
   describe('no ssrf config', () => {
@@ -96,7 +96,7 @@ describe('test/ssrf.test.js', function() {
 
     it('should safeCurl work', async () => {
       const ctx = app.createAnonymousContext();
-      const url = 'https://httpbin.org/get?foo=bar';
+      const url = process.env.CI ? 'https://registry.npmjs.org' : 'https://registry.npmmirror.com';
 
       const r1 = await app.safeCurl(url, { dataType: 'json' });
       const r2 = await app.agent.safeCurl(url, { dataType: 'json' });
