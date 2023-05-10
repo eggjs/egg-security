@@ -1,3 +1,15 @@
+# Changelog
+
+## [3.0.0](https://github.com/eggjs/egg-security/compare/v2.11.0...v3.0.0) (2023-05-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop Node.js < 14 support
+
+### Features
+
+* upgrade deps to latest versions ([#82](https://github.com/eggjs/egg-security/issues/82)) ([c3ca817](https://github.com/eggjs/egg-security/commit/c3ca817eca2fa6a034f9402f6ad5c4a8e9194178))
 
 2.11.0 / 2022-07-20
 ==================
@@ -282,4 +294,3 @@
 ==================
 
   * First version
-
