@@ -96,7 +96,7 @@ describe('test/ssrf.test.js', function() {
 
     it('should safeCurl work', async () => {
       const ctx = app.createAnonymousContext();
-      const url = 'https://registry.npmmirror.com/';
+      const url = 'https://httpbin.org/get?foo=bar';
 
       const r1 = await app.safeCurl(url, { dataType: 'json' });
       const r2 = await app.agent.safeCurl(url, { dataType: 'json' });
