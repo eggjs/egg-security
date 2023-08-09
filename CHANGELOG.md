@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/eggjs/egg-security/compare/v3.0.0...v3.1.0) (2023-08-09)
+
+
+### Features
+
+* context 中的 `isSafeDomain()` 函数增加自定义白名单参数 ([#86](https://github.com/eggjs/egg-security/issues/86)) ([a178552](https://github.com/eggjs/egg-security/commit/a1785525fc1acb5d0e329dd1446c3bc8b4f6e72f))
+
 ## [3.0.0](https://github.com/eggjs/egg-security/compare/v2.11.0...v3.0.0) (2023-05-10)
 
 
