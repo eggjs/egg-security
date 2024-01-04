@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/eggjs/egg-security/compare/v3.1.0...v3.2.0) (2024-01-04)
+
+
+### Features
+
+* CSRF cookies allow the use of signatures ([#88](https://github.com/eggjs/egg-security/issues/88)) ([da1b532](https://github.com/eggjs/egg-security/commit/da1b53222448bb646ad6fb1d726a6168a43eafcf))
+
 ## [3.1.0](https://github.com/eggjs/egg-security/compare/v3.0.0...v3.1.0) (2023-08-09)
 
 
