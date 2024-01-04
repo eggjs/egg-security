@@ -50,6 +50,10 @@ module.exports = () => {
       refererWhiteList: [
         // 'eggjs.org'
       ],
+      // csrf token's cookie options
+      cookieOptions: {
+        signed: false,
+      },
     },
 
     xframe: {

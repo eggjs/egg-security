@@ -82,7 +82,7 @@ module.exports = {
    */
   get [CSRF_SECRET]() {
     if (this[_CSRF_SECRET]) return this[_CSRF_SECRET];
-    let { useSession, cookieName, sessionName } = this.app.config.security.csrf;
+    let { useSession, cookieName, sessionName, cookieOptions = {} } = this.app.config.security.csrf;
     // get secret from session or cookie
     if (useSession) {
       this[_CSRF_SECRET] = this.session[sessionName] || '';
@@ -90,7 +90,7 @@ module.exports = {
       // cookieName support array. so we can change csrf cookie name smoothly
       if (!Array.isArray(cookieName)) cookieName = [ cookieName ];
       for (const name of cookieName) {
-        this[_CSRF_SECRET] = this.cookies.get(name, { signed: false }) || '';
+        this[_CSRF_SECRET] = this.cookies.get(name, { signed: cookieOptions.signed || false }) || '';
         if (this[_CSRF_SECRET]) break;
       }
     }
