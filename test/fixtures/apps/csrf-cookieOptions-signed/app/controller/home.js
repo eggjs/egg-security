@@ -2,7 +2,7 @@
 
 module.exports = app => {
   return class Home extends app.Controller {
-    * index() {
+    async index() {
       this.ctx.body = 'hello csrfToken cookieOptions signed';
     }
   };
