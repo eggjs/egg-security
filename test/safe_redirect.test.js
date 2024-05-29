@@ -23,19 +23,19 @@ describe('test/safe_redirect.test.js', function() {
     app.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com', done);
+      .expect('location', 'http://domain.com/', done);
   });
 
   it('should redirect to / when white list is blank', async () => {
     await app2.httpRequest()
       .get('/safe_redirect?goto=http://domain.com')
       .expect(302)
-      .expect('location', 'http://domain.com');
+      .expect('location', 'http://domain.com/');
 
     await app2.httpRequest()
       .get('/safe_redirect?goto=http://baidu.com')
       .expect(302)
-      .expect('location', 'http://baidu.com');
+      .expect('location', 'http://baidu.com/');
   });
 
   it('should redirect to / when url is invaild', async () => {
