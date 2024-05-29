@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/eggjs/egg-security/compare/v3.2.0...v3.3.0) (2024-05-29)
+
+
+### Features
+
+* use ip@v2 ([#93](https://github.com/eggjs/egg-security/issues/93)) ([ffb761d](https://github.com/eggjs/egg-security/commit/ffb761dd6e364fd7eb1d034a6fb1f3a060855f80))
+
 ## [3.2.0](https://github.com/eggjs/egg-security/compare/v3.1.0...v3.2.0) (2024-01-04)
 
 
