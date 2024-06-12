@@ -15,12 +15,12 @@
     "security"
   ],
   "dependencies": {
+    "@eggjs/ip": "^2.0.2",
     "csrf": "^3.0.6",
     "delegates": "^1.0.0",
     "egg-path-matching": "^1.0.0",
     "escape-html": "^1.0.3",
     "extend": "^3.0.1",
-    "ip": "^2.0.1",
     "koa-compose": "^4.1.0",
     "matcher": "^4.0.0",
     "methods": "^1.1.2",
