@@ -426,19 +426,12 @@ console.log(cmd);
 * crossdomain.xml robots.txt 支持，默认都不加，系统可自行加，需要咨询项目安全工程师
 * 禁止 trace track 两种类型请求
 
-<!-- GITCONTRIBUTOR_START -->
+## License
+
+[MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)¬
 
 ## Contributors
 
-|[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/893152?v=4" width="100px;"/><br/><sub><b>jtyjty99999</b></sub>](https://github.com/jtyjty99999)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/456108?v=4" width="100px;"/><br/><sub><b>shaoshuai0102</b></sub>](https://github.com/shaoshuai0102)<br/>|[<img src="https://avatars.githubusercontent.com/u/5856440?v=4" width="100px;"/><br/><sub><b>whxaxes</b></sub>](https://github.com/whxaxes)<br/>|
-| :---: | :---: | :---: | :---: | :---: | :---: |
-|[<img src="https://avatars.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars.githubusercontent.com/u/19343?v=4" width="100px;"/><br/><sub><b>ai</b></sub>](https://github.com/ai)<br/>|[<img src="https://avatars.githubusercontent.com/u/4996660?v=4" width="100px;"/><br/><sub><b>Anemone95</b></sub>](https://github.com/Anemone95)<br/>|[<img src="https://avatars.githubusercontent.com/u/7298095?v=4" width="100px;"/><br/><sub><b>guoshencheng</b></sub>](https://github.com/guoshencheng)<br/>|[<img src="https://avatars.githubusercontent.com/u/27910496?v=4" width="100px;"/><br/><sub><b>p0sec</b></sub>](https://github.com/p0sec)<br/>|[<img src="https://avatars.githubusercontent.com/u/5009418?v=4" width="100px;"/><br/><sub><b>pusongyang</b></sub>](https://github.com/pusongyang)<br/>|
-[<img src="https://avatars.githubusercontent.com/u/9857273?v=4" width="100px;"/><br/><sub><b>ShadyZOZ</b></sub>](https://github.com/ShadyZOZ)<br/>|[<img src="https://avatars.githubusercontent.com/u/5064777?v=4" width="100px;"/><br/><sub><b>viko16</b></sub>](https://github.com/viko16)<br/>|[<img src="https://avatars.githubusercontent.com/u/12656301?v=4" width="100px;"/><br/><sub><b>brizer</b></sub>](https://github.com/brizer)<br/>|[<img src="https://avatars.githubusercontent.com/u/18703255?v=4" width="100px;"/><br/><sub><b>damujiangr</b></sub>](https://github.com/damujiangr)<br/>|[<img src="https://avatars.githubusercontent.com/u/7480584?v=4" width="100px;"/><br/><sub><b>EliYao</b></sub>](https://github.com/EliYao)<br/>
+[![Contributors](https://contrib.rocks/image?repo=eggjs/egg-security)](https://github.com/eggjs/egg-security/graphs/contributors)
 
-This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Wed May 10 2023 16:36:13 GMT+0800`.
-
-<!-- GITCONTRIBUTOR_END -->
-
-## License¬
-
-[MIT](https://github.com/eggjs/egg-security/blob/master/LICENSE)¬
+Made with [contributors-img](https://contrib.rocks).
