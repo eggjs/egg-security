@@ -1,6 +1,9 @@
 {
   "name": "egg-security",
   "version": "3.3.1",
+  "engines": {
+    "node": ">=14.20.0"
+  },
   "description": "security plugin in egg framework",
   "eggPlugin": {
     "name": "security",
@@ -41,9 +44,6 @@
     "eslint-config-egg": "^12.2.1",
     "spy": "^1.0.0",
     "supertest": "^6.3.3"
-  },
-  "engines": {
-    "node": ">=14.17.0"
   },
   "scripts": {
     "lint": "eslint .",
