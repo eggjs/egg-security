@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/eggjs/egg-security/compare/v3.3.1...v3.4.0) (2024-07-01)
+
+
+### Features
+
+* support SSRF check on useHttpClientNext = true ([#96](https://github.com/eggjs/egg-security/issues/96)) ([1d6bfff](https://github.com/eggjs/egg-security/commit/1d6bfffba257aae9bb72906cbe958550d00adfb7))
+
 ## [3.3.1](https://github.com/eggjs/egg-security/compare/v3.3.0...v3.3.1) (2024-06-12)
 
 
