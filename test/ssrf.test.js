@@ -88,6 +88,27 @@ describe('test/ssrf.test.js', () => {
     });
   });
 
+  describe('checkAddress with useHttpClientNext = true', () => {
+    before(() => {
+      app = mm.app({ baseDir: 'apps/ssrf-check-address-useHttpClientNext' });
+      return app.ready();
+    });
+
+    it('should safeCurl work', async () => {
+      const urls = [
+        'https://127.0.0.2/foo',
+        'https://www.google.com/foo',
+      ];
+      mm.data(dns, 'lookup', '127.0.0.2');
+      const ctx = app.createAnonymousContext();
+      for (const url of urls) {
+        await checkIllegalAddressError(app, url);
+        await checkIllegalAddressError(app.agent, url);
+        await checkIllegalAddressError(ctx, url);
+      }
+    });
+  });
+
   describe('ipExceptionList', () => {
     before(() => {
       app = mm.app({ baseDir: 'apps/ssrf-ip-exception-list' });
@@ -157,6 +178,7 @@ async function checkIllegalAddressError(instance, url) {
     await instance.safeCurl(url);
     throw new Error('should not execute');
   } catch (err) {
-    assert(err.name === 'IllegalAddressError');
+    assert.equal(err.name, 'IllegalAddressError');
+    assert.match(err.message, /illegal address/);
   }
 }

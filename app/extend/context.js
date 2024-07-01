@@ -3,7 +3,7 @@
 const debug = require('node:util').debuglog('egg-security:context');
 const { nanoid } = require('nanoid/non-secure');
 const Tokens = require('csrf');
-const safeCurl = require('../../lib/extend/safe_curl');
+const { safeCurlForContext } = require('../../lib/extend/safe_curl');
 const utils = require('../../lib/utils');
 
 const tokens = new Tokens();
@@ -228,5 +228,5 @@ module.exports = {
     }
   },
 
-  safeCurl,
+  safeCurl: safeCurlForContext,
 };
