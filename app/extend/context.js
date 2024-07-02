@@ -200,6 +200,10 @@ module.exports = {
     if (token !== this[CSRF_SECRET] && !tokens.verify(this[CSRF_SECRET], token)) {
       debug('verify secret and token error');
       this[LOG_CSRF_NOTICE]('invalid csrf token');
+      const { rotateWhenInvalid } = this.app.config.security.csrf;
+      if (rotateWhenInvalid) {
+        this.rotateCsrfSecret();
+      }
       return 'invalid csrf token';
     }
   },

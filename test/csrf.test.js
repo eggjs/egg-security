@@ -283,6 +283,17 @@ describe('test/csrf.test.js', () => {
       });
   });
 
+  it('token should be rotated when enable rotateWhenInvalid', async () => {
+    mm(app.config.security.csrf, 'rotateWhenInvalid', true);
+    await app.httpRequest()
+      .post('/update')
+      .set('x-csrf-token', '2')
+      .set('cookie', 'csrfToken=1')
+      .send({ title: 'invalid token' })
+      .expect(403)
+      .expect(res => assert(!!res.header['set-cookie']));
+  });
+
   it('should show deprecate message if ignoreJSON = true', async () => {
     const app = mm.app({ baseDir: 'apps/csrf-ignorejson' });
     await app.ready();
