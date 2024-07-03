@@ -143,6 +143,7 @@ exports.security = {
     headerName: 'x-csrf-token', // csrf token 在 header 中的名称
     bodyName: '_csrf',          // csrf token 在 body 中的名称
     queryName: '_csrf',         // csrf token 在 query 中的名称
+    rotateWhenInvalid: false,   // csrf invalid 时刷新 token，用于同域名下多个业务 token 可能互相影响的情况
     refererWhiteList: [],       // referer 白名单
     supportedRequests: [        // 支持的 url path pattern 和方法，根据配置名单由上至下匹配 url path 正则，建议在自定义时配置 {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']} 为兜底规则
       {path: /^\//, methods:['POST','PATCH','DELETE','PUT','CONNECT']},

@@ -42,6 +42,7 @@ module.exports = () => {
       headerName: 'x-csrf-token',
       bodyName: '_csrf',
       queryName: '_csrf',
+      rotateWhenInvalid: false,
       supportedRequests: [
         { path: /^\//, methods: [ 'POST', 'PATCH', 'DELETE', 'PUT', 'CONNECT' ] },
       ],
