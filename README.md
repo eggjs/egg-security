@@ -39,7 +39,7 @@ exports.security = {
 
 ### Disable security precautions
 
-If you want to disable some security precautions, set `enable` porperty to 'false' directly.
+To disable some security precautions, set `enable` property to 'false' directly.
 
 For example, disable xframe defense:
 
@@ -96,7 +96,7 @@ There are times when we want to be more flexible to configure security plugins.F
 1. To decide whether to enable or disable the xframe security header from the context of the request.
 2. To decide csp policies from different request urls.
 
-Then we can configure `ctx.securityOptions[name] opts` in the custom middleware or controller,then the current request configuration will overrides the default configuration (new configuration will be merged and override the default project configuration, but only take effect in the current request)
+Then we can configure `ctx.securityOptions[name] opts` in the custom middleware or controller, then the current request configuration will override the default configuration (new configuration will be merged and override the default project configuration, but only take effect in the current request)
 
 ```js
 async ctx => {
@@ -112,7 +112,7 @@ async ctx => {
 }
 ```
 
-Not all security plugins support dynamic configuration, only following plugins list support
+Not all security plugins support dynamic configuration, only the following plugins list support
 
 - csp
 - hsts
@@ -391,9 +391,9 @@ ${helper.shtml($html)}
 ```
 
 Commonly used `data-xx` property is not in the whitelist, so it will be filtered.
-So please check the applicable scenarios for `shtml`, it usually used for richtext submmited by user.
+So please check the applicable scenarios for `shtml`, it is usually used for rich-text submitted by user.
 
-A usage error will limit functions, also affect the performance of the server.
+A usage error will limit functions, and also affect the performance of the server.
 Such scenes are generally forums, comments, etc.
 
 Even if the forum does not support the HTML content input, do not use this helper, you can directly use `escape` instead.
@@ -480,7 +480,7 @@ console.log(cmd);
 
 ## Security Headers
 
-Refer to [lusca](https://github.com/krakenjs/lusca), appriciate for their works.
+Refer to [lusca](https://github.com/krakenjs/lusca), appreciate their work.
 
 ### hsts Strict-Transport-Security
 
@@ -491,27 +491,27 @@ Disabled by default. If your website based on https, we recommend you should ena
 
 ### csp
 
-Default disabled. If you need to enable, please contact your security engineers and determine the opening strategy
+Default disabled. If you need to enable it, please contact your security engineers and determine the opening strategy
 
 - policy policies used by csp
 
 ### X-Download-Options:noopen
 
-Default enabled, disable IE download dialog automatically open download file and will cause XSS
+Default enabled, disable IE download dialog automatically opens download file and will cause XSS
 
 ### X-Content-Type-Options:nosniff
 
-Disable IE8's auto MIME sniffing. E.g: take `text/plain` as `text/html` by mistake and render it, especially when there's something untrusted in the local service.
+Disable IE8's auto MIME sniffing. E.g.: take `text/plain` as `text/html` by mistake and render it, especially when there's something untrusted in the local service.
 
 ### X-Frame-Options
 
-Defaulting to "SAMEORIGIN", only allow iframe embed by same origin.
+Defaulting to "SAMEORIGIN", only allows iframe to embed by the same origin.
 
 - value Defaulting to `SAMEORIGIN`
 
 ### X-XSS-Protection
 
-- disable Defaulting to `false`，same as `1; mode=block`.
+- disable Defaulting to `false`, the same as `1; mode=block`.
 
 ### SSRF Protection
 
@@ -521,21 +521,21 @@ In a [Server-Side Request Forgery (SSRF)](https://www.owasp.org/index.php/Server
 
 #### Configuration
 
-- ipBlackList(Array) - specific which ip are illegal when request with `safeCurl`.
-- ipExceptionList(Array) - specific which ip are legal within ipBlackList.
+- ipBlackList(Array) - specific which IP addresses are illegal when requested with `safeCurl`.
+- ipExceptionList(Array) - specific which IP addresses are legal within ipBlackList.
 - checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
 
 ```js
 // config/config.default.js
 exports.security = {
   ssrf: {
-    // support both cidr subnet or specific ip
+    // support both cidr subnet or specific IP
     ipBlackList: [
       '10.0.0.0/8',
       '127.0.0.1',
       '0.0.0.0/32',
     ],
-    // support both cidr subnet or specific ip
+    // support both cidr subnet or specific IP
     ipExceptionList: [
       '10.1.1.1',
       '10.10.0.1/24',
