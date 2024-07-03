@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/eggjs/egg-security/compare/v3.4.0...v3.5.0) (2024-07-03)
+
+
+### Features
+
+* add rotateWhenInvalid option for CSRF token ([#98](https://github.com/eggjs/egg-security/issues/98)) ([ae37c8f](https://github.com/eggjs/egg-security/commit/ae37c8f8e55c050ec6747a196f77aec197958e02))
+
 ## [3.4.0](https://github.com/eggjs/egg-security/compare/v3.3.1...v3.4.0) (2024-07-01)
 
 
