@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0](https://github.com/eggjs/egg-security/compare/v3.5.0...v3.6.0) (2024-07-08)
+
+
+### Features
+
+* add hostnameExceptionList for ssrf ([#100](https://github.com/eggjs/egg-security/issues/100)) ([92a34f3](https://github.com/eggjs/egg-security/commit/92a34f3246ded7ebb5c628d1de2a37a121ce919d))
+
 ## [3.5.0](https://github.com/eggjs/egg-security/compare/v3.4.0...v3.5.0) (2024-07-03)
 
 
