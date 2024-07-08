@@ -209,7 +209,7 @@ module.exports = {
   },
 
   [CSRF_REFERER_CHECK]() {
-    const { refererWhiteList } = this.app.config.security.csrf.refererWhiteList;
+    const { refererWhiteList } = this.app.config.security.csrf;
     const referer = (this.headers.referer || '').toLowerCase();
     if (!referer) {
       debug('missing csrf referer');
