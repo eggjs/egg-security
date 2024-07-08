@@ -171,6 +171,37 @@ describe('test/ssrf.test.js', () => {
       assert(count === 3);
     });
   });
+
+  describe('hostnameExceptionList', () => {
+    before(() => {
+      app = mm.app({ baseDir: 'apps/ssrf-hostname-exception-list' });
+      return app.ready();
+    });
+
+    it('should safeCurl work', async () => {
+      const ctx = app.createAnonymousContext();
+      const host = process.env.CI ? 'registry.npmjs.org' : 'registry.npmmirror.com';
+      const url = `https://${host}`;
+      let count = 0;
+
+      mm(app, 'curl', async (url, options) => {
+        options.checkAddress('10.0.0.1', 4, host) && count++;
+        return 'response';
+      });
+      mm(app.agent, 'curl', async (url, options) => {
+        options.checkAddress('10.0.0.1', 4, host) && count++;
+        return 'response';
+      });
+      mm(ctx, 'curl', async (url, options) => {
+        options.checkAddress('10.0.0.1', 4, host) && count++;
+        return 'response';
+      });
+
+      await app.safeCurl(url, { dataType: 'json' });
+      await app.agent.safeCurl(url, { dataType: 'json' });
+      await ctx.safeCurl(url, { dataType: 'json' });
+    });
+  });
 });
 
 async function checkIllegalAddressError(instance, url) {

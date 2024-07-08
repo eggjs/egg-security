@@ -523,6 +523,7 @@ In a [Server-Side Request Forgery (SSRF)](https://www.owasp.org/index.php/Server
 
 - ipBlackList(Array) - specific which IP addresses are illegal when requested with `safeCurl`.
 - ipExceptionList(Array) - specific which IP addresses are legal within ipBlackList.
+hostnameExceptionList(Array) - specifies which hostnames are legal within ipBlackList.
 - checkAddress(Function) - determine the ip by the function's return value, `false` means illegal ip.
 
 ```js
@@ -539,6 +540,10 @@ exports.security = {
     ipExceptionList: [
       '10.1.1.1',
       '10.10.0.1/24',
+    ],
+    // legal hostname
+    hostnameExceptionList: [
+      'example.com',
     ],
     // checkAddress has higher priority than ipBlackList
     checkAddress(ip) {
