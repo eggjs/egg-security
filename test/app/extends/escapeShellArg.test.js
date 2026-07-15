@@ -1,4 +1,13 @@
+const assert = require('node:assert/strict');
+const { exec: childProcessExec } = require('node:child_process');
+const { promisify } = require('node:util');
+
 const mm = require('egg-mock');
+
+const escapeShellArg = require('../../../lib/helper/escapeShellArg');
+
+const exec = promisify(childProcessExec);
+const itOnPosix = process.platform === 'win32' ? it.skip : it;
 
 describe('test/app/extends/escapeShellArg.test.js', () => {
   let app;
@@ -32,6 +41,13 @@ describe('test/app/extends/escapeShellArg.test.js', () => {
         .get('/escapeShellArg-3')
         .expect(200)
         .expect('true');
+    });
+
+    itOnPosix('should keep single quotes inside one shell argument', async () => {
+      const payload = '\'; echo EGG_SECURITY_INJECTED; #';
+      const { stdout } = await exec(`printf 'ARG:%s\\n' ${escapeShellArg(payload)}`);
+
+      assert.equal(stdout, 'ARG:\'; echo EGG_SECURITY_INJECTED; #\n');
     });
   });
 });
