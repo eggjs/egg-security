@@ -22,7 +22,10 @@ describe('test/app/extends/escapeShellArg.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.escapeShellArg()', () => {
     it('should add single quotes around a string', () => {

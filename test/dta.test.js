@@ -8,6 +8,20 @@ function sleep(ms) {
   });
 }
 
+async function waitForLog(app, text, loggerName) {
+  let lastError;
+  for (let i = 0; i < 20; i++) {
+    try {
+      app.expectLog(text, loggerName);
+      return;
+    } catch (err) {
+      lastError = err;
+      await sleep(100);
+    }
+  }
+  throw lastError;
+}
+
 describe('test/dta.test.js', () => {
   let app;
   before(() => {
@@ -81,8 +95,7 @@ describe('test/dta.test.js', () => {
     await app.httpRequest()
       .get('/%2c%2f%')
       .expect(404);
-    if (process.platform === 'win32') await sleep(2000);
-    app.expectLog('decode file path', 'coreLogger');
+    await waitForLog(app, 'decode file path', 'coreLogger');
   });
 
 });

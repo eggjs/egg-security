@@ -10,7 +10,10 @@ describe('test/app/extends/cliFilter.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.cliFilter()', () => {
     it('should convert special chars in param and not convert chars in whitelists', () => {

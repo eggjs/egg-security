@@ -25,7 +25,10 @@ describe('test/app/extends/helper.test.js', () => {
     await app3.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await Promise.all([ app, app2, app3 ].map(app => app.close()));
+    await mm.restore();
+  });
 
   describe('helper.escape()', () => {
     it('should work', () => {

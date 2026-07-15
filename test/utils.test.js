@@ -71,135 +71,137 @@ describe('test/utils.test.js', () => {
   });
 
   describe('utils.checkIfIgnore', () => {
-    let app,
-      app2,
-      app3,
-      app4,
-      app5,
-      app6;
-    before(async () => {
-      app = mm.app({
-        baseDir: 'apps/utils-check-if-pass',
+    async function createApp(baseDir) {
+      const app = mm.app({
+        baseDir,
         plugin: 'security',
       });
       await app.ready();
-
-      app2 = mm.app({
-        baseDir: 'apps/utils-check-if-pass2',
-        plugin: 'security',
-      });
-      await app2.ready();
-
-      app3 = mm.app({
-        baseDir: 'apps/utils-check-if-pass3',
-        plugin: 'security',
-      });
-      await app3.ready();
-
-      app4 = mm.app({
-        baseDir: 'apps/utils-check-if-pass4',
-        plugin: 'security',
-      });
-      await app4.ready();
-
-      app5 = mm.app({
-        baseDir: 'apps/utils-check-if-pass5',
-        plugin: 'security',
-      });
-      await app5.ready();
-
-      app6 = mm.app({
-        baseDir: 'apps/utils-check-if-pass6',
-        plugin: 'security',
-      });
-      await app6.ready();
-    });
-    after(async () => {
-      await Promise.all([ app, app2, app3, app4, app5, app6 ].filter(Boolean).map(app => app.close()));
-    });
+      return app;
+    }
 
     it('should use match', async () => {
-      const res = await app.httpRequest()
-        .get('/match')
-        .expect(200);
-      assert(res.headers['x-csp-nonce'].length === 16);
+      const app = await createApp('apps/utils-check-if-pass');
+      try {
+        const res = await app.httpRequest()
+          .get('/match')
+          .expect(200);
+        assert(res.headers['x-csp-nonce'].length === 16);
+      } finally {
+        await app.close();
+      }
     });
 
     it('global match should not work', async () => {
-      const res = await app.httpRequest()
-        .get('/luckydrq')
-        .expect(200);
-      assert(res.headers['x-csp-nonce'].length === 16);
+      const app = await createApp('apps/utils-check-if-pass');
+      try {
+        const res = await app.httpRequest()
+          .get('/luckydrq')
+          .expect(200);
+        assert(res.headers['x-csp-nonce'].length === 16);
+      } finally {
+        await app.close();
+      }
     });
 
     it('own match should replace global match', async () => {
-      let res = await app2.httpRequest()
-        .get('/mymatch')
-        .expect(200);
-      assert(res.headers['x-csp-nonce'].length === 16);
-      res = await app2.httpRequest()
-        .get('/match')
-        .expect(200);
-      assert(!res.headers['x-csp-nonce']);
+      const app = await createApp('apps/utils-check-if-pass2');
+      try {
+        let res = await app.httpRequest()
+          .get('/mymatch')
+          .expect(200);
+        assert(res.headers['x-csp-nonce'].length === 16);
+        res = await app.httpRequest()
+          .get('/match')
+          .expect(200);
+        assert(!res.headers['x-csp-nonce']);
+      } finally {
+        await app.close();
+      }
     });
 
     it('own match has priority over own ignore', async () => {
-      const res = await app2.httpRequest()
-        .get('/mytrueignore')
-        .expect(200);
-      assert(!res.headers['x-csp-nonce']);
+      const app = await createApp('apps/utils-check-if-pass2');
+      try {
+        const res = await app.httpRequest()
+          .get('/mytrueignore')
+          .expect(200);
+        assert(!res.headers['x-csp-nonce']);
+      } finally {
+        await app.close();
+      }
     });
 
     it('should not use global ignore', async () => {
-      const res = await app3.httpRequest()
-        .get('/ignore')
-        .expect(200);
-      assert(res.headers['x-csp-nonce'].length === 16);
+      const app = await createApp('apps/utils-check-if-pass3');
+      try {
+        const res = await app.httpRequest()
+          .get('/ignore')
+          .expect(200);
+        assert(res.headers['x-csp-nonce'].length === 16);
+      } finally {
+        await app.close();
+      }
     });
 
     it('own ignore should replace global ignore', async () => {
-      let res = await app4.httpRequest()
-        .get('/ignore')
-        .expect(200);
-      assert(res.headers['x-csp-nonce'].length === 16);
-      res = await app4.httpRequest()
-        .get('/myignore')
-        .expect(200);
-      assert(!res.headers['x-csp-nonce']);
+      const app = await createApp('apps/utils-check-if-pass4');
+      try {
+        let res = await app.httpRequest()
+          .get('/ignore')
+          .expect(200);
+        assert(res.headers['x-csp-nonce'].length === 16);
+        res = await app.httpRequest()
+          .get('/myignore')
+          .expect(200);
+        assert(!res.headers['x-csp-nonce']);
+      } finally {
+        await app.close();
+      }
     });
 
     it('should ignore array work', async () => {
-      let res = await app5.httpRequest()
-        .get('/ignore1')
-        .expect(200);
-      assert(!res.headers['x-frame-options']);
+      const app = await createApp('apps/utils-check-if-pass5');
+      try {
+        let res = await app.httpRequest()
+          .get('/ignore1')
+          .expect(200);
+        assert(!res.headers['x-frame-options']);
 
-      res = await app5.httpRequest()
-        .get('/ignore2')
-        .expect(200);
-      assert(!res.headers['x-frame-options']);
+        res = await app.httpRequest()
+          .get('/ignore2')
+          .expect(200);
+        assert(!res.headers['x-frame-options']);
 
-      res = await app5.httpRequest()
-        .get('/')
-        .expect(200);
-      assert(res.header['x-frame-options']);
+        res = await app.httpRequest()
+          .get('/')
+          .expect(200);
+        assert(res.header['x-frame-options']);
+      } finally {
+        await app.close();
+      }
     });
 
     it('should match array work', async () => {
-      let res = await app6.httpRequest()
-        .get('/match1')
-        .expect(200);
-      assert(res.headers['x-frame-options']);
+      const app = await createApp('apps/utils-check-if-pass6');
+      try {
+        let res = await app.httpRequest()
+          .get('/match1')
+          .expect(200);
+        assert(res.headers['x-frame-options']);
 
-      res = await app6.httpRequest()
-        .get('/match2')
-        .expect(200);
-      assert(res.headers['x-frame-options']);
+        res = await app.httpRequest()
+          .get('/match2')
+          .expect(200);
+        assert(res.headers['x-frame-options']);
 
-      res = await app6.httpRequest()
-        .get('/')
-        .expect(200);
-      assert(!res.headers['x-frame-options']);
+        res = await app.httpRequest()
+          .get('/')
+          .expect(200);
+        assert(!res.headers['x-frame-options']);
+      } finally {
+        await app.close();
+      }
     });
   });
 });
