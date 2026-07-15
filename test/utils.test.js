@@ -12,6 +12,8 @@ describe('test/utils.test.js', () => {
       });
       return app.ready();
     });
+    after(() => app.close());
+
     const domainWhiteList = [ '.domain.com', '*.alibaba.com', 'http://www.baidu.com', '192.*.0.*', 'foo.bar' ];
     it('should return false when domains are not safe', async () => {
       const res = await app.httpRequest()
@@ -111,6 +113,9 @@ describe('test/utils.test.js', () => {
         plugin: 'security',
       });
       await app6.ready();
+    });
+    after(async () => {
+      await Promise.all([ app, app2, app3, app4, app5, app6 ].filter(Boolean).map(app => app.close()));
     });
 
     it('should use match', async () => {
