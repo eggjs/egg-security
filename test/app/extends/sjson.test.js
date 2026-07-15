@@ -10,7 +10,10 @@ describe('test/app/extends/sjson.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.sjson()', () => {
     it('should not convert json string when json is safe', () => {

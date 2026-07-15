@@ -10,7 +10,10 @@ describe('test/app/extends/escapeShellCmd.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.escapeShellCmd()', () => {
     it('should convert chars in blacklists', () => {

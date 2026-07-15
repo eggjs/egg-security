@@ -10,7 +10,10 @@ describe('test/app/extends/spath.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.spath()', () => {
     it('should pass when filepath is safe', () => {

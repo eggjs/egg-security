@@ -10,7 +10,10 @@ describe('test/app/extends/sjs.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.sjs()', () => {
     it('should convert special chars on js context and not convert chart in whitelists', () => {

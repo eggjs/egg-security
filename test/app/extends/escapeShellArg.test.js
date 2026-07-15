@@ -1,4 +1,16 @@
+// eslint-disable-next-line no-restricted-modules
+const assert = require('assert');
+// eslint-disable-next-line no-restricted-modules
+const { exec: childProcessExec } = require('child_process');
+// eslint-disable-next-line no-restricted-modules
+const { promisify } = require('util');
+
 const mm = require('egg-mock');
+
+const escapeShellArg = require('../../../lib/helper/escapeShellArg');
+
+const exec = promisify(childProcessExec);
+const itOnPosix = process.platform === 'win32' ? it.skip : it;
 
 describe('test/app/extends/escapeShellArg.test.js', () => {
   let app;
@@ -10,7 +22,10 @@ describe('test/app/extends/escapeShellArg.test.js', () => {
     return app.ready();
   });
 
-  after(mm.restore);
+  after(async () => {
+    await app.close();
+    await mm.restore();
+  });
 
   describe('helper.escapeShellArg()', () => {
     it('should add single quotes around a string', () => {
@@ -32,6 +47,13 @@ describe('test/app/extends/escapeShellArg.test.js', () => {
         .get('/escapeShellArg-3')
         .expect(200)
         .expect('true');
+    });
+
+    itOnPosix('should keep single quotes inside one shell argument', async () => {
+      const payload = '\'; echo EGG_SECURITY_INJECTED; #';
+      const { stdout } = await exec(`printf 'ARG:%s\\n' ${escapeShellArg(payload)}`);
+
+      assert.strictEqual(stdout, 'ARG:\'; echo EGG_SECURITY_INJECTED; #\n');
     });
   });
 });
