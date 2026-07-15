@@ -76,7 +76,8 @@
     "typescript": "5"
   },
   "overrides": {
-    "fflate": "0.8.2"
+    "fflate": "0.8.2",
+    "urllib": "4.4.0"
   },
   "scripts": {
     "lint": "eslint --cache src test --ext .ts",
