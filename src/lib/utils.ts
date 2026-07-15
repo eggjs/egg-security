@@ -191,7 +191,9 @@ export function preprocessConfig(config: SecurityConfig) {
   });
 }
 
-export function getFromUrl(url: string, prop?: string): string | null {
+export function getFromUrl(url: string): URL | null;
+export function getFromUrl(url: string, prop: string): string | null;
+export function getFromUrl(url: string, prop?: string): URL | string | null {
   try {
     const parsed = new URL(url);
     return prop ? Reflect.get(parsed, prop) : parsed;

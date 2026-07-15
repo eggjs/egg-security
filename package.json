@@ -75,6 +75,9 @@
     "tshy-after": "1",
     "typescript": "5"
   },
+  "overrides": {
+    "fflate": "0.8.2"
+  },
   "scripts": {
     "lint": "eslint --cache src test --ext .ts",
     "pretest": "npm run clean && npm run lint -- --fix",
