@@ -1,6 +1,9 @@
-const assert = require('node:assert/strict');
-const { exec: childProcessExec } = require('node:child_process');
-const { promisify } = require('node:util');
+// eslint-disable-next-line no-restricted-modules
+const assert = require('assert');
+// eslint-disable-next-line no-restricted-modules
+const { exec: childProcessExec } = require('child_process');
+// eslint-disable-next-line no-restricted-modules
+const { promisify } = require('util');
 
 const mm = require('egg-mock');
 
@@ -47,7 +50,7 @@ describe('test/app/extends/escapeShellArg.test.js', () => {
       const payload = '\'; echo EGG_SECURITY_INJECTED; #';
       const { stdout } = await exec(`printf 'ARG:%s\\n' ${escapeShellArg(payload)}`);
 
-      assert.equal(stdout, 'ARG:\'; echo EGG_SECURITY_INJECTED; #\n');
+      assert.strictEqual(stdout, 'ARG:\'; echo EGG_SECURITY_INJECTED; #\n');
     });
   });
 });
